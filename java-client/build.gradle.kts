@@ -108,9 +108,32 @@ tasks.register<JavaCompile>("compileAosJavaClient") {
     options.encoding = "UTF-8"
 }
 
+tasks.register<JavaCompile>("compileAossJavaClient") {
+    group = "verification"
+    description = "Compiles the generated Amazon OpenSearch Serverless client with its compatible hand-written sources."
+    source(fileTree("src/main/java") {
+        exclude(
+            "org/opensearch/client/opensearch/cat/OpenSearchCatAsyncClient.java",
+            "org/opensearch/client/opensearch/cat/OpenSearchCatClient.java",
+            "org/opensearch/client/opensearch/nodes/OpenSearchNodesAsyncClient.java",
+            "org/opensearch/client/opensearch/nodes/OpenSearchNodesClient.java"
+        )
+    })
+    source("src/aossMain/java")
+    source("src/generated-aoss/java")
+    classpath = sourceSets.main.get().compileClasspath
+    destinationDirectory.set(layout.buildDirectory.dir("classes/java/aoss"))
+    sourceCompatibility = java.sourceCompatibility.toString()
+    targetCompatibility = java.targetCompatibility.toString()
+    options.encoding = "UTF-8"
+}
+
 val aosClasses = layout.buildDirectory.dir("classes/java/aos")
 val aosLiveTestClasses = layout.buildDirectory.dir("classes/java/aosLiveTest")
 val aosJarTestClasses = layout.buildDirectory.dir("classes/java/aosJarTest")
+val aossClasses = layout.buildDirectory.dir("classes/java/aoss")
+val aossSurfaceTestClasses = layout.buildDirectory.dir("classes/java/aossSurfaceTest")
+val aossLiveTestClasses = layout.buildDirectory.dir("classes/java/aossLiveTest")
 
 val aosJar = tasks.register<Jar>("aosJar") {
     group = "build"
@@ -119,6 +142,55 @@ val aosJar = tasks.register<Jar>("aosJar") {
     archiveBaseName.set("opensearch-java-aos")
     from(aosClasses)
     from(sourceSets.main.get().output.resourcesDir)
+}
+
+tasks.register<Jar>("aossJar") {
+    group = "build"
+    description = "Packages the generated Amazon OpenSearch Serverless client as a JAR."
+    dependsOn("compileAossJavaClient", tasks.named("processResources"))
+    archiveBaseName.set("opensearch-java-aoss")
+    from(aossClasses)
+    from(sourceSets.main.get().output.resourcesDir)
+}
+
+tasks.register<JavaCompile>("compileAossSurfaceTest") {
+    group = "verification"
+    description = "Compiles checks for the generated AOSS API surface."
+    dependsOn("compileAossJavaClient")
+    source("src/aossTest/java")
+    classpath = files(aossClasses) + sourceSets.main.get().compileClasspath
+    destinationDirectory.set(aossSurfaceTestClasses)
+    sourceCompatibility = JavaVersion.VERSION_11.toString()
+    targetCompatibility = JavaVersion.VERSION_11.toString()
+    options.encoding = "UTF-8"
+}
+
+tasks.register<JavaExec>("runAossSurfaceTest") {
+    group = "verification"
+    description = "Verifies supported and excluded generated AOSS APIs and snapshot fields."
+    dependsOn("compileAossSurfaceTest")
+    classpath = files(aossSurfaceTestClasses, aossClasses) + configurations.getByName("runtimeClasspath")
+    mainClass.set("org.opensearch.client.opensearch.aoss.AossGeneratedSurfaceTest")
+}
+
+tasks.register<JavaCompile>("compileAossLiveTest") {
+    group = "verification"
+    description = "Compiles the SigV4 live smoke test against the generated AOSS client classes."
+    dependsOn("compileAossJavaClient")
+    source("src/aossLiveTest/java")
+    classpath = files(aossClasses) + sourceSets.test.get().compileClasspath
+    destinationDirectory.set(aossLiveTestClasses)
+    sourceCompatibility = JavaVersion.VERSION_11.toString()
+    targetCompatibility = JavaVersion.VERSION_11.toString()
+    options.encoding = "UTF-8"
+}
+
+tasks.register<JavaExec>("runAossLiveTest") {
+    group = "verification"
+    description = "Runs a SigV4 smoke test against a real Amazon OpenSearch Serverless collection."
+    dependsOn("compileAossLiveTest")
+    classpath = files(aossLiveTestClasses, aossClasses) + sourceSets.test.get().runtimeClasspath
+    mainClass.set("org.opensearch.client.opensearch.aoss.AossLiveSmokeTest")
 }
 
 tasks.register<JavaCompile>("compileAosJarTest") {
@@ -161,8 +233,23 @@ tasks.register<JavaExec>("runAosLiveTest") {
     mainClass.set("org.opensearch.client.opensearch.aos.AosLiveSmokeTest")
 }
 
+tasks.register<JavaExec>("runAosUltrawarmLiveTest") {
+    group = "verification"
+    description = "Probes every generated UltraWarm endpoint against a real AOS domain."
+    dependsOn("compileAosLiveTest")
+    classpath = files(aosLiveTestClasses, aosClasses) + configurations.getByName("runtimeClasspath")
+    mainClass.set("org.opensearch.client.opensearch.aos.AosUltrawarmLiveTest")
+}
+
 tasks.named("check") {
-    dependsOn("compileAosJavaClient", "compileAosJarTest", ":java-codegen:checkAosGenerated")
+    dependsOn(
+        "compileAosJavaClient",
+        "compileAosJarTest",
+        "compileAossJavaClient",
+        "runAossSurfaceTest",
+        ":java-codegen:checkAosGenerated",
+        ":java-codegen:checkAossGenerated"
+    )
 }
 
 tasks.withType<ProcessResources> {

@@ -1,7 +1,7 @@
 overlay: 1.0.0
 info:
   title: AOS UltraWarm API extensions
-  version: 1.0.0
+  version: 1.1.0
 extends: ../opensearch-openapi.yaml
 actions:
   - target: "$.paths"
@@ -46,6 +46,9 @@ actions:
           parameters:
             - $ref: "#/components/parameters/ultrawarm.migrate___path.index"
             - $ref: "#/components/parameters/ultrawarm.migrate___query.cluster_manager_timeout"
+            - $ref: "#/components/parameters/ultrawarm.migrate_to_cold___query.ignore"
+          requestBody:
+            $ref: "#/components/requestBodies/ultrawarm.migrate_to_cold"
           responses:
             "200":
               $ref: "#/components/responses/ultrawarm.migrate___200"
@@ -108,6 +111,41 @@ actions:
           type: string
         x-distributions:
           - amazon-managed
+      ultrawarm.migrate_to_cold___query.ignore:
+        name: ignore
+        in: query
+        required: false
+        description: Set to timestamp to migrate without timestamp metadata.
+        schema:
+          type: string
+          enum:
+            - none
+            - timestamp
+          default: none
+        x-distributions:
+          - amazon-managed
+
+  - target: "$.components.requestBodies"
+    description: Add the optional warm-to-cold migration metadata.
+    update:
+      ultrawarm.migrate_to_cold:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              x-distributions:
+                - amazon-managed
+              properties:
+                start_time:
+                  type: string
+                  description: Start of the indexed data range as a date or epoch milliseconds.
+                end_time:
+                  type: string
+                  description: End of the indexed data range as a date or epoch milliseconds.
+                timestamp_field:
+                  type: string
+                  description: Index field used to derive the data time range.
 
   - target: "$.components.responses"
     description: Add UltraWarm response definitions.

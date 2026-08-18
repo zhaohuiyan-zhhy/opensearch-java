@@ -74,6 +74,10 @@ val aosOverlay = layout.projectDirectory.file("overlays/amazon-managed.overlay.y
 val generatedAosSpecification = layout.buildDirectory.file("generated-specs/opensearch-amazon-managed.yaml")
 val generatedAosSources = project(":java-client").layout.projectDirectory.dir("src/generated-aos/java")
 val generatedAosCheckSources = layout.buildDirectory.dir("generated-sources/aos-check/java")
+val aossOverlay = layout.projectDirectory.file("overlays/amazon-serverless.overlay.yaml")
+val generatedAossSpecification = layout.buildDirectory.file("generated-specs/opensearch-amazon-serverless.yaml")
+val generatedAossSources = project(":java-client").layout.projectDirectory.dir("src/generated-aoss/java")
+val generatedAossCheckSources = layout.buildDirectory.dir("generated-sources/aoss-check/java")
 
 tasks.register<Download>("downloadLatestSpec") {
     src("https://github.com/opensearch-project/opensearch-api-specification/releases/download/main-latest/opensearch-openapi.yaml")
@@ -184,6 +188,103 @@ tasks.register("checkAosGenerated") {
     }
 }
 
+tasks.register<JavaExec>("generateAossSpec") {
+    group = "code generation"
+    description = "Applies the Amazon OpenSearch Serverless overlay and distribution filter to the local OpenAPI specification."
+    dependsOn(tasks.classes)
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass.set("org.opensearch.client.codegen.openapi.overlay.DistributionSpecGenerator")
+
+    inputs.file(file("$projectDir/opensearch-openapi.yaml"))
+    inputs.file(aossOverlay)
+    outputs.file(generatedAossSpecification)
+
+    doFirst {
+        args = listOf(
+            "--input", file("$projectDir/opensearch-openapi.yaml").absolutePath,
+            "--overlay", aossOverlay.asFile.absolutePath,
+            "--distribution", "amazon-serverless",
+            "--output", generatedAossSpecification.get().asFile.absolutePath
+        )
+    }
+}
+
+tasks.register<JavaExec>("generateAossClient") {
+    group = "code generation"
+    description = "Generates the Amazon OpenSearch Serverless Java client sources."
+    dependsOn("generateAossSpec", tasks.classes)
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass.set("org.opensearch.client.codegen.CodeGenerator")
+
+    inputs.file(generatedAossSpecification)
+    outputs.dir(generatedAossSources)
+
+    doFirst {
+        args = listOf(
+            "--input", generatedAossSpecification.get().asFile.toURI().toString(),
+            "--eclipse-config", "$rootDir/buildSrc/formatterConfig-generated.xml",
+            "--output", generatedAossSources.asFile.absolutePath
+        )
+    }
+}
+
+val generateAossClientForCheck = tasks.register<JavaExec>("generateAossClientForCheck") {
+    group = "verification"
+    description = "Generates AOSS client sources in a temporary directory for drift checking."
+    dependsOn("generateAossSpec", tasks.classes)
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass.set("org.opensearch.client.codegen.CodeGenerator")
+
+    inputs.file(generatedAossSpecification)
+    outputs.dir(generatedAossCheckSources)
+
+    doFirst {
+        args = listOf(
+            "--input", generatedAossSpecification.get().asFile.toURI().toString(),
+            "--eclipse-config", "$rootDir/buildSrc/formatterConfig-generated.xml",
+            "--output", generatedAossCheckSources.get().asFile.absolutePath
+        )
+    }
+}
+
+tasks.register("checkAossGenerated") {
+    group = "verification"
+    description = "Fails when checked-in AOSS client sources differ from fresh generation."
+    dependsOn(generateAossClientForCheck)
+    inputs.dir(generatedAossSources)
+    inputs.dir(generatedAossCheckSources)
+
+    doLast {
+        val checkedRoot = generatedAossSources.asFile
+        val freshRoot = generatedAossCheckSources.get().asFile
+        if (!checkedRoot.isDirectory) {
+            throw GradleException("Checked-in AOSS client directory does not exist: $checkedRoot")
+        }
+
+        fun javaFiles(root: File): Map<String, File> = root.walkTopDown()
+            .filter { it.isFile && it.extension == "java" }
+            .associateBy { it.relativeTo(root).invariantSeparatorsPath }
+
+        val checkedFiles = javaFiles(checkedRoot)
+        val freshFiles = javaFiles(freshRoot)
+        val differences = mutableListOf<String>()
+        differences += (freshFiles.keys - checkedFiles.keys).sorted().map { "missing checked-in file: $it" }
+        differences += (checkedFiles.keys - freshFiles.keys).sorted().map { "unexpected checked-in file: $it" }
+        differences += (checkedFiles.keys intersect freshFiles.keys).sorted()
+            .filter { !checkedFiles.getValue(it).readBytes().contentEquals(freshFiles.getValue(it).readBytes()) }
+            .map { "changed checked-in file: $it" }
+
+        if (differences.isNotEmpty()) {
+            val details = differences.take(20).joinToString("\n") { "- $it" }
+            val remainder = if (differences.size > 20) "\n- ... and ${differences.size - 20} more" else ""
+            throw GradleException(
+                "Checked-in AOSS client is stale. Run ./gradlew :java-codegen:generateAossClient\n$details$remainder"
+            )
+        }
+        logger.lifecycle("Checked-in AOSS client matches fresh generation (${checkedFiles.size} Java files).")
+    }
+}
+
 
 tasks.withType<ProcessResources> {
     expand(mapOf(
@@ -239,7 +340,7 @@ tasks.build {
 }
 
 tasks.named("check") {
-    dependsOn("checkAosGenerated")
+    dependsOn("checkAosGenerated", "checkAossGenerated")
 }
 
 dependencies {

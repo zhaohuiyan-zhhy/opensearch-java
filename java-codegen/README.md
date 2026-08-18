@@ -45,7 +45,71 @@ The JAR is written to `java-client/build/libs/opensearch-java-aos-<version>.jar`
 
 The generated API surface is AOS-specific, but the current generator still uses the existing `org.opensearch.client.opensearch` package and `OpenSearchClient` class names. A separately published AOS artifact requires configurable package and client names.
 
-### Live smoke test
+## Amazon OpenSearch Serverless
+
+The AOSS generation flow applies `overlays/amazon-serverless.overlay.yaml` and
+the `amazon-serverless` distribution filter:
+
+```shell
+./gradlew :java-codegen:generateAossClient
+```
+
+It writes the merged specification and generated sources to:
+
+- `java-codegen/build/generated-specs/opensearch-amazon-serverless.yaml`
+- `java-client/src/generated-aoss/java`
+
+Verify deterministic generation, compile the isolated source tree, and package
+the thin JAR with:
+
+```shell
+./gradlew :java-codegen:checkAossGenerated
+./gradlew :java-client:runAossSurfaceTest
+./gradlew :java-client:compileAossJavaClient
+./gradlew :java-client:aossJar
+```
+
+The JAR is written to
+`java-client/build/libs/opensearch-java-aoss-<version>.jar`. The surface test
+checks both sides of the generated contract: supported CAT and component-template
+methods remain available, while node, cluster-management, remote-cluster, and
+unsupported CAT methods are absent. It also constructs and serializes the AOSS
+snapshot extensions without network access.
+
+The overlay exclusions follow the public AOSS supported-operation list at
+<https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-genref.html>.
+Because the OSS client has hand-written CAT help and node extensions, the AOSS
+compile task excludes those OSS-only classes and substitutes the compatible CAT
+wrappers in `java-client/src/aossMain/java`. Generated sources remain untouched.
+
+The generated restore and snapshot-get requests expose `sourceCollectionId`,
+and restore also exposes `allowRegex`. The existing Java generator maps the
+overlay's anonymous `crypto_settings` object to `Map<String, JsonData>` rather
+than a dedicated model.
+
+Like the current AOS output, this source tree still uses the existing package
+and client class names. It is suitable for isolated generation and validation,
+but requires configurable packages or a separate module before it can be used
+on the same classpath as the OSS or AOS generated tree.
+
+### AOSS Live Smoke Test
+
+The credentialed live test uses standard AWS credential environment variables and
+SigV4 service name `aoss`. The selected IAM principal must be allowed by the
+collection's data access policy:
+
+```shell
+eval "$(aws configure export-credentials --profile example --format env)"
+AOSS_ENDPOINT=https://collection-id.aoss.us-east-1.on.aws \
+AOSS_REGION=us-east-1 \
+./gradlew :java-client:runAossLiveTest
+```
+
+It verifies temporary index creation, document indexing and retrieval, and
+cleanup. It is intentionally not part of the normal `check`
+lifecycle.
+
+## AOS Live Smoke Test
 
 Set the domain connection values in the environment and run the isolated AOS client output against a real domain:
 
@@ -55,6 +119,18 @@ AOS_USERNAME=example \
 AOS_PASSWORD=example \
 ./gradlew :java-client:runAosLiveTest
 ```
+
+To probe every generated UltraWarm endpoint on a domain where UltraWarm and Cold Storage are disabled, run:
+
+```shell
+AOS_ENDPOINT=https://example.us-east-1.es.amazonaws.com \
+AOS_USERNAME=example \
+AOS_PASSWORD=example \
+AOS_EXPECT_ULTRAWARM_DISABLED=true \
+./gradlew :java-client:runAosUltrawarmLiveTest
+```
+
+The probe creates and removes a temporary hot index. It requires `list_migration_status` to succeed and verifies that migration operations either return a valid success response or reach the service and receive the expected capacity or index-state rejection. Do not set `AOS_EXPECT_ULTRAWARM_DISABLED=true` for a domain with UltraWarm or Cold Storage enabled.
 
 To generate the client, package the JAR, and verify it against the configured real domain in one step, run:
 
