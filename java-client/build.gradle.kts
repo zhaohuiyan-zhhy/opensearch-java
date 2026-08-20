@@ -206,7 +206,7 @@ dependencies {
     }
     testImplementation("org.opensearch.client", "opensearch-rest-client", opensearchVersion)
 
-    api("org.apache.httpcomponents.client5:httpclient5:5.6.3") {
+    api("org.apache.httpcomponents.client5:httpclient5:5.6.4") {
       exclude(group = "org.apache.httpcomponents.core5")
     }
     api("org.apache.httpcomponents.core5:httpcore5:5.4.3")
@@ -262,7 +262,7 @@ dependencies {
     implementation("org.eclipse", "yasson", "2.0.2")
 
     // https://github.com/classgraph/classgraph
-    testImplementation("io.github.classgraph:classgraph:4.8.186")
+    testImplementation("io.github.classgraph:classgraph:4.8.192")
 
     // Eclipse 1.0
     testImplementation("junit", "junit" , "4.13.2") {
