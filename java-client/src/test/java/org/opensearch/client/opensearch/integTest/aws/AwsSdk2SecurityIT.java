@@ -12,6 +12,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.opensearch.cluster.GetClusterSettingsRequest;
@@ -23,7 +24,7 @@ public class AwsSdk2SecurityIT extends AwsSdk2TransportTestCase {
     public void testUnAuthorizedException() {
         final OpenSearchClient client = getClient(false, null, null);
         final GetClusterSettingsRequest request = new GetClusterSettingsRequest.Builder().includeDefaults(true).build();
-        final OpenSearchException ex = assertThrows(OpenSearchException.class, () -> client.cluster().getSettings(request));
+        final OpenSearchException ex = assertThrows(OpenSearchException.class, () -> client.cluster().getSettings(request, ApiType.OSS));
         assertFalse(ex.getMessage().contains(DEFAULT_MESSAGE));
     }
 }

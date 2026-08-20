@@ -42,6 +42,7 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -71,6 +72,17 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
      * Deletes an ingest pipeline.
      */
     public CompletableFuture<DeletePipelineResponse> deletePipeline(DeletePipelineRequest request) throws IOException, OpenSearchException {
+        return deletePipeline(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes an ingest pipeline.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CompletableFuture<DeletePipelineResponse> deletePipeline(DeletePipelineRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ingest.delete_pipeline", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, DeletePipelineRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -82,7 +94,20 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
     public final CompletableFuture<DeletePipelineResponse> deletePipeline(
         Function<DeletePipelineRequest.Builder, ObjectBuilder<DeletePipelineRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deletePipeline(fn.apply(new DeletePipelineRequest.Builder()).build());
+        return deletePipeline(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes an ingest pipeline.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeletePipelineRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<DeletePipelineResponse> deletePipeline(
+        Function<DeletePipelineRequest.Builder, ObjectBuilder<DeletePipelineRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deletePipeline(fn.apply(new DeletePipelineRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ingest.get_pipeline
@@ -91,6 +116,17 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
      * Returns an ingest pipeline.
      */
     public CompletableFuture<GetPipelineResponse> getPipeline(GetPipelineRequest request) throws IOException, OpenSearchException {
+        return getPipeline(request, ApiType.OSS);
+    }
+
+    /**
+     * Returns an ingest pipeline.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CompletableFuture<GetPipelineResponse> getPipeline(GetPipelineRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ingest.get_pipeline", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, GetPipelineRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -102,14 +138,36 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
     public final CompletableFuture<GetPipelineResponse> getPipeline(
         Function<GetPipelineRequest.Builder, ObjectBuilder<GetPipelineRequest>> fn
     ) throws IOException, OpenSearchException {
-        return getPipeline(fn.apply(new GetPipelineRequest.Builder()).build());
+        return getPipeline(fn, ApiType.OSS);
+    }
+
+    /**
+     * Returns an ingest pipeline.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetPipelineRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<GetPipelineResponse> getPipeline(
+        Function<GetPipelineRequest.Builder, ObjectBuilder<GetPipelineRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return getPipeline(fn.apply(new GetPipelineRequest.Builder()).build(), type);
     }
 
     /**
      * Returns an ingest pipeline.
      */
     public final CompletableFuture<GetPipelineResponse> getPipeline() throws IOException, OpenSearchException {
-        return getPipeline(new GetPipelineRequest.Builder().build());
+        return getPipeline(ApiType.OSS);
+    }
+
+    /**
+     * Returns an ingest pipeline.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<GetPipelineResponse> getPipeline(ApiType type) throws IOException, OpenSearchException {
+        return getPipeline(new GetPipelineRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ingest.processor_grok
@@ -118,6 +176,17 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
      * Returns a list of built-in grok patterns.
      */
     public CompletableFuture<ProcessorGrokResponse> processorGrok(ProcessorGrokRequest request) throws IOException, OpenSearchException {
+        return processorGrok(request, ApiType.OSS);
+    }
+
+    /**
+     * Returns a list of built-in grok patterns.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CompletableFuture<ProcessorGrokResponse> processorGrok(ProcessorGrokRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ingest.processor_grok", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, ProcessorGrokRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -129,14 +198,36 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
     public final CompletableFuture<ProcessorGrokResponse> processorGrok(
         Function<ProcessorGrokRequest.Builder, ObjectBuilder<ProcessorGrokRequest>> fn
     ) throws IOException, OpenSearchException {
-        return processorGrok(fn.apply(new ProcessorGrokRequest.Builder()).build());
+        return processorGrok(fn, ApiType.OSS);
+    }
+
+    /**
+     * Returns a list of built-in grok patterns.
+     *
+     * @param fn   a function that initializes a builder to create the {@link ProcessorGrokRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<ProcessorGrokResponse> processorGrok(
+        Function<ProcessorGrokRequest.Builder, ObjectBuilder<ProcessorGrokRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return processorGrok(fn.apply(new ProcessorGrokRequest.Builder()).build(), type);
     }
 
     /**
      * Returns a list of built-in grok patterns.
      */
     public final CompletableFuture<ProcessorGrokResponse> processorGrok() throws IOException, OpenSearchException {
-        return processorGrok(new ProcessorGrokRequest.Builder().build());
+        return processorGrok(ApiType.OSS);
+    }
+
+    /**
+     * Returns a list of built-in grok patterns.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<ProcessorGrokResponse> processorGrok(ApiType type) throws IOException, OpenSearchException {
+        return processorGrok(new ProcessorGrokRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ingest.put_pipeline
@@ -145,6 +236,17 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
      * Creates or updates an ingest pipeline.
      */
     public CompletableFuture<PutPipelineResponse> putPipeline(PutPipelineRequest request) throws IOException, OpenSearchException {
+        return putPipeline(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates or updates an ingest pipeline.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CompletableFuture<PutPipelineResponse> putPipeline(PutPipelineRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ingest.put_pipeline", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, PutPipelineRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -156,7 +258,20 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
     public final CompletableFuture<PutPipelineResponse> putPipeline(
         Function<PutPipelineRequest.Builder, ObjectBuilder<PutPipelineRequest>> fn
     ) throws IOException, OpenSearchException {
-        return putPipeline(fn.apply(new PutPipelineRequest.Builder()).build());
+        return putPipeline(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates or updates an ingest pipeline.
+     *
+     * @param fn   a function that initializes a builder to create the {@link PutPipelineRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<PutPipelineResponse> putPipeline(
+        Function<PutPipelineRequest.Builder, ObjectBuilder<PutPipelineRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return putPipeline(fn.apply(new PutPipelineRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ingest.simulate
@@ -165,6 +280,16 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
      * Simulates an ingest pipeline with example documents.
      */
     public CompletableFuture<SimulateResponse> simulate(SimulateRequest request) throws IOException, OpenSearchException {
+        return simulate(request, ApiType.OSS);
+    }
+
+    /**
+     * Simulates an ingest pipeline with example documents.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CompletableFuture<SimulateResponse> simulate(SimulateRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ingest.simulate", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, SimulateRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -175,13 +300,35 @@ public class OpenSearchIngestAsyncClient extends ApiClient<OpenSearchTransport, 
      */
     public final CompletableFuture<SimulateResponse> simulate(Function<SimulateRequest.Builder, ObjectBuilder<SimulateRequest>> fn)
         throws IOException, OpenSearchException {
-        return simulate(fn.apply(new SimulateRequest.Builder()).build());
+        return simulate(fn, ApiType.OSS);
+    }
+
+    /**
+     * Simulates an ingest pipeline with example documents.
+     *
+     * @param fn   a function that initializes a builder to create the {@link SimulateRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<SimulateResponse> simulate(
+        Function<SimulateRequest.Builder, ObjectBuilder<SimulateRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return simulate(fn.apply(new SimulateRequest.Builder()).build(), type);
     }
 
     /**
      * Simulates an ingest pipeline with example documents.
      */
     public final CompletableFuture<SimulateResponse> simulate() throws IOException, OpenSearchException {
-        return simulate(new SimulateRequest.Builder().build());
+        return simulate(ApiType.OSS);
+    }
+
+    /**
+     * Simulates an ingest pipeline with example documents.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<SimulateResponse> simulate(ApiType type) throws IOException, OpenSearchException {
+        return simulate(new SimulateRequest.Builder().build(), type);
     }
 }

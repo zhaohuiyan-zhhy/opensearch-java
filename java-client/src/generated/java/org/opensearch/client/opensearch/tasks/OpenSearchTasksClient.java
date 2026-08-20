@@ -41,6 +41,7 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -70,6 +71,16 @@ public class OpenSearchTasksClient extends ApiClient<OpenSearchTransport, OpenSe
      * Cancels a task, if it can be cancelled through an API.
      */
     public CancelResponse cancel(CancelRequest request) throws IOException, OpenSearchException {
+        return cancel(request, ApiType.OSS);
+    }
+
+    /**
+     * Cancels a task, if it can be cancelled through an API.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CancelResponse cancel(CancelRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "tasks.cancel", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CancelRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -80,14 +91,34 @@ public class OpenSearchTasksClient extends ApiClient<OpenSearchTransport, OpenSe
      */
     public final CancelResponse cancel(Function<CancelRequest.Builder, ObjectBuilder<CancelRequest>> fn) throws IOException,
         OpenSearchException {
-        return cancel(fn.apply(new CancelRequest.Builder()).build());
+        return cancel(fn, ApiType.OSS);
+    }
+
+    /**
+     * Cancels a task, if it can be cancelled through an API.
+     *
+     * @param fn   a function that initializes a builder to create the {@link CancelRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CancelResponse cancel(Function<CancelRequest.Builder, ObjectBuilder<CancelRequest>> fn, ApiType type) throws IOException,
+        OpenSearchException {
+        return cancel(fn.apply(new CancelRequest.Builder()).build(), type);
     }
 
     /**
      * Cancels a task, if it can be cancelled through an API.
      */
     public final CancelResponse cancel() throws IOException, OpenSearchException {
-        return cancel(new CancelRequest.Builder().build());
+        return cancel(ApiType.OSS);
+    }
+
+    /**
+     * Cancels a task, if it can be cancelled through an API.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final CancelResponse cancel(ApiType type) throws IOException, OpenSearchException {
+        return cancel(new CancelRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: tasks.get
@@ -96,6 +127,16 @@ public class OpenSearchTasksClient extends ApiClient<OpenSearchTransport, OpenSe
      * Returns information about a task.
      */
     public GetTasksResponse get(GetTasksRequest request) throws IOException, OpenSearchException {
+        return get(request, ApiType.OSS);
+    }
+
+    /**
+     * Returns information about a task.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public GetTasksResponse get(GetTasksRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "tasks.get", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetTasksRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -106,7 +147,18 @@ public class OpenSearchTasksClient extends ApiClient<OpenSearchTransport, OpenSe
      */
     public final GetTasksResponse get(Function<GetTasksRequest.Builder, ObjectBuilder<GetTasksRequest>> fn) throws IOException,
         OpenSearchException {
-        return get(fn.apply(new GetTasksRequest.Builder()).build());
+        return get(fn, ApiType.OSS);
+    }
+
+    /**
+     * Returns information about a task.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetTasksRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final GetTasksResponse get(Function<GetTasksRequest.Builder, ObjectBuilder<GetTasksRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return get(fn.apply(new GetTasksRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: tasks.list
@@ -115,6 +167,16 @@ public class OpenSearchTasksClient extends ApiClient<OpenSearchTransport, OpenSe
      * Returns a list of tasks.
      */
     public ListResponse list(ListRequest request) throws IOException, OpenSearchException {
+        return list(request, ApiType.OSS);
+    }
+
+    /**
+     * Returns a list of tasks.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public ListResponse list(ListRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "tasks.list", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ListRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -124,13 +186,33 @@ public class OpenSearchTasksClient extends ApiClient<OpenSearchTransport, OpenSe
      * @param fn a function that initializes a builder to create the {@link ListRequest}
      */
     public final ListResponse list(Function<ListRequest.Builder, ObjectBuilder<ListRequest>> fn) throws IOException, OpenSearchException {
-        return list(fn.apply(new ListRequest.Builder()).build());
+        return list(fn, ApiType.OSS);
+    }
+
+    /**
+     * Returns a list of tasks.
+     *
+     * @param fn   a function that initializes a builder to create the {@link ListRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final ListResponse list(Function<ListRequest.Builder, ObjectBuilder<ListRequest>> fn, ApiType type) throws IOException,
+        OpenSearchException {
+        return list(fn.apply(new ListRequest.Builder()).build(), type);
     }
 
     /**
      * Returns a list of tasks.
      */
     public final ListResponse list() throws IOException, OpenSearchException {
-        return list(new ListRequest.Builder().build());
+        return list(ApiType.OSS);
+    }
+
+    /**
+     * Returns a list of tasks.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final ListResponse list(ApiType type) throws IOException, OpenSearchException {
+        return list(new ListRequest.Builder().build(), type);
     }
 }

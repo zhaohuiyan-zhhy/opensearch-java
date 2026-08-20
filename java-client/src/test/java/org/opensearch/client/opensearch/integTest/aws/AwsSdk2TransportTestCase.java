@@ -20,6 +20,7 @@ import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.Before;
 import org.opensearch.client.json.JsonpMapper;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchAsyncClient;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.OpenSearchException;
@@ -201,7 +202,7 @@ public abstract class AwsSdk2TransportTestCase {
         OpenSearchIndicesClient client = getIndexesClient(async, null, null);
         boolean indexExists = false;
         try {
-            IndexState indexInfo = client.get(b -> b.index(TEST_INDEX)).get(TEST_INDEX);
+            IndexState indexInfo = client.get(b -> b.index(TEST_INDEX), ApiType.OSS).get(TEST_INDEX);
             if (indexInfo != null) {
                 indexExists = true;
             }
@@ -211,21 +212,21 @@ public abstract class AwsSdk2TransportTestCase {
             }
         }
         if (indexExists) {
-            client.delete(b -> b.index(Collections.singletonList(TEST_INDEX)));
+            client.delete(b -> b.index(Collections.singletonList(TEST_INDEX)), ApiType.OSS);
         }
         final CreateIndexRequest.Builder req = new CreateIndexRequest.Builder().index(TEST_INDEX);
-        client.create(req.build());
+        client.create(req.build(), ApiType.OSS);
     }
 
     protected void addDoc(OpenSearchClient client, String id, SimplePojo doc) throws Exception {
         IndexRequest.Builder<SimplePojo> req = new IndexRequest.Builder<SimplePojo>().index(TEST_INDEX).document(doc).id(id);
-        client.index(req.build());
+        client.index(req.build(), ApiType.OSS);
     }
 
     protected CompletableFuture<IndexResponse> addDoc(OpenSearchAsyncClient client, String id, SimplePojo doc) {
         IndexRequest.Builder<SimplePojo> req = new IndexRequest.Builder<SimplePojo>().index(TEST_INDEX).document(doc).id(id);
         try {
-            return client.index(req.build());
+            return client.index(req.build(), ApiType.OSS);
         } catch (Exception e) {
             final CompletableFuture<IndexResponse> failed = new CompletableFuture<>();
             failed.completeExceptionally(e);
@@ -253,7 +254,7 @@ public abstract class AwsSdk2TransportTestCase {
             )
             .query(query);
 
-        return client.search(req.build(), SimplePojo.class);
+        return client.search(req.build(), SimplePojo.class, ApiType.OSS);
     }
 
     protected CompletableFuture<SearchResponse<SimplePojo>> query(OpenSearchAsyncClient client, String title, String text) {
@@ -277,7 +278,7 @@ public abstract class AwsSdk2TransportTestCase {
             .query(query);
 
         try {
-            return client.search(req.build(), SimplePojo.class);
+            return client.search(req.build(), SimplePojo.class, ApiType.OSS);
         } catch (Exception e) {
             final CompletableFuture<SearchResponse<SimplePojo>> failed = new CompletableFuture<>();
             failed.completeExceptionally(e);

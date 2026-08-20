@@ -38,9 +38,11 @@ package org.opensearch.client.opensearch.indices;
 
 import jakarta.json.stream.JsonGenerator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.opensearch.client.json.JsonpDeserializable;
 import org.opensearch.client.json.JsonpDeserializer;
 import org.opensearch.client.json.JsonpMapper;
@@ -75,7 +77,7 @@ public class ResolveIndexResponse implements PlainJsonSerializable, ToCopyableBu
 
     private ResolveIndexResponse(Builder builder) {
         this.aliases = ApiTypeHelper.unmodifiableRequired(builder.aliases, this, "aliases");
-        this.dataStreams = ApiTypeHelper.unmodifiableRequired(builder.dataStreams, this, "dataStreams");
+        this.dataStreams = ApiTypeHelper.unmodifiable(builder.dataStreams);
         this.indices = ApiTypeHelper.unmodifiableRequired(builder.indices, this, "indices");
     }
 
@@ -92,7 +94,7 @@ public class ResolveIndexResponse implements PlainJsonSerializable, ToCopyableBu
     }
 
     /**
-     * Required - API name: {@code data_streams}
+     * API name: {@code data_streams}
      */
     @Nonnull
     public final List<ResolveIndexDataStreamsItem> dataStreams() {
@@ -125,12 +127,14 @@ public class ResolveIndexResponse implements PlainJsonSerializable, ToCopyableBu
         }
         generator.writeEnd();
 
-        generator.writeKey("data_streams");
-        generator.writeStartArray();
-        for (ResolveIndexDataStreamsItem item0 : this.dataStreams) {
-            item0.serialize(generator, mapper);
+        if (ApiTypeHelper.isDefined(this.dataStreams)) {
+            generator.writeKey("data_streams");
+            generator.writeStartArray();
+            for (ResolveIndexDataStreamsItem item0 : this.dataStreams) {
+                item0.serialize(generator, mapper);
+            }
+            generator.writeEnd();
         }
-        generator.writeEnd();
 
         generator.writeKey("indices");
         generator.writeStartArray();
@@ -158,6 +162,7 @@ public class ResolveIndexResponse implements PlainJsonSerializable, ToCopyableBu
      */
     public static class Builder extends ObjectBuilderBase implements CopyableBuilder<Builder, ResolveIndexResponse> {
         private List<ResolveIndexAliasItem> aliases;
+        @Nullable
         private List<ResolveIndexDataStreamsItem> dataStreams;
         private List<ResolveIndexItem> indices;
 
@@ -220,7 +225,7 @@ public class ResolveIndexResponse implements PlainJsonSerializable, ToCopyableBu
         }
 
         /**
-         * Required - API name: {@code data_streams}
+         * API name: {@code data_streams}
          *
          * <p>
          * Adds all elements of <code>list</code> to <code>dataStreams</code>.
@@ -233,7 +238,7 @@ public class ResolveIndexResponse implements PlainJsonSerializable, ToCopyableBu
         }
 
         /**
-         * Required - API name: {@code data_streams}
+         * API name: {@code data_streams}
          *
          * <p>
          * Adds one or more values to <code>dataStreams</code>.
@@ -246,7 +251,7 @@ public class ResolveIndexResponse implements PlainJsonSerializable, ToCopyableBu
         }
 
         /**
-         * Required - API name: {@code data_streams}
+         * API name: {@code data_streams}
          *
          * <p>
          * Adds a value to <code>dataStreams</code> using a builder lambda.
@@ -329,7 +334,7 @@ public class ResolveIndexResponse implements PlainJsonSerializable, ToCopyableBu
     public int hashCode() {
         int result = 17;
         result = 31 * result + this.aliases.hashCode();
-        result = 31 * result + this.dataStreams.hashCode();
+        result = 31 * result + Objects.hashCode(this.dataStreams);
         result = 31 * result + this.indices.hashCode();
         return result;
     }
@@ -339,6 +344,8 @@ public class ResolveIndexResponse implements PlainJsonSerializable, ToCopyableBu
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         ResolveIndexResponse other = (ResolveIndexResponse) o;
-        return this.aliases.equals(other.aliases) && this.dataStreams.equals(other.dataStreams) && this.indices.equals(other.indices);
+        return this.aliases.equals(other.aliases)
+            && Objects.equals(this.dataStreams, other.dataStreams)
+            && this.indices.equals(other.indices);
     }
 }

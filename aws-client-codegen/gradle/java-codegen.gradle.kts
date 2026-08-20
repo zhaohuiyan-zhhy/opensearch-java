@@ -16,10 +16,9 @@ val aosOverlay = awsCodegenRoot.file("overlays/amazon-managed.overlay.yaml")
 val aossOverlay = awsCodegenRoot.file("overlays/amazon-serverless.overlay.yaml")
 val generatedAosSpecification = layout.buildDirectory.file("generated-specs/opensearch-amazon-managed.yaml")
 val generatedAossSpecification = layout.buildDirectory.file("generated-specs/opensearch-amazon-serverless.yaml")
-val generatedAosSources = project(":java-client").layout.projectDirectory.dir("src/generated-aos/java")
-val generatedAossSources = project(":java-client").layout.projectDirectory.dir("src/generated-aoss/java")
-val generatedAosCheckSources = layout.buildDirectory.dir("generated-sources/aos-check/java")
-val generatedAossCheckSources = layout.buildDirectory.dir("generated-sources/aoss-check/java")
+val generatedUnifiedSpecification = layout.buildDirectory.file("generated-specs/opensearch-unified.yaml")
+val generatedUnifiedSources = project(":java-client").layout.projectDirectory.dir("src/generated/java")
+val generatedUnifiedCheckSources = layout.buildDirectory.dir("generated-sources/unified-check/java")
 
 sourceSets.named("main") {
     java.srcDir(awsCodegenRoot.dir("src/main/java"))
@@ -146,55 +145,44 @@ val generateAossSpec = registerDistributionSpecTask(
     generatedAossSpecification
 )
 
-registerClientGenerationTask(
-    "generateAosClient",
-    "code generation",
-    "Generates the Amazon OpenSearch Service Java client sources.",
-    generateAosSpec,
-    generatedAosSpecification,
-    generatedAosSources
-)
-registerClientGenerationTask(
-    "generateAossClient",
-    "code generation",
-    "Generates the Amazon OpenSearch Serverless Java client sources.",
-    generateAossSpec,
-    generatedAossSpecification,
-    generatedAossSources
-)
+tasks.register<JavaExec>("generateUnifiedSpec") {
+    group = "code generation"
+    description = "Builds one OpenAPI specification containing the OSS, AOS, and AOSS API union."
+    dependsOn(tasks.named("classes"))
+    classpath = sourceSets.named("main").get().runtimeClasspath
+    mainClass.set("org.opensearch.client.codegen.aws.UnifiedSpecGenerator")
 
-val generateAosClientForCheck = registerClientGenerationTask(
-    "generateAosClientForCheck",
+    inputs.file(localSpecification)
+    inputs.file(aosOverlay)
+    inputs.file(aossOverlay)
+    outputs.file(generatedUnifiedSpecification)
+
+    doFirst {
+        args = listOf(
+            "--input", localSpecification.asFile.absolutePath,
+            "--aos-overlay", aosOverlay.asFile.absolutePath,
+            "--aoss-overlay", aossOverlay.asFile.absolutePath,
+            "--output", generatedUnifiedSpecification.get().asFile.absolutePath
+        )
+    }
+}
+
+val generateUnifiedClientForCheck = registerClientGenerationTask(
+    "generateUnifiedClientForCheck",
     "verification",
-    "Generates AOS client sources in a temporary directory for drift checking.",
-    generateAosSpec,
-    generatedAosSpecification,
-    generatedAosCheckSources.get()
-)
-val generateAossClientForCheck = registerClientGenerationTask(
-    "generateAossClientForCheck",
-    "verification",
-    "Generates AOSS client sources in a temporary directory for drift checking.",
-    generateAossSpec,
-    generatedAossSpecification,
-    generatedAossCheckSources.get()
+    "Generates the unified client in a temporary directory for drift checking.",
+    tasks.named<JavaExec>("generateUnifiedSpec"),
+    generatedUnifiedSpecification,
+    generatedUnifiedCheckSources.get()
 )
 
 registerGeneratedDriftCheck(
-    "checkAosGenerated",
-    "AOS",
-    generateAosClientForCheck,
-    generatedAosSources,
-    generatedAosCheckSources,
-    "./gradlew :java-codegen:generateAosClient"
-)
-registerGeneratedDriftCheck(
-    "checkAossGenerated",
-    "AOSS",
-    generateAossClientForCheck,
-    generatedAossSources,
-    generatedAossCheckSources,
-    "./gradlew :java-codegen:generateAossClient"
+    "checkUnifiedGenerated",
+    "unified OSS/AOS/AOSS",
+    generateUnifiedClientForCheck,
+    generatedUnifiedSources,
+    generatedUnifiedCheckSources,
+    "./gradlew :java-codegen:run"
 )
 
 tasks.named<JavaCompile>("compileTestJava") {
@@ -203,5 +191,5 @@ tasks.named<JavaCompile>("compileTestJava") {
 }
 
 tasks.named("check") {
-    dependsOn("checkAosGenerated", "checkAossGenerated")
+    dependsOn("checkUnifiedGenerated")
 }

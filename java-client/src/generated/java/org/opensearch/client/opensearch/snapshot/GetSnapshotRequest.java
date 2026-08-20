@@ -36,6 +36,7 @@
 
 package org.opensearch.client.opensearch.snapshot;
 
+import jakarta.json.stream.JsonGenerator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,12 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.opensearch.client.json.JsonpDeserializable;
+import org.opensearch.client.json.JsonpDeserializer;
+import org.opensearch.client.json.JsonpMapper;
+import org.opensearch.client.json.ObjectBuilderDeserializer;
+import org.opensearch.client.json.ObjectDeserializer;
+import org.opensearch.client.json.PlainJsonSerializable;
 import org.opensearch.client.opensearch._types.ErrorResponse;
 import org.opensearch.client.opensearch._types.RequestBase;
 import org.opensearch.client.opensearch._types.Time;
@@ -59,8 +66,12 @@ import org.opensearch.client.util.ToCopyableBuilder;
 /**
  * Returns information about a snapshot.
  */
+@JsonpDeserializable
 @Generated("org.opensearch.client.codegen.CodeGenerator")
-public final class GetSnapshotRequest extends RequestBase implements ToCopyableBuilder<GetSnapshotRequest.Builder, GetSnapshotRequest> {
+public final class GetSnapshotRequest extends RequestBase
+    implements
+        PlainJsonSerializable,
+        ToCopyableBuilder<GetSnapshotRequest.Builder, GetSnapshotRequest> {
 
     @Nullable
     private final Time clusterManagerTimeout;
@@ -79,6 +90,9 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
     private final List<String> snapshot;
 
     @Nullable
+    private final String sourceCollectionId;
+
+    @Nullable
     private final Boolean verbose;
 
     // ---------------------------------------------------------------------------------------------
@@ -90,6 +104,7 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
         this.masterTimeout = builder.masterTimeout;
         this.repository = ApiTypeHelper.requireNonNull(builder.repository, this, "repository");
         this.snapshot = ApiTypeHelper.unmodifiableRequired(builder.snapshot, this, "snapshot");
+        this.sourceCollectionId = builder.sourceCollectionId;
         this.verbose = builder.verbose;
     }
 
@@ -163,6 +178,17 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
     }
 
     /**
+     * The collection whose snapshot repository is queried.
+     * <p>
+     * API name: {@code sourceCollectionId}
+     * </p>
+     */
+    @Nullable
+    public final String sourceCollectionId() {
+        return this.sourceCollectionId;
+    }
+
+    /**
      * When <code>true</code>, returns additional information about each snapshot, such as the version of OpenSearch which took the
      * snapshot, the start and end times of the snapshot, and the number of shards contained in the snapshot. When <code>false</code>,
      * returns only snapshot names and contained indexes. This is useful when the snapshots belong to a cloud-based repository, where each
@@ -174,6 +200,23 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
     @Nullable
     public final Boolean verbose() {
         return this.verbose;
+    }
+
+    /**
+     * Serialize this object to JSON.
+     */
+    @Override
+    public void serialize(JsonGenerator generator, JsonpMapper mapper) {
+        generator.writeStartObject();
+        serializeInternal(generator, mapper);
+        generator.writeEnd();
+    }
+
+    protected void serializeInternal(JsonGenerator generator, JsonpMapper mapper) {
+        if (this.sourceCollectionId != null) {
+            generator.writeKey("sourceCollectionId");
+            generator.write(this.sourceCollectionId);
+        }
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -202,6 +245,8 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
         private String repository;
         private List<String> snapshot;
         @Nullable
+        private String sourceCollectionId;
+        @Nullable
         private Boolean verbose;
 
         public Builder() {}
@@ -213,6 +258,7 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
             this.masterTimeout = o.masterTimeout;
             this.repository = o.repository;
             this.snapshot = _listCopy(o.snapshot);
+            this.sourceCollectionId = o.sourceCollectionId;
             this.verbose = o.verbose;
         }
 
@@ -223,6 +269,7 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
             this.masterTimeout = o.masterTimeout;
             this.repository = o.repository;
             this.snapshot = _listCopy(o.snapshot);
+            this.sourceCollectionId = o.sourceCollectionId;
             this.verbose = o.verbose;
         }
 
@@ -361,6 +408,18 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
         }
 
         /**
+         * The collection whose snapshot repository is queried.
+         * <p>
+         * API name: {@code sourceCollectionId}
+         * </p>
+         */
+        @Nonnull
+        public final Builder sourceCollectionId(@Nullable String value) {
+            this.sourceCollectionId = value;
+            return this;
+        }
+
+        /**
          * When <code>true</code>, returns additional information about each snapshot, such as the version of OpenSearch which took the
          * snapshot, the start and end times of the snapshot, and the number of shards contained in the snapshot. When <code>false</code>,
          * returns only snapshot names and contained indexes. This is useful when the snapshots belong to a cloud-based repository, where
@@ -387,6 +446,20 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
 
             return new GetSnapshotRequest(this);
         }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+
+    /**
+     * Json deserializer for {@link GetSnapshotRequest}
+     */
+    public static final JsonpDeserializer<GetSnapshotRequest> _DESERIALIZER = ObjectBuilderDeserializer.lazy(
+        Builder::new,
+        GetSnapshotRequest::setupGetSnapshotRequestDeserializer
+    );
+
+    protected static void setupGetSnapshotRequestDeserializer(ObjectDeserializer<GetSnapshotRequest.Builder> op) {
+        op.add(Builder::sourceCollectionId, JsonpDeserializer.stringDeserializer(), "sourceCollectionId");
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -430,7 +503,7 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
             return params;
         },
         SimpleEndpoint.emptyMap(),
-        false,
+        true,
         GetSnapshotResponse._DESERIALIZER
     );
 
@@ -442,6 +515,7 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
         result = 31 * result + Objects.hashCode(this.masterTimeout);
         result = 31 * result + this.repository.hashCode();
         result = 31 * result + this.snapshot.hashCode();
+        result = 31 * result + Objects.hashCode(this.sourceCollectionId);
         result = 31 * result + Objects.hashCode(this.verbose);
         return result;
     }
@@ -456,6 +530,7 @@ public final class GetSnapshotRequest extends RequestBase implements ToCopyableB
             && Objects.equals(this.masterTimeout, other.masterTimeout)
             && this.repository.equals(other.repository)
             && this.snapshot.equals(other.snapshot)
+            && Objects.equals(this.sourceCollectionId, other.sourceCollectionId)
             && Objects.equals(this.verbose, other.verbose);
     }
 }

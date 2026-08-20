@@ -44,6 +44,7 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.opensearch.client.json.JsonData;
 import org.opensearch.client.json.JsonpDeserializable;
 import org.opensearch.client.json.JsonpDeserializer;
 import org.opensearch.client.json.JsonpMapper;
@@ -75,6 +76,9 @@ public final class CreateRepositoryRequest extends RequestBase
     @Nullable
     private final Time clusterManagerTimeout;
 
+    @Nonnull
+    private final Map<String, JsonData> cryptoSettings;
+
     @Deprecated
     @Nullable
     private final Time masterTimeout;
@@ -102,6 +106,7 @@ public final class CreateRepositoryRequest extends RequestBase
     private CreateRepositoryRequest(Builder builder) {
         super(builder);
         this.clusterManagerTimeout = builder.clusterManagerTimeout;
+        this.cryptoSettings = ApiTypeHelper.unmodifiable(builder.cryptoSettings);
         this.masterTimeout = builder.masterTimeout;
         this.name = ApiTypeHelper.requireNonNull(builder.name, this, "name");
         this.repository = builder.repository;
@@ -125,6 +130,17 @@ public final class CreateRepositoryRequest extends RequestBase
     @Nullable
     public final Time clusterManagerTimeout() {
         return this.clusterManagerTimeout;
+    }
+
+    /**
+     * Encryption configuration for the snapshot repository.
+     * <p>
+     * API name: {@code crypto_settings}
+     * </p>
+     */
+    @Nonnull
+    public final Map<String, JsonData> cryptoSettings() {
+        return this.cryptoSettings;
     }
 
     /**
@@ -207,6 +223,16 @@ public final class CreateRepositoryRequest extends RequestBase
     }
 
     protected void serializeInternal(JsonGenerator generator, JsonpMapper mapper) {
+        if (ApiTypeHelper.isDefined(this.cryptoSettings)) {
+            generator.writeKey("crypto_settings");
+            generator.writeStartObject();
+            for (Map.Entry<String, JsonData> item0 : this.cryptoSettings.entrySet()) {
+                generator.writeKey(item0.getKey());
+                item0.getValue().serialize(generator, mapper);
+            }
+            generator.writeEnd();
+        }
+
         if (this.repository != null) {
             generator.writeKey("repository");
             this.repository.serialize(generator, mapper);
@@ -239,6 +265,8 @@ public final class CreateRepositoryRequest extends RequestBase
         @Nullable
         private Time clusterManagerTimeout;
         @Nullable
+        private Map<String, JsonData> cryptoSettings;
+        @Nullable
         private Time masterTimeout;
         private String name;
         @Nullable
@@ -255,6 +283,7 @@ public final class CreateRepositoryRequest extends RequestBase
         private Builder(CreateRepositoryRequest o) {
             super(o);
             this.clusterManagerTimeout = o.clusterManagerTimeout;
+            this.cryptoSettings = _mapCopy(o.cryptoSettings);
             this.masterTimeout = o.masterTimeout;
             this.name = o.name;
             this.repository = o.repository;
@@ -267,6 +296,7 @@ public final class CreateRepositoryRequest extends RequestBase
         private Builder(Builder o) {
             super(o);
             this.clusterManagerTimeout = o.clusterManagerTimeout;
+            this.cryptoSettings = _mapCopy(o.cryptoSettings);
             this.masterTimeout = o.masterTimeout;
             this.name = o.name;
             this.repository = o.repository;
@@ -311,6 +341,38 @@ public final class CreateRepositoryRequest extends RequestBase
         @Nonnull
         public final Builder clusterManagerTimeout(Function<Time.Builder, ObjectBuilder<Time>> fn) {
             return clusterManagerTimeout(fn.apply(new Time.Builder()).build());
+        }
+
+        /**
+         * Encryption configuration for the snapshot repository.
+         * <p>
+         * API name: {@code crypto_settings}
+         * </p>
+         *
+         * <p>
+         * Adds all elements of <code>map</code> to <code>cryptoSettings</code>.
+         * </p>
+         */
+        @Nonnull
+        public final Builder cryptoSettings(Map<String, JsonData> map) {
+            this.cryptoSettings = _mapPutAll(this.cryptoSettings, map);
+            return this;
+        }
+
+        /**
+         * Encryption configuration for the snapshot repository.
+         * <p>
+         * API name: {@code crypto_settings}
+         * </p>
+         *
+         * <p>
+         * Adds an entry to <code>cryptoSettings</code>.
+         * </p>
+         */
+        @Nonnull
+        public final Builder cryptoSettings(String key, JsonData value) {
+            this.cryptoSettings = _mapPut(this.cryptoSettings, key, value);
+            return this;
         }
 
         /**
@@ -453,6 +515,7 @@ public final class CreateRepositoryRequest extends RequestBase
     );
 
     protected static void setupCreateRepositoryRequestDeserializer(ObjectDeserializer<CreateRepositoryRequest.Builder> op) {
+        op.add(Builder::cryptoSettings, JsonpDeserializer.stringMapDeserializer(JsonData._DESERIALIZER), "crypto_settings");
         op.add(Builder::repository, Repository._DESERIALIZER, "repository");
         op.add(Builder::settings, RepositorySettings._DESERIALIZER, "settings");
         op.add(Builder::type, JsonpDeserializer.stringDeserializer(), "type");
@@ -505,6 +568,7 @@ public final class CreateRepositoryRequest extends RequestBase
     public int hashCode() {
         int result = 17;
         result = 31 * result + Objects.hashCode(this.clusterManagerTimeout);
+        result = 31 * result + Objects.hashCode(this.cryptoSettings);
         result = 31 * result + Objects.hashCode(this.masterTimeout);
         result = 31 * result + this.name.hashCode();
         result = 31 * result + Objects.hashCode(this.repository);
@@ -521,6 +585,7 @@ public final class CreateRepositoryRequest extends RequestBase
         if (o == null || this.getClass() != o.getClass()) return false;
         CreateRepositoryRequest other = (CreateRepositoryRequest) o;
         return Objects.equals(this.clusterManagerTimeout, other.clusterManagerTimeout)
+            && Objects.equals(this.cryptoSettings, other.cryptoSettings)
             && Objects.equals(this.masterTimeout, other.masterTimeout)
             && this.name.equals(other.name)
             && Objects.equals(this.repository, other.repository)

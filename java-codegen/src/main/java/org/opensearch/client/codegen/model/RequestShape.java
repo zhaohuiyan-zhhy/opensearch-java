@@ -38,6 +38,8 @@ public class RequestShape extends ObjectShape {
     @Nonnull
     private final Set<String> httpMethods = new HashSet<>();
     @Nonnull
+    private final Set<String> clientApiTypes = new java.util.LinkedHashSet<>();
+    @Nonnull
     private final List<HttpPath> httpPaths = new ArrayList<>();
     @Nonnull
     private final Map<String, Field> queryParams = new TreeMap<>();
@@ -89,6 +91,68 @@ public class RequestShape extends ObjectShape {
 
     public void addSupportedHttpMethod(String method) {
         httpMethods.add(method);
+    }
+
+    public void addClientApiTypes(Collection<String> types) {
+        clientApiTypes.addAll(types);
+    }
+
+    public Collection<String> getClientApiTypes() {
+        return clientApiTypes.stream()
+            .sorted(Comparator.comparingInt(RequestShape::clientApiTypeOrder))
+            .collect(java.util.stream.Collectors.toList());
+    }
+
+    public Collection<ApiTypePathConstraint> getApiTypePathConstraints() {
+        var constraints = new ArrayList<ApiTypePathConstraint>();
+        Map<String, Integer> paramMasks = new TreeMap<>();
+        int paramIndex = 0;
+        for (Field field : pathParams.values()) {
+            paramMasks.put(field.getWireName(), 1 << paramIndex++);
+        }
+        Set<Integer> allPathMasks = httpPaths.stream().map(path -> pathMask(path, paramMasks)).collect(java.util.stream.Collectors.toSet());
+
+        for (String clientApiType : getClientApiTypes()) {
+            var supportedMasks = httpPaths.stream()
+                .filter(path -> path.supportsClientApiType(clientApiType))
+                .map(path -> pathMask(path, paramMasks))
+                .collect(java.util.stream.Collectors.toList());
+            if (!new HashSet<>(supportedMasks).equals(allPathMasks)) {
+                supportedMasks.sort(Integer::compareTo);
+                constraints.add(new ApiTypePathConstraint(clientApiType, supportedMasks));
+            }
+        }
+        constraints.sort(Comparator.comparing(ApiTypePathConstraint::getClientApiType));
+        return constraints;
+    }
+
+    private static int clientApiTypeOrder(String clientApiType) {
+        if ("AOS".equals(clientApiType)) {
+            return 0;
+        }
+        if ("AOSS".equals(clientApiType)) {
+            return 1;
+        }
+        if ("OSS".equals(clientApiType)) {
+            return 2;
+        }
+        return Integer.MAX_VALUE;
+    }
+
+    private static int pathMask(HttpPath path, Map<String, Integer> paramMasks) {
+        int mask = 0;
+        for (String wireName : path.getParamWireNameSet()) {
+            Integer value = paramMasks.get(wireName);
+            if (value == null) {
+                throw new IllegalStateException("Unknown path parameter: " + wireName);
+            }
+            mask |= value;
+        }
+        return mask;
+    }
+
+    public Collection<Field> getRestrictedFields() {
+        return fields.values().stream().filter(Field::hasRestrictedClientApiTypes).collect(java.util.stream.Collectors.toList());
     }
 
     public boolean isBooleanRequest() {
@@ -173,6 +237,15 @@ public class RequestShape extends ObjectShape {
             indexed.add(Pair.of(param.getName(), i++));
         }
         return indexed;
+    }
+
+    public Collection<PathParamMask> getPathParamMasks() {
+        var masks = new ArrayList<PathParamMask>();
+        int index = 0;
+        for (Field field : pathParams.values()) {
+            masks.add(new PathParamMask(field, 1 << index++));
+        }
+        return masks;
     }
 
     public Collection<Field> getPathParams() {
@@ -304,6 +377,48 @@ public class RequestShape extends ObjectShape {
                 return "index";
             default:
                 return namespace;
+        }
+    }
+
+    public static final class ApiTypePathConstraint {
+        @Nonnull
+        private final String clientApiType;
+        @Nonnull
+        private final List<Integer> supportedMasks;
+
+        private ApiTypePathConstraint(@Nonnull String clientApiType, @Nonnull List<Integer> supportedMasks) {
+            this.clientApiType = Objects.requireNonNull(clientApiType, "clientApiType must not be null");
+            this.supportedMasks = List.copyOf(supportedMasks);
+        }
+
+        @Nonnull
+        public String getClientApiType() {
+            return clientApiType;
+        }
+
+        @Nonnull
+        public List<Integer> getSupportedMasks() {
+            return supportedMasks;
+        }
+    }
+
+    public static final class PathParamMask {
+        @Nonnull
+        private final Field field;
+        private final int mask;
+
+        private PathParamMask(@Nonnull Field field, int mask) {
+            this.field = Objects.requireNonNull(field, "field must not be null");
+            this.mask = mask;
+        }
+
+        @Nonnull
+        public Field getField() {
+            return field;
+        }
+
+        public int getMask() {
+            return mask;
         }
     }
 }

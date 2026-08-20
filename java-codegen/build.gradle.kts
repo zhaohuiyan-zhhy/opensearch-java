@@ -79,8 +79,9 @@ tasks.register<Download>("downloadLatestSpec") {
 }
 
 tasks.named<JavaExec>("run") {
+    dependsOn("generateUnifiedSpec")
     args = listOf(
-        "--input", localSpecification,
+        "--input", layout.buildDirectory.file("generated-specs/opensearch-unified.yaml").get().asFile.toURI().toString(),
         "--eclipse-config", "$rootDir/buildSrc/formatterConfig-generated.xml",
         "--output", "${project(":java-client").projectDir}/src/generated/java/"
     )

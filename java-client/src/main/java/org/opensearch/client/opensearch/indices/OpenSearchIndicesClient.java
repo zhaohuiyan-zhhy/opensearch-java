@@ -35,6 +35,7 @@ package org.opensearch.client.opensearch.indices;
 import java.io.IOException;
 import java.util.function.Function;
 import javax.annotation.Nullable;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.ErrorResponse;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.JsonEndpoint;
@@ -69,6 +70,11 @@ public class OpenSearchIndicesClient extends OpenSearchIndicesClientBase<OpenSea
      */
 
     public GetFieldMappingResponse getFieldMapping(GetFieldMappingRequest request) throws IOException, OpenSearchException {
+        return getFieldMapping(request, ApiType.OSS);
+    }
+
+    public GetFieldMappingResponse getFieldMapping(GetFieldMappingRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "indices.get_field_mapping", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<GetFieldMappingRequest, GetFieldMappingResponse, ErrorResponse> endpoint = (JsonEndpoint<
             GetFieldMappingRequest,
@@ -89,6 +95,13 @@ public class OpenSearchIndicesClient extends OpenSearchIndicesClientBase<OpenSea
 
     public final GetFieldMappingResponse getFieldMapping(Function<GetFieldMappingRequest.Builder, ObjectBuilder<GetFieldMappingRequest>> fn)
         throws IOException, OpenSearchException {
-        return getFieldMapping(fn.apply(new GetFieldMappingRequest.Builder()).build());
+        return getFieldMapping(fn, ApiType.OSS);
+    }
+
+    public final GetFieldMappingResponse getFieldMapping(
+        Function<GetFieldMappingRequest.Builder, ObjectBuilder<GetFieldMappingRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return getFieldMapping(fn.apply(new GetFieldMappingRequest.Builder()).build(), type);
     }
 }

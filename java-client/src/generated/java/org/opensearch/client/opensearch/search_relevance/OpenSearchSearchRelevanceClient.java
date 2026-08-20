@@ -41,6 +41,7 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.ErrorResponse;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.JsonEndpoint;
@@ -73,6 +74,17 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      * Deletes a specified experiment.
      */
     public DeleteExperimentsResponse deleteExperiments(DeleteExperimentsRequest request) throws IOException, OpenSearchException {
+        return deleteExperiments(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a specified experiment.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteExperimentsResponse deleteExperiments(DeleteExperimentsRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.delete_experiments", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteExperimentsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -84,7 +96,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
     public final DeleteExperimentsResponse deleteExperiments(
         Function<DeleteExperimentsRequest.Builder, ObjectBuilder<DeleteExperimentsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteExperiments(fn.apply(new DeleteExperimentsRequest.Builder()).build());
+        return deleteExperiments(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a specified experiment.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteExperimentsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteExperimentsResponse deleteExperiments(
+        Function<DeleteExperimentsRequest.Builder, ObjectBuilder<DeleteExperimentsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deleteExperiments(fn.apply(new DeleteExperimentsRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: search_relevance.delete_judgments
@@ -93,6 +118,16 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      * Deletes a specified judgment.
      */
     public DeleteJudgmentsResponse deleteJudgments(DeleteJudgmentsRequest request) throws IOException, OpenSearchException {
+        return deleteJudgments(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a specified judgment.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteJudgmentsResponse deleteJudgments(DeleteJudgmentsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.delete_judgments", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteJudgmentsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -103,7 +138,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public final DeleteJudgmentsResponse deleteJudgments(Function<DeleteJudgmentsRequest.Builder, ObjectBuilder<DeleteJudgmentsRequest>> fn)
         throws IOException, OpenSearchException {
-        return deleteJudgments(fn.apply(new DeleteJudgmentsRequest.Builder()).build());
+        return deleteJudgments(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a specified judgment.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteJudgmentsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteJudgmentsResponse deleteJudgments(
+        Function<DeleteJudgmentsRequest.Builder, ObjectBuilder<DeleteJudgmentsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deleteJudgments(fn.apply(new DeleteJudgmentsRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: search_relevance.delete_query_sets
@@ -112,6 +160,16 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      * Deletes a query set.
      */
     public DeleteQuerySetsResponse deleteQuerySets(DeleteQuerySetsRequest request) throws IOException, OpenSearchException {
+        return deleteQuerySets(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a query set.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteQuerySetsResponse deleteQuerySets(DeleteQuerySetsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.delete_query_sets", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteQuerySetsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -122,7 +180,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public final DeleteQuerySetsResponse deleteQuerySets(Function<DeleteQuerySetsRequest.Builder, ObjectBuilder<DeleteQuerySetsRequest>> fn)
         throws IOException, OpenSearchException {
-        return deleteQuerySets(fn.apply(new DeleteQuerySetsRequest.Builder()).build());
+        return deleteQuerySets(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a query set.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteQuerySetsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteQuerySetsResponse deleteQuerySets(
+        Function<DeleteQuerySetsRequest.Builder, ObjectBuilder<DeleteQuerySetsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deleteQuerySets(fn.apply(new DeleteQuerySetsRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: search_relevance.delete_scheduled_experiments
@@ -132,6 +203,17 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public DeleteScheduledExperimentsResponse deleteScheduledExperiments(DeleteScheduledExperimentsRequest request) throws IOException,
         OpenSearchException {
+        return deleteScheduledExperiments(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a specified scheduled experiment.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteScheduledExperimentsResponse deleteScheduledExperiments(DeleteScheduledExperimentsRequest request, ApiType type)
+        throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.delete_scheduled_experiments", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteScheduledExperimentsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -143,7 +225,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
     public final DeleteScheduledExperimentsResponse deleteScheduledExperiments(
         Function<DeleteScheduledExperimentsRequest.Builder, ObjectBuilder<DeleteScheduledExperimentsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteScheduledExperiments(fn.apply(new DeleteScheduledExperimentsRequest.Builder()).build());
+        return deleteScheduledExperiments(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a specified scheduled experiment.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteScheduledExperimentsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteScheduledExperimentsResponse deleteScheduledExperiments(
+        Function<DeleteScheduledExperimentsRequest.Builder, ObjectBuilder<DeleteScheduledExperimentsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deleteScheduledExperiments(fn.apply(new DeleteScheduledExperimentsRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: search_relevance.delete_search_configurations
@@ -153,6 +248,17 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public DeleteSearchConfigurationsResponse deleteSearchConfigurations(DeleteSearchConfigurationsRequest request) throws IOException,
         OpenSearchException {
+        return deleteSearchConfigurations(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a specified search configuration.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteSearchConfigurationsResponse deleteSearchConfigurations(DeleteSearchConfigurationsRequest request, ApiType type)
+        throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.delete_search_configurations", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteSearchConfigurationsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -164,7 +270,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
     public final DeleteSearchConfigurationsResponse deleteSearchConfigurations(
         Function<DeleteSearchConfigurationsRequest.Builder, ObjectBuilder<DeleteSearchConfigurationsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteSearchConfigurations(fn.apply(new DeleteSearchConfigurationsRequest.Builder()).build());
+        return deleteSearchConfigurations(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a specified search configuration.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteSearchConfigurationsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteSearchConfigurationsResponse deleteSearchConfigurations(
+        Function<DeleteSearchConfigurationsRequest.Builder, ObjectBuilder<DeleteSearchConfigurationsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deleteSearchConfigurations(fn.apply(new DeleteSearchConfigurationsRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: search_relevance.get_experiments
@@ -174,6 +293,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public <TDocument> GetExperimentsResponse<TDocument> getExperiments(GetExperimentsRequest request, Class<TDocument> tDocumentClass)
         throws IOException, OpenSearchException {
+        return getExperiments(request, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Gets experiments.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public <TDocument> GetExperimentsResponse<TDocument> getExperiments(
+        GetExperimentsRequest request,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.get_experiments", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<GetExperimentsRequest, GetExperimentsResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             GetExperimentsRequest,
@@ -197,7 +330,21 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
         Function<GetExperimentsRequest.Builder, ObjectBuilder<GetExperimentsRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return getExperiments(fn.apply(new GetExperimentsRequest.Builder()).build(), tDocumentClass);
+        return getExperiments(fn, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Gets experiments.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetExperimentsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final <TDocument> GetExperimentsResponse<TDocument> getExperiments(
+        Function<GetExperimentsRequest.Builder, ObjectBuilder<GetExperimentsRequest>> fn,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return getExperiments(fn.apply(new GetExperimentsRequest.Builder()).build(), tDocumentClass, type);
     }
 
     // ----- Endpoint: search_relevance.get_judgments
@@ -207,6 +354,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public <TDocument> GetJudgmentsResponse<TDocument> getJudgments(GetJudgmentsRequest request, Class<TDocument> tDocumentClass)
         throws IOException, OpenSearchException {
+        return getJudgments(request, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Gets judgments.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public <TDocument> GetJudgmentsResponse<TDocument> getJudgments(
+        GetJudgmentsRequest request,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.get_judgments", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<GetJudgmentsRequest, GetJudgmentsResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             GetJudgmentsRequest,
@@ -230,7 +391,21 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
         Function<GetJudgmentsRequest.Builder, ObjectBuilder<GetJudgmentsRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return getJudgments(fn.apply(new GetJudgmentsRequest.Builder()).build(), tDocumentClass);
+        return getJudgments(fn, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Gets judgments.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetJudgmentsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final <TDocument> GetJudgmentsResponse<TDocument> getJudgments(
+        Function<GetJudgmentsRequest.Builder, ObjectBuilder<GetJudgmentsRequest>> fn,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return getJudgments(fn.apply(new GetJudgmentsRequest.Builder()).build(), tDocumentClass, type);
     }
 
     // ----- Endpoint: search_relevance.get_node_stats
@@ -239,6 +414,16 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      * Gets stats by node.
      */
     public GetNodeStatsResponse getNodeStats(GetNodeStatsRequest request) throws IOException, OpenSearchException {
+        return getNodeStats(request, ApiType.OSS);
+    }
+
+    /**
+     * Gets stats by node.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public GetNodeStatsResponse getNodeStats(GetNodeStatsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.get_node_stats", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetNodeStatsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -249,7 +434,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public final GetNodeStatsResponse getNodeStats(Function<GetNodeStatsRequest.Builder, ObjectBuilder<GetNodeStatsRequest>> fn)
         throws IOException, OpenSearchException {
-        return getNodeStats(fn.apply(new GetNodeStatsRequest.Builder()).build());
+        return getNodeStats(fn, ApiType.OSS);
+    }
+
+    /**
+     * Gets stats by node.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetNodeStatsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final GetNodeStatsResponse getNodeStats(
+        Function<GetNodeStatsRequest.Builder, ObjectBuilder<GetNodeStatsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return getNodeStats(fn.apply(new GetNodeStatsRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: search_relevance.get_query_sets
@@ -259,6 +457,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public <TDocument> GetQuerySetsResponse<TDocument> getQuerySets(GetQuerySetsRequest request, Class<TDocument> tDocumentClass)
         throws IOException, OpenSearchException {
+        return getQuerySets(request, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Lists the current query sets available.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public <TDocument> GetQuerySetsResponse<TDocument> getQuerySets(
+        GetQuerySetsRequest request,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.get_query_sets", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<GetQuerySetsRequest, GetQuerySetsResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             GetQuerySetsRequest,
@@ -282,7 +494,21 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
         Function<GetQuerySetsRequest.Builder, ObjectBuilder<GetQuerySetsRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return getQuerySets(fn.apply(new GetQuerySetsRequest.Builder()).build(), tDocumentClass);
+        return getQuerySets(fn, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Lists the current query sets available.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetQuerySetsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final <TDocument> GetQuerySetsResponse<TDocument> getQuerySets(
+        Function<GetQuerySetsRequest.Builder, ObjectBuilder<GetQuerySetsRequest>> fn,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return getQuerySets(fn.apply(new GetQuerySetsRequest.Builder()).build(), tDocumentClass, type);
     }
 
     // ----- Endpoint: search_relevance.get_scheduled_experiments
@@ -294,6 +520,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
         GetScheduledExperimentsRequest request,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
+        return getScheduledExperiments(request, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Gets the scheduled experiments.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public <TDocument> GetScheduledExperimentsResponse<TDocument> getScheduledExperiments(
+        GetScheduledExperimentsRequest request,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.get_scheduled_experiments", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<GetScheduledExperimentsRequest, GetScheduledExperimentsResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             GetScheduledExperimentsRequest,
@@ -317,7 +557,21 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
         Function<GetScheduledExperimentsRequest.Builder, ObjectBuilder<GetScheduledExperimentsRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return getScheduledExperiments(fn.apply(new GetScheduledExperimentsRequest.Builder()).build(), tDocumentClass);
+        return getScheduledExperiments(fn, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Gets the scheduled experiments.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetScheduledExperimentsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final <TDocument> GetScheduledExperimentsResponse<TDocument> getScheduledExperiments(
+        Function<GetScheduledExperimentsRequest.Builder, ObjectBuilder<GetScheduledExperimentsRequest>> fn,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return getScheduledExperiments(fn.apply(new GetScheduledExperimentsRequest.Builder()).build(), tDocumentClass, type);
     }
 
     // ----- Endpoint: search_relevance.get_search_configurations
@@ -329,6 +583,20 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
         GetSearchConfigurationsRequest request,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
+        return getSearchConfigurations(request, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Gets the search configurations.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public <TDocument> GetSearchConfigurationsResponse<TDocument> getSearchConfigurations(
+        GetSearchConfigurationsRequest request,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.get_search_configurations", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<GetSearchConfigurationsRequest, GetSearchConfigurationsResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             GetSearchConfigurationsRequest,
@@ -352,7 +620,21 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
         Function<GetSearchConfigurationsRequest.Builder, ObjectBuilder<GetSearchConfigurationsRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return getSearchConfigurations(fn.apply(new GetSearchConfigurationsRequest.Builder()).build(), tDocumentClass);
+        return getSearchConfigurations(fn, tDocumentClass, ApiType.OSS);
+    }
+
+    /**
+     * Gets the search configurations.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetSearchConfigurationsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final <TDocument> GetSearchConfigurationsResponse<TDocument> getSearchConfigurations(
+        Function<GetSearchConfigurationsRequest.Builder, ObjectBuilder<GetSearchConfigurationsRequest>> fn,
+        Class<TDocument> tDocumentClass,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return getSearchConfigurations(fn.apply(new GetSearchConfigurationsRequest.Builder()).build(), tDocumentClass, type);
     }
 
     // ----- Endpoint: search_relevance.get_stats
@@ -361,6 +643,16 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      * Gets stats.
      */
     public GetStatsResponse getStats(GetStatsRequest request) throws IOException, OpenSearchException {
+        return getStats(request, ApiType.OSS);
+    }
+
+    /**
+     * Gets stats.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public GetStatsResponse getStats(GetStatsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.get_stats", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetStatsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -371,14 +663,34 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public final GetStatsResponse getStats(Function<GetStatsRequest.Builder, ObjectBuilder<GetStatsRequest>> fn) throws IOException,
         OpenSearchException {
-        return getStats(fn.apply(new GetStatsRequest.Builder()).build());
+        return getStats(fn, ApiType.OSS);
+    }
+
+    /**
+     * Gets stats.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetStatsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final GetStatsResponse getStats(Function<GetStatsRequest.Builder, ObjectBuilder<GetStatsRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return getStats(fn.apply(new GetStatsRequest.Builder()).build(), type);
     }
 
     /**
      * Gets stats.
      */
     public final GetStatsResponse getStats() throws IOException, OpenSearchException {
-        return getStats(new GetStatsRequest.Builder().build());
+        return getStats(ApiType.OSS);
+    }
+
+    /**
+     * Gets stats.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final GetStatsResponse getStats(ApiType type) throws IOException, OpenSearchException {
+        return getStats(new GetStatsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: search_relevance.post_query_sets
@@ -387,6 +699,16 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      * Creates a new query set by sampling queries from the user behavior data.
      */
     public PostQuerySetsResponse postQuerySets(PostQuerySetsRequest request) throws IOException, OpenSearchException {
+        return postQuerySets(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates a new query set by sampling queries from the user behavior data.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public PostQuerySetsResponse postQuerySets(PostQuerySetsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.post_query_sets", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, PostQuerySetsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -397,14 +719,36 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public final PostQuerySetsResponse postQuerySets(Function<PostQuerySetsRequest.Builder, ObjectBuilder<PostQuerySetsRequest>> fn)
         throws IOException, OpenSearchException {
-        return postQuerySets(fn.apply(new PostQuerySetsRequest.Builder()).build());
+        return postQuerySets(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates a new query set by sampling queries from the user behavior data.
+     *
+     * @param fn   a function that initializes a builder to create the {@link PostQuerySetsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final PostQuerySetsResponse postQuerySets(
+        Function<PostQuerySetsRequest.Builder, ObjectBuilder<PostQuerySetsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return postQuerySets(fn.apply(new PostQuerySetsRequest.Builder()).build(), type);
     }
 
     /**
      * Creates a new query set by sampling queries from the user behavior data.
      */
     public final PostQuerySetsResponse postQuerySets() throws IOException, OpenSearchException {
-        return postQuerySets(new PostQuerySetsRequest.Builder().build());
+        return postQuerySets(ApiType.OSS);
+    }
+
+    /**
+     * Creates a new query set by sampling queries from the user behavior data.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final PostQuerySetsResponse postQuerySets(ApiType type) throws IOException, OpenSearchException {
+        return postQuerySets(new PostQuerySetsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: search_relevance.post_scheduled_experiments
@@ -414,6 +758,17 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public PostScheduledExperimentsResponse postScheduledExperiments(PostScheduledExperimentsRequest request) throws IOException,
         OpenSearchException {
+        return postScheduledExperiments(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates a scheduled experiment.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public PostScheduledExperimentsResponse postScheduledExperiments(PostScheduledExperimentsRequest request, ApiType type)
+        throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.post_scheduled_experiments", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, PostScheduledExperimentsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -425,14 +780,36 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
     public final PostScheduledExperimentsResponse postScheduledExperiments(
         Function<PostScheduledExperimentsRequest.Builder, ObjectBuilder<PostScheduledExperimentsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return postScheduledExperiments(fn.apply(new PostScheduledExperimentsRequest.Builder()).build());
+        return postScheduledExperiments(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates a scheduled experiment.
+     *
+     * @param fn   a function that initializes a builder to create the {@link PostScheduledExperimentsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final PostScheduledExperimentsResponse postScheduledExperiments(
+        Function<PostScheduledExperimentsRequest.Builder, ObjectBuilder<PostScheduledExperimentsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return postScheduledExperiments(fn.apply(new PostScheduledExperimentsRequest.Builder()).build(), type);
     }
 
     /**
      * Creates a scheduled experiment.
      */
     public final PostScheduledExperimentsResponse postScheduledExperiments() throws IOException, OpenSearchException {
-        return postScheduledExperiments(new PostScheduledExperimentsRequest.Builder().build());
+        return postScheduledExperiments(ApiType.OSS);
+    }
+
+    /**
+     * Creates a scheduled experiment.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final PostScheduledExperimentsResponse postScheduledExperiments(ApiType type) throws IOException, OpenSearchException {
+        return postScheduledExperiments(new PostScheduledExperimentsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: search_relevance.put_experiments
@@ -441,6 +818,16 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      * Creates an experiment.
      */
     public PutExperimentsResponse putExperiments(PutExperimentsRequest request) throws IOException, OpenSearchException {
+        return putExperiments(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates an experiment.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public PutExperimentsResponse putExperiments(PutExperimentsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.put_experiments", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, PutExperimentsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -451,14 +838,36 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public final PutExperimentsResponse putExperiments(Function<PutExperimentsRequest.Builder, ObjectBuilder<PutExperimentsRequest>> fn)
         throws IOException, OpenSearchException {
-        return putExperiments(fn.apply(new PutExperimentsRequest.Builder()).build());
+        return putExperiments(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates an experiment.
+     *
+     * @param fn   a function that initializes a builder to create the {@link PutExperimentsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final PutExperimentsResponse putExperiments(
+        Function<PutExperimentsRequest.Builder, ObjectBuilder<PutExperimentsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return putExperiments(fn.apply(new PutExperimentsRequest.Builder()).build(), type);
     }
 
     /**
      * Creates an experiment.
      */
     public final PutExperimentsResponse putExperiments() throws IOException, OpenSearchException {
-        return putExperiments(new PutExperimentsRequest.Builder().build());
+        return putExperiments(ApiType.OSS);
+    }
+
+    /**
+     * Creates an experiment.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final PutExperimentsResponse putExperiments(ApiType type) throws IOException, OpenSearchException {
+        return putExperiments(new PutExperimentsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: search_relevance.put_judgments
@@ -467,6 +876,16 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      * Creates a judgment.
      */
     public PutJudgmentsResponse putJudgments(PutJudgmentsRequest request) throws IOException, OpenSearchException {
+        return putJudgments(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates a judgment.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public PutJudgmentsResponse putJudgments(PutJudgmentsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.put_judgments", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, PutJudgmentsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -477,14 +896,36 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public final PutJudgmentsResponse putJudgments(Function<PutJudgmentsRequest.Builder, ObjectBuilder<PutJudgmentsRequest>> fn)
         throws IOException, OpenSearchException {
-        return putJudgments(fn.apply(new PutJudgmentsRequest.Builder()).build());
+        return putJudgments(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates a judgment.
+     *
+     * @param fn   a function that initializes a builder to create the {@link PutJudgmentsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final PutJudgmentsResponse putJudgments(
+        Function<PutJudgmentsRequest.Builder, ObjectBuilder<PutJudgmentsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return putJudgments(fn.apply(new PutJudgmentsRequest.Builder()).build(), type);
     }
 
     /**
      * Creates a judgment.
      */
     public final PutJudgmentsResponse putJudgments() throws IOException, OpenSearchException {
-        return putJudgments(new PutJudgmentsRequest.Builder().build());
+        return putJudgments(ApiType.OSS);
+    }
+
+    /**
+     * Creates a judgment.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final PutJudgmentsResponse putJudgments(ApiType type) throws IOException, OpenSearchException {
+        return putJudgments(new PutJudgmentsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: search_relevance.put_query_sets
@@ -493,6 +934,16 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      * Creates a new query set by uploading manually.
      */
     public PutQuerySetsResponse putQuerySets(PutQuerySetsRequest request) throws IOException, OpenSearchException {
+        return putQuerySets(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates a new query set by uploading manually.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public PutQuerySetsResponse putQuerySets(PutQuerySetsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.put_query_sets", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, PutQuerySetsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -503,14 +954,36 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public final PutQuerySetsResponse putQuerySets(Function<PutQuerySetsRequest.Builder, ObjectBuilder<PutQuerySetsRequest>> fn)
         throws IOException, OpenSearchException {
-        return putQuerySets(fn.apply(new PutQuerySetsRequest.Builder()).build());
+        return putQuerySets(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates a new query set by uploading manually.
+     *
+     * @param fn   a function that initializes a builder to create the {@link PutQuerySetsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final PutQuerySetsResponse putQuerySets(
+        Function<PutQuerySetsRequest.Builder, ObjectBuilder<PutQuerySetsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return putQuerySets(fn.apply(new PutQuerySetsRequest.Builder()).build(), type);
     }
 
     /**
      * Creates a new query set by uploading manually.
      */
     public final PutQuerySetsResponse putQuerySets() throws IOException, OpenSearchException {
-        return putQuerySets(new PutQuerySetsRequest.Builder().build());
+        return putQuerySets(ApiType.OSS);
+    }
+
+    /**
+     * Creates a new query set by uploading manually.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final PutQuerySetsResponse putQuerySets(ApiType type) throws IOException, OpenSearchException {
+        return putQuerySets(new PutQuerySetsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: search_relevance.put_search_configurations
@@ -520,6 +993,17 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
      */
     public PutSearchConfigurationsResponse putSearchConfigurations(PutSearchConfigurationsRequest request) throws IOException,
         OpenSearchException {
+        return putSearchConfigurations(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates a search configuration.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public PutSearchConfigurationsResponse putSearchConfigurations(PutSearchConfigurationsRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "search_relevance.put_search_configurations", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, PutSearchConfigurationsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -531,13 +1015,35 @@ public class OpenSearchSearchRelevanceClient extends ApiClient<OpenSearchTranspo
     public final PutSearchConfigurationsResponse putSearchConfigurations(
         Function<PutSearchConfigurationsRequest.Builder, ObjectBuilder<PutSearchConfigurationsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return putSearchConfigurations(fn.apply(new PutSearchConfigurationsRequest.Builder()).build());
+        return putSearchConfigurations(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates a search configuration.
+     *
+     * @param fn   a function that initializes a builder to create the {@link PutSearchConfigurationsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final PutSearchConfigurationsResponse putSearchConfigurations(
+        Function<PutSearchConfigurationsRequest.Builder, ObjectBuilder<PutSearchConfigurationsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return putSearchConfigurations(fn.apply(new PutSearchConfigurationsRequest.Builder()).build(), type);
     }
 
     /**
      * Creates a search configuration.
      */
     public final PutSearchConfigurationsResponse putSearchConfigurations() throws IOException, OpenSearchException {
-        return putSearchConfigurations(new PutSearchConfigurationsRequest.Builder().build());
+        return putSearchConfigurations(ApiType.OSS);
+    }
+
+    /**
+     * Creates a search configuration.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final PutSearchConfigurationsResponse putSearchConfigurations(ApiType type) throws IOException, OpenSearchException {
+        return putSearchConfigurations(new PutSearchConfigurationsRequest.Builder().build(), type);
     }
 }

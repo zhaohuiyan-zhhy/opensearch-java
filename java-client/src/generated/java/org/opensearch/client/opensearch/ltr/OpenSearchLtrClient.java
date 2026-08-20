@@ -41,6 +41,7 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -70,6 +71,17 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Add features to an existing feature set in the default feature store.
      */
     public AddFeaturesToSetResponse addFeaturesToSet(AddFeaturesToSetRequest request) throws IOException, OpenSearchException {
+        return addFeaturesToSet(request, ApiType.OSS);
+    }
+
+    /**
+     * Add features to an existing feature set in the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public AddFeaturesToSetResponse addFeaturesToSet(AddFeaturesToSetRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ltr.add_features_to_set", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, AddFeaturesToSetRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -81,7 +93,20 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
     public final AddFeaturesToSetResponse addFeaturesToSet(
         Function<AddFeaturesToSetRequest.Builder, ObjectBuilder<AddFeaturesToSetRequest>> fn
     ) throws IOException, OpenSearchException {
-        return addFeaturesToSet(fn.apply(new AddFeaturesToSetRequest.Builder()).build());
+        return addFeaturesToSet(fn, ApiType.OSS);
+    }
+
+    /**
+     * Add features to an existing feature set in the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link AddFeaturesToSetRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final AddFeaturesToSetResponse addFeaturesToSet(
+        Function<AddFeaturesToSetRequest.Builder, ObjectBuilder<AddFeaturesToSetRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return addFeaturesToSet(fn.apply(new AddFeaturesToSetRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.add_features_to_set_by_query
@@ -91,6 +116,17 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public AddFeaturesToSetByQueryResponse addFeaturesToSetByQuery(AddFeaturesToSetByQueryRequest request) throws IOException,
         OpenSearchException {
+        return addFeaturesToSetByQuery(request, ApiType.OSS);
+    }
+
+    /**
+     * Add features to an existing feature set in the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public AddFeaturesToSetByQueryResponse addFeaturesToSetByQuery(AddFeaturesToSetByQueryRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ltr.add_features_to_set_by_query", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, AddFeaturesToSetByQueryRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -102,7 +138,20 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
     public final AddFeaturesToSetByQueryResponse addFeaturesToSetByQuery(
         Function<AddFeaturesToSetByQueryRequest.Builder, ObjectBuilder<AddFeaturesToSetByQueryRequest>> fn
     ) throws IOException, OpenSearchException {
-        return addFeaturesToSetByQuery(fn.apply(new AddFeaturesToSetByQueryRequest.Builder()).build());
+        return addFeaturesToSetByQuery(fn, ApiType.OSS);
+    }
+
+    /**
+     * Add features to an existing feature set in the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link AddFeaturesToSetByQueryRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final AddFeaturesToSetByQueryResponse addFeaturesToSetByQuery(
+        Function<AddFeaturesToSetByQueryRequest.Builder, ObjectBuilder<AddFeaturesToSetByQueryRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return addFeaturesToSetByQuery(fn.apply(new AddFeaturesToSetByQueryRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.cache_stats
@@ -111,6 +160,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Retrieves cache statistics for all feature stores.
      */
     public CacheStatsResponse cacheStats(CacheStatsRequest request) throws IOException, OpenSearchException {
+        return cacheStats(request, ApiType.OSS);
+    }
+
+    /**
+     * Retrieves cache statistics for all feature stores.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CacheStatsResponse cacheStats(CacheStatsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.cache_stats", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CacheStatsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -121,14 +180,34 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final CacheStatsResponse cacheStats(Function<CacheStatsRequest.Builder, ObjectBuilder<CacheStatsRequest>> fn) throws IOException,
         OpenSearchException {
-        return cacheStats(fn.apply(new CacheStatsRequest.Builder()).build());
+        return cacheStats(fn, ApiType.OSS);
+    }
+
+    /**
+     * Retrieves cache statistics for all feature stores.
+     *
+     * @param fn   a function that initializes a builder to create the {@link CacheStatsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CacheStatsResponse cacheStats(Function<CacheStatsRequest.Builder, ObjectBuilder<CacheStatsRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return cacheStats(fn.apply(new CacheStatsRequest.Builder()).build(), type);
     }
 
     /**
      * Retrieves cache statistics for all feature stores.
      */
     public final CacheStatsResponse cacheStats() throws IOException, OpenSearchException {
-        return cacheStats(new CacheStatsRequest.Builder().build());
+        return cacheStats(ApiType.OSS);
+    }
+
+    /**
+     * Retrieves cache statistics for all feature stores.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final CacheStatsResponse cacheStats(ApiType type) throws IOException, OpenSearchException {
+        return cacheStats(new CacheStatsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ltr.clear_cache
@@ -137,6 +216,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Clears the store caches.
      */
     public ClearCacheResponse clearCache(ClearCacheRequest request) throws IOException, OpenSearchException {
+        return clearCache(request, ApiType.OSS);
+    }
+
+    /**
+     * Clears the store caches.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public ClearCacheResponse clearCache(ClearCacheRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.clear_cache", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ClearCacheRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -147,14 +236,34 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final ClearCacheResponse clearCache(Function<ClearCacheRequest.Builder, ObjectBuilder<ClearCacheRequest>> fn) throws IOException,
         OpenSearchException {
-        return clearCache(fn.apply(new ClearCacheRequest.Builder()).build());
+        return clearCache(fn, ApiType.OSS);
+    }
+
+    /**
+     * Clears the store caches.
+     *
+     * @param fn   a function that initializes a builder to create the {@link ClearCacheRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final ClearCacheResponse clearCache(Function<ClearCacheRequest.Builder, ObjectBuilder<ClearCacheRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return clearCache(fn.apply(new ClearCacheRequest.Builder()).build(), type);
     }
 
     /**
      * Clears the store caches.
      */
     public final ClearCacheResponse clearCache() throws IOException, OpenSearchException {
-        return clearCache(new ClearCacheRequest.Builder().build());
+        return clearCache(ApiType.OSS);
+    }
+
+    /**
+     * Clears the store caches.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final ClearCacheResponse clearCache(ApiType type) throws IOException, OpenSearchException {
+        return clearCache(new ClearCacheRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ltr.create_default_store
@@ -163,6 +272,17 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Creates the default feature store.
      */
     public CreateDefaultStoreResponse createDefaultStore(CreateDefaultStoreRequest request) throws IOException, OpenSearchException {
+        return createDefaultStore(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CreateDefaultStoreResponse createDefaultStore(CreateDefaultStoreRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ltr.create_default_store", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CreateDefaultStoreRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -174,14 +294,36 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
     public final CreateDefaultStoreResponse createDefaultStore(
         Function<CreateDefaultStoreRequest.Builder, ObjectBuilder<CreateDefaultStoreRequest>> fn
     ) throws IOException, OpenSearchException {
-        return createDefaultStore(fn.apply(new CreateDefaultStoreRequest.Builder()).build());
+        return createDefaultStore(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link CreateDefaultStoreRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CreateDefaultStoreResponse createDefaultStore(
+        Function<CreateDefaultStoreRequest.Builder, ObjectBuilder<CreateDefaultStoreRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return createDefaultStore(fn.apply(new CreateDefaultStoreRequest.Builder()).build(), type);
     }
 
     /**
      * Creates the default feature store.
      */
     public final CreateDefaultStoreResponse createDefaultStore() throws IOException, OpenSearchException {
-        return createDefaultStore(new CreateDefaultStoreRequest.Builder().build());
+        return createDefaultStore(ApiType.OSS);
+    }
+
+    /**
+     * Creates the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final CreateDefaultStoreResponse createDefaultStore(ApiType type) throws IOException, OpenSearchException {
+        return createDefaultStore(new CreateDefaultStoreRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ltr.create_feature
@@ -190,6 +332,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Create or update a feature in the default feature store.
      */
     public CreateFeatureResponse createFeature(CreateFeatureRequest request) throws IOException, OpenSearchException {
+        return createFeature(request, ApiType.OSS);
+    }
+
+    /**
+     * Create or update a feature in the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CreateFeatureResponse createFeature(CreateFeatureRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.create_feature", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CreateFeatureRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -200,7 +352,20 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final CreateFeatureResponse createFeature(Function<CreateFeatureRequest.Builder, ObjectBuilder<CreateFeatureRequest>> fn)
         throws IOException, OpenSearchException {
-        return createFeature(fn.apply(new CreateFeatureRequest.Builder()).build());
+        return createFeature(fn, ApiType.OSS);
+    }
+
+    /**
+     * Create or update a feature in the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link CreateFeatureRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CreateFeatureResponse createFeature(
+        Function<CreateFeatureRequest.Builder, ObjectBuilder<CreateFeatureRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return createFeature(fn.apply(new CreateFeatureRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.create_featureset
@@ -209,6 +374,17 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Create or update a feature set in the default feature store.
      */
     public CreateFeaturesetResponse createFeatureset(CreateFeaturesetRequest request) throws IOException, OpenSearchException {
+        return createFeatureset(request, ApiType.OSS);
+    }
+
+    /**
+     * Create or update a feature set in the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CreateFeaturesetResponse createFeatureset(CreateFeaturesetRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ltr.create_featureset", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CreateFeaturesetRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -220,7 +396,20 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
     public final CreateFeaturesetResponse createFeatureset(
         Function<CreateFeaturesetRequest.Builder, ObjectBuilder<CreateFeaturesetRequest>> fn
     ) throws IOException, OpenSearchException {
-        return createFeatureset(fn.apply(new CreateFeaturesetRequest.Builder()).build());
+        return createFeatureset(fn, ApiType.OSS);
+    }
+
+    /**
+     * Create or update a feature set in the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link CreateFeaturesetRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CreateFeaturesetResponse createFeatureset(
+        Function<CreateFeaturesetRequest.Builder, ObjectBuilder<CreateFeaturesetRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return createFeatureset(fn.apply(new CreateFeaturesetRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.create_model
@@ -229,6 +418,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Create or update a model in the default feature store.
      */
     public CreateModelResponse createModel(CreateModelRequest request) throws IOException, OpenSearchException {
+        return createModel(request, ApiType.OSS);
+    }
+
+    /**
+     * Create or update a model in the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CreateModelResponse createModel(CreateModelRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.create_model", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CreateModelRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -239,7 +438,18 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final CreateModelResponse createModel(Function<CreateModelRequest.Builder, ObjectBuilder<CreateModelRequest>> fn)
         throws IOException, OpenSearchException {
-        return createModel(fn.apply(new CreateModelRequest.Builder()).build());
+        return createModel(fn, ApiType.OSS);
+    }
+
+    /**
+     * Create or update a model in the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link CreateModelRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CreateModelResponse createModel(Function<CreateModelRequest.Builder, ObjectBuilder<CreateModelRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return createModel(fn.apply(new CreateModelRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.create_model_from_set
@@ -248,6 +458,17 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Create a model from an existing feature set in the default feature store.
      */
     public CreateModelFromSetResponse createModelFromSet(CreateModelFromSetRequest request) throws IOException, OpenSearchException {
+        return createModelFromSet(request, ApiType.OSS);
+    }
+
+    /**
+     * Create a model from an existing feature set in the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CreateModelFromSetResponse createModelFromSet(CreateModelFromSetRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ltr.create_model_from_set", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CreateModelFromSetRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -259,7 +480,20 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
     public final CreateModelFromSetResponse createModelFromSet(
         Function<CreateModelFromSetRequest.Builder, ObjectBuilder<CreateModelFromSetRequest>> fn
     ) throws IOException, OpenSearchException {
-        return createModelFromSet(fn.apply(new CreateModelFromSetRequest.Builder()).build());
+        return createModelFromSet(fn, ApiType.OSS);
+    }
+
+    /**
+     * Create a model from an existing feature set in the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link CreateModelFromSetRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CreateModelFromSetResponse createModelFromSet(
+        Function<CreateModelFromSetRequest.Builder, ObjectBuilder<CreateModelFromSetRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return createModelFromSet(fn.apply(new CreateModelFromSetRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.create_store
@@ -268,6 +502,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Creates a new feature store with the specified name.
      */
     public CreateStoreResponse createStore(CreateStoreRequest request) throws IOException, OpenSearchException {
+        return createStore(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates a new feature store with the specified name.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CreateStoreResponse createStore(CreateStoreRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.create_store", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CreateStoreRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -278,7 +522,18 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final CreateStoreResponse createStore(Function<CreateStoreRequest.Builder, ObjectBuilder<CreateStoreRequest>> fn)
         throws IOException, OpenSearchException {
-        return createStore(fn.apply(new CreateStoreRequest.Builder()).build());
+        return createStore(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates a new feature store with the specified name.
+     *
+     * @param fn   a function that initializes a builder to create the {@link CreateStoreRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CreateStoreResponse createStore(Function<CreateStoreRequest.Builder, ObjectBuilder<CreateStoreRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return createStore(fn.apply(new CreateStoreRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.delete_default_store
@@ -287,6 +542,17 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Deletes the default feature store.
      */
     public DeleteDefaultStoreResponse deleteDefaultStore(DeleteDefaultStoreRequest request) throws IOException, OpenSearchException {
+        return deleteDefaultStore(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteDefaultStoreResponse deleteDefaultStore(DeleteDefaultStoreRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ltr.delete_default_store", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteDefaultStoreRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -298,14 +564,36 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
     public final DeleteDefaultStoreResponse deleteDefaultStore(
         Function<DeleteDefaultStoreRequest.Builder, ObjectBuilder<DeleteDefaultStoreRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteDefaultStore(fn.apply(new DeleteDefaultStoreRequest.Builder()).build());
+        return deleteDefaultStore(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteDefaultStoreRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteDefaultStoreResponse deleteDefaultStore(
+        Function<DeleteDefaultStoreRequest.Builder, ObjectBuilder<DeleteDefaultStoreRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deleteDefaultStore(fn.apply(new DeleteDefaultStoreRequest.Builder()).build(), type);
     }
 
     /**
      * Deletes the default feature store.
      */
     public final DeleteDefaultStoreResponse deleteDefaultStore() throws IOException, OpenSearchException {
-        return deleteDefaultStore(new DeleteDefaultStoreRequest.Builder().build());
+        return deleteDefaultStore(ApiType.OSS);
+    }
+
+    /**
+     * Deletes the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteDefaultStoreResponse deleteDefaultStore(ApiType type) throws IOException, OpenSearchException {
+        return deleteDefaultStore(new DeleteDefaultStoreRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ltr.delete_feature
@@ -314,6 +602,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Delete a feature from the default feature store.
      */
     public DeleteFeatureResponse deleteFeature(DeleteFeatureRequest request) throws IOException, OpenSearchException {
+        return deleteFeature(request, ApiType.OSS);
+    }
+
+    /**
+     * Delete a feature from the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteFeatureResponse deleteFeature(DeleteFeatureRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.delete_feature", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteFeatureRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -324,7 +622,20 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final DeleteFeatureResponse deleteFeature(Function<DeleteFeatureRequest.Builder, ObjectBuilder<DeleteFeatureRequest>> fn)
         throws IOException, OpenSearchException {
-        return deleteFeature(fn.apply(new DeleteFeatureRequest.Builder()).build());
+        return deleteFeature(fn, ApiType.OSS);
+    }
+
+    /**
+     * Delete a feature from the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteFeatureRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteFeatureResponse deleteFeature(
+        Function<DeleteFeatureRequest.Builder, ObjectBuilder<DeleteFeatureRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deleteFeature(fn.apply(new DeleteFeatureRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.delete_featureset
@@ -333,6 +644,17 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Delete a feature set from the default feature store.
      */
     public DeleteFeaturesetResponse deleteFeatureset(DeleteFeaturesetRequest request) throws IOException, OpenSearchException {
+        return deleteFeatureset(request, ApiType.OSS);
+    }
+
+    /**
+     * Delete a feature set from the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteFeaturesetResponse deleteFeatureset(DeleteFeaturesetRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ltr.delete_featureset", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteFeaturesetRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -344,7 +666,20 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
     public final DeleteFeaturesetResponse deleteFeatureset(
         Function<DeleteFeaturesetRequest.Builder, ObjectBuilder<DeleteFeaturesetRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteFeatureset(fn.apply(new DeleteFeaturesetRequest.Builder()).build());
+        return deleteFeatureset(fn, ApiType.OSS);
+    }
+
+    /**
+     * Delete a feature set from the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteFeaturesetRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteFeaturesetResponse deleteFeatureset(
+        Function<DeleteFeaturesetRequest.Builder, ObjectBuilder<DeleteFeaturesetRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deleteFeatureset(fn.apply(new DeleteFeaturesetRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.delete_model
@@ -353,6 +688,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Delete a model from the default feature store.
      */
     public DeleteModelResponse deleteModel(DeleteModelRequest request) throws IOException, OpenSearchException {
+        return deleteModel(request, ApiType.OSS);
+    }
+
+    /**
+     * Delete a model from the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteModelResponse deleteModel(DeleteModelRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.delete_model", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteModelRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -363,7 +708,18 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final DeleteModelResponse deleteModel(Function<DeleteModelRequest.Builder, ObjectBuilder<DeleteModelRequest>> fn)
         throws IOException, OpenSearchException {
-        return deleteModel(fn.apply(new DeleteModelRequest.Builder()).build());
+        return deleteModel(fn, ApiType.OSS);
+    }
+
+    /**
+     * Delete a model from the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteModelRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteModelResponse deleteModel(Function<DeleteModelRequest.Builder, ObjectBuilder<DeleteModelRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return deleteModel(fn.apply(new DeleteModelRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.delete_store
@@ -372,6 +728,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Deletes a feature store with the specified name.
      */
     public DeleteStoreResponse deleteStore(DeleteStoreRequest request) throws IOException, OpenSearchException {
+        return deleteStore(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a feature store with the specified name.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteStoreResponse deleteStore(DeleteStoreRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.delete_store", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteStoreRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -382,7 +748,18 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final DeleteStoreResponse deleteStore(Function<DeleteStoreRequest.Builder, ObjectBuilder<DeleteStoreRequest>> fn)
         throws IOException, OpenSearchException {
-        return deleteStore(fn.apply(new DeleteStoreRequest.Builder()).build());
+        return deleteStore(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes a feature store with the specified name.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteStoreRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteStoreResponse deleteStore(Function<DeleteStoreRequest.Builder, ObjectBuilder<DeleteStoreRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return deleteStore(fn.apply(new DeleteStoreRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.get_feature
@@ -391,6 +768,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Get a feature from the default feature store.
      */
     public GetFeatureResponse getFeature(GetFeatureRequest request) throws IOException, OpenSearchException {
+        return getFeature(request, ApiType.OSS);
+    }
+
+    /**
+     * Get a feature from the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public GetFeatureResponse getFeature(GetFeatureRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.get_feature", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetFeatureRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -401,7 +788,18 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final GetFeatureResponse getFeature(Function<GetFeatureRequest.Builder, ObjectBuilder<GetFeatureRequest>> fn) throws IOException,
         OpenSearchException {
-        return getFeature(fn.apply(new GetFeatureRequest.Builder()).build());
+        return getFeature(fn, ApiType.OSS);
+    }
+
+    /**
+     * Get a feature from the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetFeatureRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final GetFeatureResponse getFeature(Function<GetFeatureRequest.Builder, ObjectBuilder<GetFeatureRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return getFeature(fn.apply(new GetFeatureRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.get_featureset
@@ -410,6 +808,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Get a feature set from the default feature store.
      */
     public GetFeaturesetResponse getFeatureset(GetFeaturesetRequest request) throws IOException, OpenSearchException {
+        return getFeatureset(request, ApiType.OSS);
+    }
+
+    /**
+     * Get a feature set from the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public GetFeaturesetResponse getFeatureset(GetFeaturesetRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.get_featureset", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetFeaturesetRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -420,7 +828,20 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final GetFeaturesetResponse getFeatureset(Function<GetFeaturesetRequest.Builder, ObjectBuilder<GetFeaturesetRequest>> fn)
         throws IOException, OpenSearchException {
-        return getFeatureset(fn.apply(new GetFeaturesetRequest.Builder()).build());
+        return getFeatureset(fn, ApiType.OSS);
+    }
+
+    /**
+     * Get a feature set from the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetFeaturesetRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final GetFeaturesetResponse getFeatureset(
+        Function<GetFeaturesetRequest.Builder, ObjectBuilder<GetFeaturesetRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return getFeatureset(fn.apply(new GetFeaturesetRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.get_model
@@ -429,6 +850,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Get a model from the default feature store.
      */
     public GetModelResponse getModel(GetModelRequest request) throws IOException, OpenSearchException {
+        return getModel(request, ApiType.OSS);
+    }
+
+    /**
+     * Get a model from the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public GetModelResponse getModel(GetModelRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.get_model", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetModelRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -439,7 +870,18 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final GetModelResponse getModel(Function<GetModelRequest.Builder, ObjectBuilder<GetModelRequest>> fn) throws IOException,
         OpenSearchException {
-        return getModel(fn.apply(new GetModelRequest.Builder()).build());
+        return getModel(fn, ApiType.OSS);
+    }
+
+    /**
+     * Get a model from the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetModelRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final GetModelResponse getModel(Function<GetModelRequest.Builder, ObjectBuilder<GetModelRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return getModel(fn.apply(new GetModelRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.get_store
@@ -448,6 +890,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Checks if a store exists.
      */
     public GetStoreResponse getStore(GetStoreRequest request) throws IOException, OpenSearchException {
+        return getStore(request, ApiType.OSS);
+    }
+
+    /**
+     * Checks if a store exists.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public GetStoreResponse getStore(GetStoreRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.get_store", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetStoreRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -458,7 +910,18 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final GetStoreResponse getStore(Function<GetStoreRequest.Builder, ObjectBuilder<GetStoreRequest>> fn) throws IOException,
         OpenSearchException {
-        return getStore(fn.apply(new GetStoreRequest.Builder()).build());
+        return getStore(fn, ApiType.OSS);
+    }
+
+    /**
+     * Checks if a store exists.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetStoreRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final GetStoreResponse getStore(Function<GetStoreRequest.Builder, ObjectBuilder<GetStoreRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return getStore(fn.apply(new GetStoreRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.list_stores
@@ -467,6 +930,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Lists all available feature stores.
      */
     public ListStoresResponse listStores(ListStoresRequest request) throws IOException, OpenSearchException {
+        return listStores(request, ApiType.OSS);
+    }
+
+    /**
+     * Lists all available feature stores.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public ListStoresResponse listStores(ListStoresRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.list_stores", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ListStoresRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -477,14 +950,34 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final ListStoresResponse listStores(Function<ListStoresRequest.Builder, ObjectBuilder<ListStoresRequest>> fn) throws IOException,
         OpenSearchException {
-        return listStores(fn.apply(new ListStoresRequest.Builder()).build());
+        return listStores(fn, ApiType.OSS);
+    }
+
+    /**
+     * Lists all available feature stores.
+     *
+     * @param fn   a function that initializes a builder to create the {@link ListStoresRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final ListStoresResponse listStores(Function<ListStoresRequest.Builder, ObjectBuilder<ListStoresRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return listStores(fn.apply(new ListStoresRequest.Builder()).build(), type);
     }
 
     /**
      * Lists all available feature stores.
      */
     public final ListStoresResponse listStores() throws IOException, OpenSearchException {
-        return listStores(new ListStoresRequest.Builder().build());
+        return listStores(ApiType.OSS);
+    }
+
+    /**
+     * Lists all available feature stores.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final ListStoresResponse listStores(ApiType type) throws IOException, OpenSearchException {
+        return listStores(new ListStoresRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ltr.search_features
@@ -493,6 +986,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Search for features in a feature store.
      */
     public SearchFeaturesResponse searchFeatures(SearchFeaturesRequest request) throws IOException, OpenSearchException {
+        return searchFeatures(request, ApiType.OSS);
+    }
+
+    /**
+     * Search for features in a feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public SearchFeaturesResponse searchFeatures(SearchFeaturesRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.search_features", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, SearchFeaturesRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -503,14 +1006,36 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final SearchFeaturesResponse searchFeatures(Function<SearchFeaturesRequest.Builder, ObjectBuilder<SearchFeaturesRequest>> fn)
         throws IOException, OpenSearchException {
-        return searchFeatures(fn.apply(new SearchFeaturesRequest.Builder()).build());
+        return searchFeatures(fn, ApiType.OSS);
+    }
+
+    /**
+     * Search for features in a feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link SearchFeaturesRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final SearchFeaturesResponse searchFeatures(
+        Function<SearchFeaturesRequest.Builder, ObjectBuilder<SearchFeaturesRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return searchFeatures(fn.apply(new SearchFeaturesRequest.Builder()).build(), type);
     }
 
     /**
      * Search for features in a feature store.
      */
     public final SearchFeaturesResponse searchFeatures() throws IOException, OpenSearchException {
-        return searchFeatures(new SearchFeaturesRequest.Builder().build());
+        return searchFeatures(ApiType.OSS);
+    }
+
+    /**
+     * Search for features in a feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final SearchFeaturesResponse searchFeatures(ApiType type) throws IOException, OpenSearchException {
+        return searchFeatures(new SearchFeaturesRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ltr.search_featuresets
@@ -519,6 +1044,17 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Search for feature sets in a feature store.
      */
     public SearchFeaturesetsResponse searchFeaturesets(SearchFeaturesetsRequest request) throws IOException, OpenSearchException {
+        return searchFeaturesets(request, ApiType.OSS);
+    }
+
+    /**
+     * Search for feature sets in a feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public SearchFeaturesetsResponse searchFeaturesets(SearchFeaturesetsRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ltr.search_featuresets", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, SearchFeaturesetsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -530,14 +1066,36 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
     public final SearchFeaturesetsResponse searchFeaturesets(
         Function<SearchFeaturesetsRequest.Builder, ObjectBuilder<SearchFeaturesetsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return searchFeaturesets(fn.apply(new SearchFeaturesetsRequest.Builder()).build());
+        return searchFeaturesets(fn, ApiType.OSS);
+    }
+
+    /**
+     * Search for feature sets in a feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link SearchFeaturesetsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final SearchFeaturesetsResponse searchFeaturesets(
+        Function<SearchFeaturesetsRequest.Builder, ObjectBuilder<SearchFeaturesetsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return searchFeaturesets(fn.apply(new SearchFeaturesetsRequest.Builder()).build(), type);
     }
 
     /**
      * Search for feature sets in a feature store.
      */
     public final SearchFeaturesetsResponse searchFeaturesets() throws IOException, OpenSearchException {
-        return searchFeaturesets(new SearchFeaturesetsRequest.Builder().build());
+        return searchFeaturesets(ApiType.OSS);
+    }
+
+    /**
+     * Search for feature sets in a feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final SearchFeaturesetsResponse searchFeaturesets(ApiType type) throws IOException, OpenSearchException {
+        return searchFeaturesets(new SearchFeaturesetsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ltr.search_models
@@ -546,6 +1104,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Search for models in a feature store.
      */
     public SearchModelsResponse searchModels(SearchModelsRequest request) throws IOException, OpenSearchException {
+        return searchModels(request, ApiType.OSS);
+    }
+
+    /**
+     * Search for models in a feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public SearchModelsResponse searchModels(SearchModelsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.search_models", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, SearchModelsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -556,14 +1124,36 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final SearchModelsResponse searchModels(Function<SearchModelsRequest.Builder, ObjectBuilder<SearchModelsRequest>> fn)
         throws IOException, OpenSearchException {
-        return searchModels(fn.apply(new SearchModelsRequest.Builder()).build());
+        return searchModels(fn, ApiType.OSS);
+    }
+
+    /**
+     * Search for models in a feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link SearchModelsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final SearchModelsResponse searchModels(
+        Function<SearchModelsRequest.Builder, ObjectBuilder<SearchModelsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return searchModels(fn.apply(new SearchModelsRequest.Builder()).build(), type);
     }
 
     /**
      * Search for models in a feature store.
      */
     public final SearchModelsResponse searchModels() throws IOException, OpenSearchException {
-        return searchModels(new SearchModelsRequest.Builder().build());
+        return searchModels(ApiType.OSS);
+    }
+
+    /**
+     * Search for models in a feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final SearchModelsResponse searchModels(ApiType type) throws IOException, OpenSearchException {
+        return searchModels(new SearchModelsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ltr.stats
@@ -572,6 +1162,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Provides information about the current status of the LTR plugin.
      */
     public LtrStatsResponse stats(LtrStatsRequest request) throws IOException, OpenSearchException {
+        return stats(request, ApiType.OSS);
+    }
+
+    /**
+     * Provides information about the current status of the LTR plugin.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public LtrStatsResponse stats(LtrStatsRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.stats", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, LtrStatsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -582,14 +1182,34 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final LtrStatsResponse stats(Function<LtrStatsRequest.Builder, ObjectBuilder<LtrStatsRequest>> fn) throws IOException,
         OpenSearchException {
-        return stats(fn.apply(new LtrStatsRequest.Builder()).build());
+        return stats(fn, ApiType.OSS);
+    }
+
+    /**
+     * Provides information about the current status of the LTR plugin.
+     *
+     * @param fn   a function that initializes a builder to create the {@link LtrStatsRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final LtrStatsResponse stats(Function<LtrStatsRequest.Builder, ObjectBuilder<LtrStatsRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return stats(fn.apply(new LtrStatsRequest.Builder()).build(), type);
     }
 
     /**
      * Provides information about the current status of the LTR plugin.
      */
     public final LtrStatsResponse stats() throws IOException, OpenSearchException {
-        return stats(new LtrStatsRequest.Builder().build());
+        return stats(ApiType.OSS);
+    }
+
+    /**
+     * Provides information about the current status of the LTR plugin.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final LtrStatsResponse stats(ApiType type) throws IOException, OpenSearchException {
+        return stats(new LtrStatsRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: ltr.update_feature
@@ -598,6 +1218,16 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Update a feature in the default feature store.
      */
     public UpdateFeatureResponse updateFeature(UpdateFeatureRequest request) throws IOException, OpenSearchException {
+        return updateFeature(request, ApiType.OSS);
+    }
+
+    /**
+     * Update a feature in the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public UpdateFeatureResponse updateFeature(UpdateFeatureRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ltr.update_feature", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, UpdateFeatureRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -608,7 +1238,20 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final UpdateFeatureResponse updateFeature(Function<UpdateFeatureRequest.Builder, ObjectBuilder<UpdateFeatureRequest>> fn)
         throws IOException, OpenSearchException {
-        return updateFeature(fn.apply(new UpdateFeatureRequest.Builder()).build());
+        return updateFeature(fn, ApiType.OSS);
+    }
+
+    /**
+     * Update a feature in the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link UpdateFeatureRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final UpdateFeatureResponse updateFeature(
+        Function<UpdateFeatureRequest.Builder, ObjectBuilder<UpdateFeatureRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return updateFeature(fn.apply(new UpdateFeatureRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ltr.update_featureset
@@ -617,6 +1260,17 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
      * Update a feature set in the default feature store.
      */
     public UpdateFeaturesetResponse updateFeatureset(UpdateFeaturesetRequest request) throws IOException, OpenSearchException {
+        return updateFeatureset(request, ApiType.OSS);
+    }
+
+    /**
+     * Update a feature set in the default feature store.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public UpdateFeaturesetResponse updateFeatureset(UpdateFeaturesetRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "ltr.update_featureset", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, UpdateFeaturesetRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -628,6 +1282,19 @@ public class OpenSearchLtrClient extends ApiClient<OpenSearchTransport, OpenSear
     public final UpdateFeaturesetResponse updateFeatureset(
         Function<UpdateFeaturesetRequest.Builder, ObjectBuilder<UpdateFeaturesetRequest>> fn
     ) throws IOException, OpenSearchException {
-        return updateFeatureset(fn.apply(new UpdateFeaturesetRequest.Builder()).build());
+        return updateFeatureset(fn, ApiType.OSS);
+    }
+
+    /**
+     * Update a feature set in the default feature store.
+     *
+     * @param fn   a function that initializes a builder to create the {@link UpdateFeaturesetRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final UpdateFeaturesetResponse updateFeatureset(
+        Function<UpdateFeaturesetRequest.Builder, ObjectBuilder<UpdateFeaturesetRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return updateFeatureset(fn.apply(new UpdateFeaturesetRequest.Builder()).build(), type);
     }
 }

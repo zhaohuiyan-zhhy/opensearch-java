@@ -17,6 +17,7 @@ import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
 import org.apache.hc.core5.http.HttpHost;
 import org.opensearch.client.json.jackson3.JacksonJsonpMapper;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
@@ -28,6 +29,8 @@ import org.opensearch.client.transport.httpclient5.ResponseException;
  * UltraWarm capacity. Mutating operations must reach the service and be rejected.
  */
 public final class AosUltrawarmLiveTest {
+    private static final ApiType API_TYPE = ApiType.AOS;
+
     private AosUltrawarmLiveTest() {}
 
     public static void main(String[] args) throws Exception {
@@ -54,39 +57,43 @@ public final class AosUltrawarmLiveTest {
 
         try {
             indexCreated = client.indices()
-                .create(request -> request.index(index).settings(settings -> settings.numberOfShards(1).numberOfReplicas(0)))
+                .create(
+                    request -> request.index(index).settings(settings -> settings.numberOfShards(1).numberOfReplicas(0)),
+                    API_TYPE
+                )
                 .acknowledged();
             require(indexCreated, "temporary index creation was not acknowledged");
 
-            recorder.requireSuccess("ultrawarm.list_migration_status", () -> client.ultrawarm().listMigrationStatus());
+            recorder.requireSuccess("ultrawarm.list_migration_status", () -> client.ultrawarm().listMigrationStatus(API_TYPE));
             recorder.allowSuccessOrServiceRejection(
                 "ultrawarm.get_migration_status",
-                () -> client.ultrawarm().getMigrationStatus(request -> request.index(index))
+                () -> client.ultrawarm().getMigrationStatus(request -> request.index(index), API_TYPE)
             );
             recorder.requireServiceRejection(
                 "ultrawarm.migrate_to_warm",
-                () -> client.ultrawarm().migrateToWarm(request -> request.index(index))
+                () -> client.ultrawarm().migrateToWarm(request -> request.index(index), API_TYPE)
             );
             recorder.allowSuccessOrServiceRejection(
                 "ultrawarm.migrate_to_hot",
-                () -> client.ultrawarm().migrateToHot(request -> request.index(index))
+                () -> client.ultrawarm().migrateToHot(request -> request.index(index), API_TYPE)
             );
             recorder.requireServiceRejection(
                 "ultrawarm.migrate_to_cold.ignore_timestamp",
-                () -> client.ultrawarm().migrateToCold(request -> request.index(index).ignore("timestamp"))
+                () -> client.ultrawarm().migrateToCold(request -> request.index(index).ignore("timestamp"), API_TYPE)
             );
             recorder.requireServiceRejection(
                 "ultrawarm.migrate_to_cold.time_range",
-                () -> client.ultrawarm().migrateToCold(request -> request.index(index).startTime("2020-01-01").endTime("2020-01-02"))
+                () -> client.ultrawarm()
+                    .migrateToCold(request -> request.index(index).startTime("2020-01-01").endTime("2020-01-02"), API_TYPE)
             );
             recorder.allowSuccessOrServiceRejection(
                 "ultrawarm.cancel_migration",
-                () -> client.ultrawarm().cancelMigration(request -> request.index(index))
+                () -> client.ultrawarm().cancelMigration(request -> request.index(index), API_TYPE)
             );
         } finally {
             if (indexCreated) {
                 require(
-                    client.indices().delete(request -> request.index(index)).acknowledged(),
+                    client.indices().delete(request -> request.index(index), API_TYPE).acknowledged(),
                     "temporary index deletion was not acknowledged"
                 );
             }

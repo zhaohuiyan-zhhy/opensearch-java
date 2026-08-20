@@ -34,6 +34,7 @@ package org.opensearch.client.opensearch.cat;
 
 import java.io.IOException;
 import javax.annotation.Nullable;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -64,6 +65,11 @@ public class OpenSearchCatClient extends OpenSearchCatClientBase<OpenSearchCatCl
      *
      */
     public HelpResponse help() throws IOException, OpenSearchException {
+        return help(ApiType.OSS);
+    }
+
+    public HelpResponse help(ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "cat.help", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequest(HelpRequest._INSTANCE, HelpRequest._ENDPOINT, this.transportOptions);
     }
 }

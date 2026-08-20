@@ -75,6 +75,9 @@ public final class RestoreSnapshotRequest extends RequestBase
         ToCopyableBuilder<RestoreSnapshotRequest.Builder, RestoreSnapshotRequest> {
 
     @Nullable
+    private final Boolean allowRegex;
+
+    @Nullable
     private final Time clusterManagerTimeout;
 
     @Nonnull
@@ -121,6 +124,9 @@ public final class RestoreSnapshotRequest extends RequestBase
     private final String snapshot;
 
     @Nullable
+    private final String sourceCollectionId;
+
+    @Nullable
     private final String sourceRemoteStoreRepository;
 
     @Nullable
@@ -133,6 +139,7 @@ public final class RestoreSnapshotRequest extends RequestBase
 
     private RestoreSnapshotRequest(Builder builder) {
         super(builder);
+        this.allowRegex = builder.allowRegex;
         this.clusterManagerTimeout = builder.clusterManagerTimeout;
         this.ignoreIndexSettings = ApiTypeHelper.unmodifiable(builder.ignoreIndexSettings);
         this.ignoreUnavailable = builder.ignoreUnavailable;
@@ -148,6 +155,7 @@ public final class RestoreSnapshotRequest extends RequestBase
         this.renameReplacement = builder.renameReplacement;
         this.repository = ApiTypeHelper.requireNonNull(builder.repository, this, "repository");
         this.snapshot = ApiTypeHelper.requireNonNull(builder.snapshot, this, "snapshot");
+        this.sourceCollectionId = builder.sourceCollectionId;
         this.sourceRemoteStoreRepository = builder.sourceRemoteStoreRepository;
         this.storageType = builder.storageType;
         this.waitForCompletion = builder.waitForCompletion;
@@ -155,6 +163,17 @@ public final class RestoreSnapshotRequest extends RequestBase
 
     public static RestoreSnapshotRequest of(Function<RestoreSnapshotRequest.Builder, ObjectBuilder<RestoreSnapshotRequest>> fn) {
         return fn.apply(new Builder()).build();
+    }
+
+    /**
+     * Interpret rename_pattern and rename_replacement as regular expressions.
+     * <p>
+     * API name: {@code allow_regex}
+     * </p>
+     */
+    @Nullable
+    public final Boolean allowRegex() {
+        return this.allowRegex;
     }
 
     /**
@@ -340,6 +359,17 @@ public final class RestoreSnapshotRequest extends RequestBase
     }
 
     /**
+     * The source collection ID used for cross-collection restore.
+     * <p>
+     * API name: {@code sourceCollectionId}
+     * </p>
+     */
+    @Nullable
+    public final String sourceCollectionId() {
+        return this.sourceCollectionId;
+    }
+
+    /**
      * The name of the remote store repository of the source index being restored. If not provided, the Snapshot Restore API will use the
      * repository that was registered when the snapshot was created.
      * <p>
@@ -389,6 +419,11 @@ public final class RestoreSnapshotRequest extends RequestBase
     }
 
     protected void serializeInternal(JsonGenerator generator, JsonpMapper mapper) {
+        if (this.allowRegex != null) {
+            generator.writeKey("allow_regex");
+            generator.write(this.allowRegex);
+        }
+
         if (ApiTypeHelper.isDefined(this.ignoreIndexSettings)) {
             generator.writeKey("ignore_index_settings");
             generator.writeStartArray();
@@ -452,6 +487,11 @@ public final class RestoreSnapshotRequest extends RequestBase
             generator.write(this.renameReplacement);
         }
 
+        if (this.sourceCollectionId != null) {
+            generator.writeKey("sourceCollectionId");
+            generator.write(this.sourceCollectionId);
+        }
+
         if (this.sourceRemoteStoreRepository != null) {
             generator.writeKey("source_remote_store_repository");
             generator.write(this.sourceRemoteStoreRepository);
@@ -481,6 +521,8 @@ public final class RestoreSnapshotRequest extends RequestBase
      */
     public static class Builder extends RequestBase.AbstractBuilder<Builder> implements CopyableBuilder<Builder, RestoreSnapshotRequest> {
         @Nullable
+        private Boolean allowRegex;
+        @Nullable
         private Time clusterManagerTimeout;
         @Nullable
         private List<String> ignoreIndexSettings;
@@ -509,6 +551,8 @@ public final class RestoreSnapshotRequest extends RequestBase
         private String repository;
         private String snapshot;
         @Nullable
+        private String sourceCollectionId;
+        @Nullable
         private String sourceRemoteStoreRepository;
         @Nullable
         private String storageType;
@@ -519,6 +563,7 @@ public final class RestoreSnapshotRequest extends RequestBase
 
         private Builder(RestoreSnapshotRequest o) {
             super(o);
+            this.allowRegex = o.allowRegex;
             this.clusterManagerTimeout = o.clusterManagerTimeout;
             this.ignoreIndexSettings = _listCopy(o.ignoreIndexSettings);
             this.ignoreUnavailable = o.ignoreUnavailable;
@@ -534,6 +579,7 @@ public final class RestoreSnapshotRequest extends RequestBase
             this.renameReplacement = o.renameReplacement;
             this.repository = o.repository;
             this.snapshot = o.snapshot;
+            this.sourceCollectionId = o.sourceCollectionId;
             this.sourceRemoteStoreRepository = o.sourceRemoteStoreRepository;
             this.storageType = o.storageType;
             this.waitForCompletion = o.waitForCompletion;
@@ -541,6 +587,7 @@ public final class RestoreSnapshotRequest extends RequestBase
 
         private Builder(Builder o) {
             super(o);
+            this.allowRegex = o.allowRegex;
             this.clusterManagerTimeout = o.clusterManagerTimeout;
             this.ignoreIndexSettings = _listCopy(o.ignoreIndexSettings);
             this.ignoreUnavailable = o.ignoreUnavailable;
@@ -556,6 +603,7 @@ public final class RestoreSnapshotRequest extends RequestBase
             this.renameReplacement = o.renameReplacement;
             this.repository = o.repository;
             this.snapshot = o.snapshot;
+            this.sourceCollectionId = o.sourceCollectionId;
             this.sourceRemoteStoreRepository = o.sourceRemoteStoreRepository;
             this.storageType = o.storageType;
             this.waitForCompletion = o.waitForCompletion;
@@ -570,6 +618,18 @@ public final class RestoreSnapshotRequest extends RequestBase
         @Override
         @Nonnull
         protected Builder self() {
+            return this;
+        }
+
+        /**
+         * Interpret rename_pattern and rename_replacement as regular expressions.
+         * <p>
+         * API name: {@code allow_regex}
+         * </p>
+         */
+        @Nonnull
+        public final Builder allowRegex(@Nullable Boolean value) {
+            this.allowRegex = value;
             return this;
         }
 
@@ -844,6 +904,18 @@ public final class RestoreSnapshotRequest extends RequestBase
         }
 
         /**
+         * The source collection ID used for cross-collection restore.
+         * <p>
+         * API name: {@code sourceCollectionId}
+         * </p>
+         */
+        @Nonnull
+        public final Builder sourceCollectionId(@Nullable String value) {
+            this.sourceCollectionId = value;
+            return this;
+        }
+
+        /**
          * The name of the remote store repository of the source index being restored. If not provided, the Snapshot Restore API will use
          * the repository that was registered when the snapshot was created.
          * <p>
@@ -911,6 +983,7 @@ public final class RestoreSnapshotRequest extends RequestBase
     );
 
     protected static void setupRestoreSnapshotRequestDeserializer(ObjectDeserializer<RestoreSnapshotRequest.Builder> op) {
+        op.add(Builder::allowRegex, JsonpDeserializer.booleanDeserializer(), "allow_regex");
         op.add(
             Builder::ignoreIndexSettings,
             JsonpDeserializer.arrayDeserializer(JsonpDeserializer.stringDeserializer()),
@@ -926,6 +999,7 @@ public final class RestoreSnapshotRequest extends RequestBase
         op.add(Builder::renameAliasReplacement, JsonpDeserializer.stringDeserializer(), "rename_alias_replacement");
         op.add(Builder::renamePattern, JsonpDeserializer.stringDeserializer(), "rename_pattern");
         op.add(Builder::renameReplacement, JsonpDeserializer.stringDeserializer(), "rename_replacement");
+        op.add(Builder::sourceCollectionId, JsonpDeserializer.stringDeserializer(), "sourceCollectionId");
         op.add(Builder::sourceRemoteStoreRepository, JsonpDeserializer.stringDeserializer(), "source_remote_store_repository");
         op.add(Builder::storageType, JsonpDeserializer.stringDeserializer(), "storage_type");
     }
@@ -976,6 +1050,7 @@ public final class RestoreSnapshotRequest extends RequestBase
     @Override
     public int hashCode() {
         int result = 17;
+        result = 31 * result + Objects.hashCode(this.allowRegex);
         result = 31 * result + Objects.hashCode(this.clusterManagerTimeout);
         result = 31 * result + Objects.hashCode(this.ignoreIndexSettings);
         result = 31 * result + Objects.hashCode(this.ignoreUnavailable);
@@ -991,6 +1066,7 @@ public final class RestoreSnapshotRequest extends RequestBase
         result = 31 * result + Objects.hashCode(this.renameReplacement);
         result = 31 * result + this.repository.hashCode();
         result = 31 * result + this.snapshot.hashCode();
+        result = 31 * result + Objects.hashCode(this.sourceCollectionId);
         result = 31 * result + Objects.hashCode(this.sourceRemoteStoreRepository);
         result = 31 * result + Objects.hashCode(this.storageType);
         result = 31 * result + Objects.hashCode(this.waitForCompletion);
@@ -1002,7 +1078,8 @@ public final class RestoreSnapshotRequest extends RequestBase
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         RestoreSnapshotRequest other = (RestoreSnapshotRequest) o;
-        return Objects.equals(this.clusterManagerTimeout, other.clusterManagerTimeout)
+        return Objects.equals(this.allowRegex, other.allowRegex)
+            && Objects.equals(this.clusterManagerTimeout, other.clusterManagerTimeout)
             && Objects.equals(this.ignoreIndexSettings, other.ignoreIndexSettings)
             && Objects.equals(this.ignoreUnavailable, other.ignoreUnavailable)
             && Objects.equals(this.includeAliases, other.includeAliases)
@@ -1017,6 +1094,7 @@ public final class RestoreSnapshotRequest extends RequestBase
             && Objects.equals(this.renameReplacement, other.renameReplacement)
             && this.repository.equals(other.repository)
             && this.snapshot.equals(other.snapshot)
+            && Objects.equals(this.sourceCollectionId, other.sourceCollectionId)
             && Objects.equals(this.sourceRemoteStoreRepository, other.sourceRemoteStoreRepository)
             && Objects.equals(this.storageType, other.storageType)
             && Objects.equals(this.waitForCompletion, other.waitForCompletion);

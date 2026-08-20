@@ -36,6 +36,31 @@
     @Deprecated
     {{/deprecation}}
     public{{#responseType.targetShape.typeParameters}} {{.}}{{/responseType.targetShape.typeParameters}} {{#async}}{{TYPES.Java.Util.Concurrent.CompletableFuture}}<{{/async}}{{responseType.selfType}}{{#async}}>{{/async}} {{#camelCase}}{{id}}{{/camelCase}}({{type}} request{{#responseType.targetShape.typeParameters}}{{#typeParameterDefinitions}}, Class<{{name}}> {{#camelCase}}{{name}}{{/camelCase}}Class{{/typeParameterDefinitions}}{{/responseType.targetShape.typeParameters}}) throws {{TYPES.Java.Io.IOException}}, {{TYPES.Client.OpenSearch._Types.OpenSearchException}} {
+        return {{#camelCase}}{{id}}{{/camelCase}}(request{{#responseType.targetShape.typeParameters}}{{#typeParameterDefinitions}}, {{#camelCase}}{{name}}{{/camelCase}}Class{{/typeParameterDefinitions}}{{/responseType.targetShape.typeParameters}}, {{TYPES.Client.OpenSearch.ApiType}}.OSS);
+    }
+
+    /**
+     * {{description}}
+     *
+     * @param type target OpenSearch API distribution
+     */
+    {{#deprecation}}
+    @Deprecated
+    {{/deprecation}}
+    public{{#responseType.targetShape.typeParameters}} {{.}}{{/responseType.targetShape.typeParameters}} {{#async}}{{TYPES.Java.Util.Concurrent.CompletableFuture}}<{{/async}}{{responseType.selfType}}{{#async}}>{{/async}} {{#camelCase}}{{id}}{{/camelCase}}({{type}} request{{#responseType.targetShape.typeParameters}}{{#typeParameterDefinitions}}, Class<{{name}}> {{#camelCase}}{{name}}{{/camelCase}}Class{{/typeParameterDefinitions}}{{/responseType.targetShape.typeParameters}}, {{TYPES.Client.OpenSearch.ApiType}} type) throws {{TYPES.Java.Io.IOException}}, {{TYPES.Client.OpenSearch._Types.OpenSearchException}} {
+        {{TYPES.Client.OpenSearch.ApiType}}.requireSupported(type, "{{operationGroup}}"{{#clientApiTypes}}, {{TYPES.Client.OpenSearch.ApiType}}.{{.}}{{/clientApiTypes}});
+    {{#apiTypePathConstraints}}
+        {{TYPES.Client.OpenSearch.ApiType}}.requirePathSupported(
+            type,
+            {{TYPES.Client.OpenSearch.ApiType}}.{{clientApiType}},
+            "{{operationGroup}}",
+            0{{#pathParamMasks}}{{#field}} | ({{#type.isDefined}}request.{{name}}(){{/type.isDefined}} ? {{mask}} : 0){{/field}}{{/pathParamMasks}}{{#supportedMasks}},
+            {{.}}{{/supportedMasks}}
+        );
+    {{/apiTypePathConstraints}}
+    {{#restrictedFields}}
+        {{TYPES.Client.OpenSearch.ApiType}}.requireFieldSupported(type, "{{operationGroup}}", "{{wireName}}", {{#type.isDefined}}request.{{name}}(){{/type.isDefined}}{{#clientApiTypes}}, {{TYPES.Client.OpenSearch.ApiType}}.{{.}}{{/clientApiTypes}});
+    {{/restrictedFields}}
     {{#responseType.targetShape.typeParameters}}
         @SuppressWarnings("unchecked")
         {{TYPES.Client.Transport.JsonEndpoint}}<{{type}}, {{responseType.selfType}}, {{TYPES.Client.OpenSearch._Types.ErrorResponse}}> endpoint = ({{TYPES.Client.Transport.JsonEndpoint}}<{{type}}, {{responseType.selfType}}, {{TYPES.Client.OpenSearch._Types.ErrorResponse}}>) {{type}}._ENDPOINT;
@@ -64,7 +89,21 @@
     {{/deprecation}}
     public final{{#responseType.targetShape.typeParameters}} {{.}}{{/responseType.targetShape.typeParameters}} {{#async}}{{TYPES.Java.Util.Concurrent.CompletableFuture}}<{{/async}}{{responseType.selfType}}{{#async}}>{{/async}} {{#camelCase}}{{id}}{{/camelCase}}({{type.builderFnType}} fn{{#responseType.targetShape.typeParameters}}{{#typeParameterDefinitions}}, Class<{{name}}> {{#camelCase}}{{name}}{{/camelCase}}Class{{/typeParameterDefinitions}}{{/responseType.targetShape.typeParameters}})
             throws IOException, OpenSearchException {
-        return {{#camelCase}}{{id}}{{/camelCase}}(fn.apply(new {{type.builderType}}()).build(){{#responseType.targetShape.typeParameters}}{{#typeParameterDefinitions}}, {{#camelCase}}{{name}}{{/camelCase}}Class{{/typeParameterDefinitions}}{{/responseType.targetShape.typeParameters}});
+        return {{#camelCase}}{{id}}{{/camelCase}}(fn{{#responseType.targetShape.typeParameters}}{{#typeParameterDefinitions}}, {{#camelCase}}{{name}}{{/camelCase}}Class{{/typeParameterDefinitions}}{{/responseType.targetShape.typeParameters}}, {{TYPES.Client.OpenSearch.ApiType}}.OSS);
+    }
+
+    /**
+     * {{description}}
+     *
+     * @param fn a function that initializes a builder to create the {@link {{type}}}
+     * @param type target OpenSearch API distribution
+     */
+    {{#deprecation}}
+    @Deprecated
+    {{/deprecation}}
+    public final{{#responseType.targetShape.typeParameters}} {{.}}{{/responseType.targetShape.typeParameters}} {{#async}}{{TYPES.Java.Util.Concurrent.CompletableFuture}}<{{/async}}{{responseType.selfType}}{{#async}}>{{/async}} {{#camelCase}}{{id}}{{/camelCase}}({{type.builderFnType}} fn{{#responseType.targetShape.typeParameters}}{{#typeParameterDefinitions}}, Class<{{name}}> {{#camelCase}}{{name}}{{/camelCase}}Class{{/typeParameterDefinitions}}{{/responseType.targetShape.typeParameters}}, {{TYPES.Client.OpenSearch.ApiType}} type)
+            throws IOException, OpenSearchException {
+        return {{#camelCase}}{{id}}{{/camelCase}}(fn.apply(new {{type.builderType}}()).build(){{#responseType.targetShape.typeParameters}}{{#typeParameterDefinitions}}, {{#camelCase}}{{name}}{{/camelCase}}Class{{/typeParameterDefinitions}}{{/responseType.targetShape.typeParameters}}, type);
     }
     {{^hasAnyRequiredFields}}
 
@@ -76,7 +115,20 @@
     {{/deprecation}}
     public final {{#async}}{{TYPES.Java.Util.Concurrent.CompletableFuture}}<{{/async}}{{responseType}}{{#async}}>{{/async}} {{#camelCase}}{{id}}{{/camelCase}}()
             throws IOException, OpenSearchException {
-        return {{#camelCase}}{{id}}{{/camelCase}}(new {{type.builderType}}().build());
+        return {{#camelCase}}{{id}}{{/camelCase}}({{TYPES.Client.OpenSearch.ApiType}}.OSS);
+    }
+
+    /**
+     * {{description}}
+     *
+     * @param type target OpenSearch API distribution
+     */
+    {{#deprecation}}
+    @Deprecated
+    {{/deprecation}}
+    public final {{#async}}{{TYPES.Java.Util.Concurrent.CompletableFuture}}<{{/async}}{{responseType}}{{#async}}>{{/async}} {{#camelCase}}{{id}}{{/camelCase}}({{TYPES.Client.OpenSearch.ApiType}} type)
+            throws IOException, OpenSearchException {
+        return {{#camelCase}}{{id}}{{/camelCase}}(new {{type.builderType}}().build(), type);
     }
     {{/hasAnyRequiredFields}}
 {{/operations}}

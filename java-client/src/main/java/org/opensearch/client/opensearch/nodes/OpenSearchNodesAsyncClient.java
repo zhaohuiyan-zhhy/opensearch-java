@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import javax.annotation.Nullable;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.ErrorResponse;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.JsonEndpoint;
@@ -70,6 +71,12 @@ public class OpenSearchNodesAsyncClient extends OpenSearchNodesAsyncClientBase<O
      */
 
     public CompletableFuture<HotThreadsResponse> hotThreads(HotThreadsRequest request) throws IOException, OpenSearchException {
+        return hotThreads(request, ApiType.OSS);
+    }
+
+    public CompletableFuture<HotThreadsResponse> hotThreads(HotThreadsRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "nodes.hot_threads", ApiType.AOS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<HotThreadsRequest, HotThreadsResponse, ErrorResponse> endpoint = (JsonEndpoint<
             HotThreadsRequest,
@@ -90,7 +97,14 @@ public class OpenSearchNodesAsyncClient extends OpenSearchNodesAsyncClientBase<O
 
     public final CompletableFuture<HotThreadsResponse> hotThreads(Function<HotThreadsRequest.Builder, ObjectBuilder<HotThreadsRequest>> fn)
         throws IOException, OpenSearchException {
-        return hotThreads(fn.apply(new HotThreadsRequest.Builder()).build());
+        return hotThreads(fn, ApiType.OSS);
+    }
+
+    public final CompletableFuture<HotThreadsResponse> hotThreads(
+        Function<HotThreadsRequest.Builder, ObjectBuilder<HotThreadsRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return hotThreads(fn.apply(new HotThreadsRequest.Builder()).build(), type);
     }
 
     /**
@@ -100,10 +114,10 @@ public class OpenSearchNodesAsyncClient extends OpenSearchNodesAsyncClientBase<O
      */
 
     public CompletableFuture<HotThreadsResponse> hotThreads() throws IOException, OpenSearchException {
-        return this.transport.performRequestAsync(
-            new HotThreadsRequest.Builder().build(),
-            HotThreadsRequest._ENDPOINT,
-            this.transportOptions
-        );
+        return hotThreads(ApiType.OSS);
+    }
+
+    public CompletableFuture<HotThreadsResponse> hotThreads(ApiType type) throws IOException, OpenSearchException {
+        return hotThreads(new HotThreadsRequest.Builder().build(), type);
     }
 }

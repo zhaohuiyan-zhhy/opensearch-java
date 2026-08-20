@@ -49,13 +49,13 @@ fi
 
 echo "AOS endpoint: $AOS_ENDPOINT"
 echo "AOS username: $AOS_USERNAME"
-echo "Generating the AOS client..."
-./gradlew :java-codegen:generateAosClient
+echo "Generating the unified OSS/AOS/AOSS client..."
+./gradlew :java-codegen:run
 
 echo "Packaging the JAR and running the real-domain test..."
 ./gradlew :java-client:runAosJarTest
 
-JAR_PATH="$(find java-client/build/libs -maxdepth 1 -name 'opensearch-java-aos-*.jar' -type f | sort | tail -n 1)"
+JAR_PATH="$(find java-client/build/libs -maxdepth 1 -name 'opensearch-java-[0-9]*.jar' -type f | sort | tail -n 1)"
 if [[ -z "$JAR_PATH" ]]; then
     echo "The AOS JAR was not found after a successful build." >&2
     exit 1

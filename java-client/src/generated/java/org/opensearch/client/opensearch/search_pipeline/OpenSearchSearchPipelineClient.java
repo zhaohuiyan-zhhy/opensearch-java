@@ -41,6 +41,7 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -70,6 +71,16 @@ public class OpenSearchSearchPipelineClient extends ApiClient<OpenSearchTranspor
      * Deletes the specified search pipeline.
      */
     public DeleteSearchPipelineResponse delete(DeleteSearchPipelineRequest request) throws IOException, OpenSearchException {
+        return delete(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes the specified search pipeline.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteSearchPipelineResponse delete(DeleteSearchPipelineRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_pipeline.delete", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteSearchPipelineRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -81,7 +92,20 @@ public class OpenSearchSearchPipelineClient extends ApiClient<OpenSearchTranspor
     public final DeleteSearchPipelineResponse delete(
         Function<DeleteSearchPipelineRequest.Builder, ObjectBuilder<DeleteSearchPipelineRequest>> fn
     ) throws IOException, OpenSearchException {
-        return delete(fn.apply(new DeleteSearchPipelineRequest.Builder()).build());
+        return delete(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes the specified search pipeline.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteSearchPipelineRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteSearchPipelineResponse delete(
+        Function<DeleteSearchPipelineRequest.Builder, ObjectBuilder<DeleteSearchPipelineRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return delete(fn.apply(new DeleteSearchPipelineRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: search_pipeline.get
@@ -90,6 +114,16 @@ public class OpenSearchSearchPipelineClient extends ApiClient<OpenSearchTranspor
      * Retrieves information about a specified search pipeline.
      */
     public GetSearchPipelineResponse get(GetSearchPipelineRequest request) throws IOException, OpenSearchException {
+        return get(request, ApiType.OSS);
+    }
+
+    /**
+     * Retrieves information about a specified search pipeline.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public GetSearchPipelineResponse get(GetSearchPipelineRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_pipeline.get", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetSearchPipelineRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -100,14 +134,36 @@ public class OpenSearchSearchPipelineClient extends ApiClient<OpenSearchTranspor
      */
     public final GetSearchPipelineResponse get(Function<GetSearchPipelineRequest.Builder, ObjectBuilder<GetSearchPipelineRequest>> fn)
         throws IOException, OpenSearchException {
-        return get(fn.apply(new GetSearchPipelineRequest.Builder()).build());
+        return get(fn, ApiType.OSS);
+    }
+
+    /**
+     * Retrieves information about a specified search pipeline.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetSearchPipelineRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final GetSearchPipelineResponse get(
+        Function<GetSearchPipelineRequest.Builder, ObjectBuilder<GetSearchPipelineRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return get(fn.apply(new GetSearchPipelineRequest.Builder()).build(), type);
     }
 
     /**
      * Retrieves information about a specified search pipeline.
      */
     public final GetSearchPipelineResponse get() throws IOException, OpenSearchException {
-        return get(new GetSearchPipelineRequest.Builder().build());
+        return get(ApiType.OSS);
+    }
+
+    /**
+     * Retrieves information about a specified search pipeline.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final GetSearchPipelineResponse get(ApiType type) throws IOException, OpenSearchException {
+        return get(new GetSearchPipelineRequest.Builder().build(), type);
     }
 
     // ----- Endpoint: search_pipeline.put
@@ -116,6 +172,16 @@ public class OpenSearchSearchPipelineClient extends ApiClient<OpenSearchTranspor
      * Creates or replaces the specified search pipeline.
      */
     public PutSearchPipelineResponse put(PutSearchPipelineRequest request) throws IOException, OpenSearchException {
+        return put(request, ApiType.OSS);
+    }
+
+    /**
+     * Creates or replaces the specified search pipeline.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public PutSearchPipelineResponse put(PutSearchPipelineRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "search_pipeline.put", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, PutSearchPipelineRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -126,6 +192,19 @@ public class OpenSearchSearchPipelineClient extends ApiClient<OpenSearchTranspor
      */
     public final PutSearchPipelineResponse put(Function<PutSearchPipelineRequest.Builder, ObjectBuilder<PutSearchPipelineRequest>> fn)
         throws IOException, OpenSearchException {
-        return put(fn.apply(new PutSearchPipelineRequest.Builder()).build());
+        return put(fn, ApiType.OSS);
+    }
+
+    /**
+     * Creates or replaces the specified search pipeline.
+     *
+     * @param fn   a function that initializes a builder to create the {@link PutSearchPipelineRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final PutSearchPipelineResponse put(
+        Function<PutSearchPipelineRequest.Builder, ObjectBuilder<PutSearchPipelineRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return put(fn.apply(new PutSearchPipelineRequest.Builder()).build(), type);
     }
 }

@@ -14,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import org.apache.logging.log4j.core.util.Throwables;
 import org.junit.Test;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 
 // It would be nice to extend AbstractAsyncStracktraceIT.
@@ -21,7 +22,7 @@ public class AwsSdk2AsyncStacktraceIT extends AwsSdk2TransportTestCase {
     @Test
     public void testFailureFromClientPreservesStacktraceOfCaller() throws Exception {
         final OpenSearchClient client = getClient(false, null, null);
-        Exception thrown = assertThrows(Exception.class, () -> client.indices().get(g -> g.index("nonexisting-index")));
+        Exception thrown = assertThrows(Exception.class, () -> client.indices().get(g -> g.index("nonexisting-index"), ApiType.OSS));
 
         List<String> stacktraceElements = Throwables.toStringList(thrown);
         boolean someElementContainsCallerMethodName = stacktraceElements.stream()

@@ -42,6 +42,7 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -72,6 +73,16 @@ public class OpenSearchUbiAsyncClient extends ApiClient<OpenSearchTransport, Ope
      * Initializes the UBI indexes.
      */
     public CompletableFuture<BooleanResponse> initialize(InitializeRequest request) throws IOException, OpenSearchException {
+        return initialize(request, ApiType.OSS);
+    }
+
+    /**
+     * Initializes the UBI indexes.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public CompletableFuture<BooleanResponse> initialize(InitializeRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ubi.initialize", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, InitializeRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -82,13 +93,35 @@ public class OpenSearchUbiAsyncClient extends ApiClient<OpenSearchTransport, Ope
      */
     public final CompletableFuture<BooleanResponse> initialize(Function<InitializeRequest.Builder, ObjectBuilder<InitializeRequest>> fn)
         throws IOException, OpenSearchException {
-        return initialize(fn.apply(new InitializeRequest.Builder()).build());
+        return initialize(fn, ApiType.OSS);
+    }
+
+    /**
+     * Initializes the UBI indexes.
+     *
+     * @param fn   a function that initializes a builder to create the {@link InitializeRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<BooleanResponse> initialize(
+        Function<InitializeRequest.Builder, ObjectBuilder<InitializeRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return initialize(fn.apply(new InitializeRequest.Builder()).build(), type);
     }
 
     /**
      * Initializes the UBI indexes.
      */
     public final CompletableFuture<BooleanResponse> initialize() throws IOException, OpenSearchException {
-        return initialize(new InitializeRequest.Builder().build());
+        return initialize(ApiType.OSS);
+    }
+
+    /**
+     * Initializes the UBI indexes.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final CompletableFuture<BooleanResponse> initialize(ApiType type) throws IOException, OpenSearchException {
+        return initialize(new InitializeRequest.Builder().build(), type);
     }
 }

@@ -102,6 +102,8 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> implements T
     @Nullable
     private Boolean isGenericTypeParameter;
     @Nullable
+    private final List<String> clientApiTypes;
+    @Nullable
     private OpenApiSchema $extends;
     private boolean isGeneric;
     private boolean isInstantiatedGeneric;
@@ -132,6 +134,7 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> implements T
         versionDeprecated = builder.versionDeprecated;
         supportsTypedKeys = builder.supportsTypedKeys;
         isGenericTypeParameter = builder.isGenericTypeParameter;
+        clientApiTypes = builder.clientApiTypes;
         set$extends(builder.$extends);
     }
 
@@ -181,6 +184,7 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> implements T
 
         supportsTypedKeys = Maps.tryGet(extensions, "x-supports-typed-keys").map(Boolean.class::cast).orElse(null);
         isGenericTypeParameter = Maps.tryGet(extensions, "x-is-generic-type-parameter").map(Boolean.class::cast).orElse(null);
+        clientApiTypes = Maps.tryGet(extensions, "x-client-api-types").map(v -> (List<String>) v).orElse(null);
     }
 
     @Override
@@ -229,6 +233,11 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> implements T
     @Nonnull
     public Optional<String> getDescription() {
         return Optional.ofNullable(description);
+    }
+
+    @Nonnull
+    public List<String> getClientApiTypes() {
+        return clientApiTypes == null ? List.of() : List.copyOf(clientApiTypes);
     }
 
     public void setDescription(@Nullable String description) {
@@ -755,6 +764,9 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> implements T
         if (isGenericTypeParameter != null) {
             generator.writeField("x-is-generic-type-parameter", isGenericTypeParameter);
         }
+        if (clientApiTypes != null) {
+            generator.writeField("x-client-api-types", clientApiTypes);
+        }
         if ($extends != null) {
             generator.writeField("$extends", $extends);
         }
@@ -792,7 +804,8 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> implements T
             .withVersionRemoved(versionRemoved)
             .withVersionDeprecated(versionDeprecated)
             .withSupportsTypedKeys(supportsTypedKeys)
-            .withIsGenericTypeParameter(isGenericTypeParameter);
+            .withIsGenericTypeParameter(isGenericTypeParameter)
+            .withClientApiTypes(clientApiTypes);
     }
 
     @Nonnull
@@ -849,6 +862,8 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> implements T
         private Boolean supportsTypedKeys;
         @Nullable
         private Boolean isGenericTypeParameter;
+        @Nullable
+        private List<String> clientApiTypes;
         @Nullable
         private OpenApiSchema $extends;
 
@@ -1056,6 +1071,12 @@ public class OpenApiSchema extends OpenApiRefElement<OpenApiSchema> implements T
         @Nonnull
         public Builder withIsGenericTypeParameter(@Nullable Boolean isGenericTypeParameter) {
             this.isGenericTypeParameter = isGenericTypeParameter;
+            return this;
+        }
+
+        @Nonnull
+        public Builder withClientApiTypes(@Nullable List<String> clientApiTypes) {
+            this.clientApiTypes = clientApiTypes;
             return this;
         }
 

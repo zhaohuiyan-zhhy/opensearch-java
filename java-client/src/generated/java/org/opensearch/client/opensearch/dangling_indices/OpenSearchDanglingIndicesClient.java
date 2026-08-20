@@ -41,6 +41,7 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -70,6 +71,17 @@ public class OpenSearchDanglingIndicesClient extends ApiClient<OpenSearchTranspo
      * Deletes the specified dangling index.
      */
     public DeleteDanglingIndexResponse deleteDanglingIndex(DeleteDanglingIndexRequest request) throws IOException, OpenSearchException {
+        return deleteDanglingIndex(request, ApiType.OSS);
+    }
+
+    /**
+     * Deletes the specified dangling index.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public DeleteDanglingIndexResponse deleteDanglingIndex(DeleteDanglingIndexRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "dangling_indices.delete_dangling_index", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteDanglingIndexRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -81,7 +93,20 @@ public class OpenSearchDanglingIndicesClient extends ApiClient<OpenSearchTranspo
     public final DeleteDanglingIndexResponse deleteDanglingIndex(
         Function<DeleteDanglingIndexRequest.Builder, ObjectBuilder<DeleteDanglingIndexRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteDanglingIndex(fn.apply(new DeleteDanglingIndexRequest.Builder()).build());
+        return deleteDanglingIndex(fn, ApiType.OSS);
+    }
+
+    /**
+     * Deletes the specified dangling index.
+     *
+     * @param fn   a function that initializes a builder to create the {@link DeleteDanglingIndexRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final DeleteDanglingIndexResponse deleteDanglingIndex(
+        Function<DeleteDanglingIndexRequest.Builder, ObjectBuilder<DeleteDanglingIndexRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return deleteDanglingIndex(fn.apply(new DeleteDanglingIndexRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: dangling_indices.import_dangling_index
@@ -90,6 +115,17 @@ public class OpenSearchDanglingIndicesClient extends ApiClient<OpenSearchTranspo
      * Imports the specified dangling index.
      */
     public ImportDanglingIndexResponse importDanglingIndex(ImportDanglingIndexRequest request) throws IOException, OpenSearchException {
+        return importDanglingIndex(request, ApiType.OSS);
+    }
+
+    /**
+     * Imports the specified dangling index.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public ImportDanglingIndexResponse importDanglingIndex(ImportDanglingIndexRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "dangling_indices.import_dangling_index", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ImportDanglingIndexRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -101,7 +137,20 @@ public class OpenSearchDanglingIndicesClient extends ApiClient<OpenSearchTranspo
     public final ImportDanglingIndexResponse importDanglingIndex(
         Function<ImportDanglingIndexRequest.Builder, ObjectBuilder<ImportDanglingIndexRequest>> fn
     ) throws IOException, OpenSearchException {
-        return importDanglingIndex(fn.apply(new ImportDanglingIndexRequest.Builder()).build());
+        return importDanglingIndex(fn, ApiType.OSS);
+    }
+
+    /**
+     * Imports the specified dangling index.
+     *
+     * @param fn   a function that initializes a builder to create the {@link ImportDanglingIndexRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final ImportDanglingIndexResponse importDanglingIndex(
+        Function<ImportDanglingIndexRequest.Builder, ObjectBuilder<ImportDanglingIndexRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return importDanglingIndex(fn.apply(new ImportDanglingIndexRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: dangling_indices.list_dangling_indices
@@ -110,6 +159,17 @@ public class OpenSearchDanglingIndicesClient extends ApiClient<OpenSearchTranspo
      * Returns all dangling indexes.
      */
     public ListDanglingIndicesResponse listDanglingIndices(ListDanglingIndicesRequest request) throws IOException, OpenSearchException {
+        return listDanglingIndices(request, ApiType.OSS);
+    }
+
+    /**
+     * Returns all dangling indexes.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public ListDanglingIndicesResponse listDanglingIndices(ListDanglingIndicesRequest request, ApiType type) throws IOException,
+        OpenSearchException {
+        ApiType.requireSupported(type, "dangling_indices.list_dangling_indices", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ListDanglingIndicesRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -121,13 +181,35 @@ public class OpenSearchDanglingIndicesClient extends ApiClient<OpenSearchTranspo
     public final ListDanglingIndicesResponse listDanglingIndices(
         Function<ListDanglingIndicesRequest.Builder, ObjectBuilder<ListDanglingIndicesRequest>> fn
     ) throws IOException, OpenSearchException {
-        return listDanglingIndices(fn.apply(new ListDanglingIndicesRequest.Builder()).build());
+        return listDanglingIndices(fn, ApiType.OSS);
+    }
+
+    /**
+     * Returns all dangling indexes.
+     *
+     * @param fn   a function that initializes a builder to create the {@link ListDanglingIndicesRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final ListDanglingIndicesResponse listDanglingIndices(
+        Function<ListDanglingIndicesRequest.Builder, ObjectBuilder<ListDanglingIndicesRequest>> fn,
+        ApiType type
+    ) throws IOException, OpenSearchException {
+        return listDanglingIndices(fn.apply(new ListDanglingIndicesRequest.Builder()).build(), type);
     }
 
     /**
      * Returns all dangling indexes.
      */
     public final ListDanglingIndicesResponse listDanglingIndices() throws IOException, OpenSearchException {
-        return listDanglingIndices(new ListDanglingIndicesRequest.Builder().build());
+        return listDanglingIndices(ApiType.OSS);
+    }
+
+    /**
+     * Returns all dangling indexes.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public final ListDanglingIndicesResponse listDanglingIndices(ApiType type) throws IOException, OpenSearchException {
+        return listDanglingIndices(new ListDanglingIndicesRequest.Builder().build(), type);
     }
 }

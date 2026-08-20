@@ -41,6 +41,7 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -70,6 +71,16 @@ public class OpenSearchIngestionClient extends ApiClient<OpenSearchTransport, Op
      * Use this API to retrieve the ingestion state for a given index.
      */
     public GetStateResponse getState(GetStateRequest request) throws IOException, OpenSearchException {
+        return getState(request, ApiType.OSS);
+    }
+
+    /**
+     * Use this API to retrieve the ingestion state for a given index.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public GetStateResponse getState(GetStateRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ingestion.get_state", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetStateRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -80,7 +91,18 @@ public class OpenSearchIngestionClient extends ApiClient<OpenSearchTransport, Op
      */
     public final GetStateResponse getState(Function<GetStateRequest.Builder, ObjectBuilder<GetStateRequest>> fn) throws IOException,
         OpenSearchException {
-        return getState(fn.apply(new GetStateRequest.Builder()).build());
+        return getState(fn, ApiType.OSS);
+    }
+
+    /**
+     * Use this API to retrieve the ingestion state for a given index.
+     *
+     * @param fn   a function that initializes a builder to create the {@link GetStateRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final GetStateResponse getState(Function<GetStateRequest.Builder, ObjectBuilder<GetStateRequest>> fn, ApiType type)
+        throws IOException, OpenSearchException {
+        return getState(fn.apply(new GetStateRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ingestion.pause
@@ -89,6 +111,16 @@ public class OpenSearchIngestionClient extends ApiClient<OpenSearchTransport, Op
      * Use this API to pause ingestion for a given index.
      */
     public PauseResponse pause(PauseRequest request) throws IOException, OpenSearchException {
+        return pause(request, ApiType.OSS);
+    }
+
+    /**
+     * Use this API to pause ingestion for a given index.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public PauseResponse pause(PauseRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ingestion.pause", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, PauseRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -99,7 +131,18 @@ public class OpenSearchIngestionClient extends ApiClient<OpenSearchTransport, Op
      */
     public final PauseResponse pause(Function<PauseRequest.Builder, ObjectBuilder<PauseRequest>> fn) throws IOException,
         OpenSearchException {
-        return pause(fn.apply(new PauseRequest.Builder()).build());
+        return pause(fn, ApiType.OSS);
+    }
+
+    /**
+     * Use this API to pause ingestion for a given index.
+     *
+     * @param fn   a function that initializes a builder to create the {@link PauseRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final PauseResponse pause(Function<PauseRequest.Builder, ObjectBuilder<PauseRequest>> fn, ApiType type) throws IOException,
+        OpenSearchException {
+        return pause(fn.apply(new PauseRequest.Builder()).build(), type);
     }
 
     // ----- Endpoint: ingestion.resume
@@ -108,6 +151,16 @@ public class OpenSearchIngestionClient extends ApiClient<OpenSearchTransport, Op
      * Use this API to resume ingestion for the given index.
      */
     public ResumeResponse resume(ResumeRequest request) throws IOException, OpenSearchException {
+        return resume(request, ApiType.OSS);
+    }
+
+    /**
+     * Use this API to resume ingestion for the given index.
+     *
+     * @param type target OpenSearch API distribution
+     */
+    public ResumeResponse resume(ResumeRequest request, ApiType type) throws IOException, OpenSearchException {
+        ApiType.requireSupported(type, "ingestion.resume", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ResumeRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -118,6 +171,17 @@ public class OpenSearchIngestionClient extends ApiClient<OpenSearchTransport, Op
      */
     public final ResumeResponse resume(Function<ResumeRequest.Builder, ObjectBuilder<ResumeRequest>> fn) throws IOException,
         OpenSearchException {
-        return resume(fn.apply(new ResumeRequest.Builder()).build());
+        return resume(fn, ApiType.OSS);
+    }
+
+    /**
+     * Use this API to resume ingestion for the given index.
+     *
+     * @param fn   a function that initializes a builder to create the {@link ResumeRequest}
+     * @param type target OpenSearch API distribution
+     */
+    public final ResumeResponse resume(Function<ResumeRequest.Builder, ObjectBuilder<ResumeRequest>> fn, ApiType type) throws IOException,
+        OpenSearchException {
+        return resume(fn.apply(new ResumeRequest.Builder()).build(), type);
     }
 }

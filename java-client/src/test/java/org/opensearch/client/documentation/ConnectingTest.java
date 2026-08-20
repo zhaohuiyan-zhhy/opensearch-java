@@ -37,6 +37,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.opensearch.client.RestClient;
 import org.opensearch.client.json.jackson.JacksonJsonpMapper;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.core.SearchResponse;
 import org.opensearch.client.opensearch.core.search.Hit;
@@ -71,7 +72,8 @@ public class ConnectingTest {
                     .field("name")
                     .value(v -> v.stringValue("bicycle"))
                 )),
-            Product.class);
+            Product.class,
+            ApiType.OSS);
 
         for (Hit<Product> hit: search.hits().hits()) {
             processProduct(hit.source());

@@ -291,12 +291,17 @@ public final class DistributionSpecGenerator {
         return count;
     }
 
-    private static ObjectNode loadObject(Path path) throws IOException {
+    static ObjectNode loadObject(Path path) throws IOException {
         JsonNode value = YAML_MAPPER.readTree(path.toFile());
         if (!(value instanceof ObjectNode)) {
             throw new IllegalArgumentException("Expected a YAML object: " + path);
         }
         return (ObjectNode) value;
+    }
+
+    static void writeObject(Path path, ObjectNode value) throws IOException {
+        Files.createDirectories(path.toAbsolutePath().getParent());
+        YAML_MAPPER.writeValue(path.toFile(), value);
     }
 
     private static Options options() {

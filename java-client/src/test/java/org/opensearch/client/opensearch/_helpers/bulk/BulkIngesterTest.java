@@ -51,6 +51,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.opensearch.client.json.JsonpMapper;
 import org.opensearch.client.json.jackson.JacksonJsonpMapper;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchAsyncClient;
 import org.opensearch.client.opensearch.core.BulkRequest;
 import org.opensearch.client.opensearch.core.BulkResponse;
@@ -156,7 +157,12 @@ public class BulkIngesterTest extends Assert {
         }
 
         BulkIngester<Void> ingester = BulkIngester.of(
-            b -> b.client(client).maxOperations(maxOperations).maxConcurrentRequests(maxRequests).scheduler(scheduler).listener(listener)
+            b -> b.client(client)
+                .type(ApiType.OSS)
+                .maxOperations(maxOperations)
+                .maxConcurrentRequests(maxRequests)
+                .scheduler(scheduler)
+                .listener(listener)
         );
 
         CountDownLatch latch = new CountDownLatch(numThreads);
@@ -208,6 +214,7 @@ public class BulkIngesterTest extends Assert {
 
         BulkIngester<?> ingester = BulkIngester.of(
             b -> b.client(new OpenSearchAsyncClient(transport))
+                .type(ApiType.OSS)
                 // Set size limit just above operation's size, leading to 2 operations per request
                 .maxSize(operationSize + 1)
         );
@@ -244,6 +251,7 @@ public class BulkIngesterTest extends Assert {
 
         BulkIngester<?> ingester = BulkIngester.of(
             b -> b.client(new OpenSearchAsyncClient(transport))
+                .type(ApiType.OSS)
                 // Flush every 50 ms
                 .flushInterval(50, TimeUnit.MILLISECONDS)
                 // Disable other flushing limits
@@ -305,6 +313,7 @@ public class BulkIngesterTest extends Assert {
 
         BulkIngester<Void> ingester = BulkIngester.of(
             b -> b.client(new OpenSearchAsyncClient(transport))
+                .type(ApiType.OSS)
                 // Flush every 50 ms
                 .flushInterval(50, TimeUnit.MILLISECONDS)
                 // Disable other flushing limits
@@ -359,6 +368,7 @@ public class BulkIngesterTest extends Assert {
 
         BulkIngester<Integer> ingester = BulkIngester.of(
             b -> b.client(new OpenSearchAsyncClient(transport))
+                .type(ApiType.OSS)
                 // Split every 10 operations
                 .maxOperations(10)
                 .listener(listener)
@@ -405,7 +415,10 @@ public class BulkIngesterTest extends Assert {
         };
 
         BulkIngester<Void> ingester = BulkIngester.of(
-            b -> b.client(new OpenSearchAsyncClient(transport)).listener(listener).globalSettings(s -> s.index("foo").routing("bar"))
+            b -> b.client(new OpenSearchAsyncClient(transport))
+                .type(ApiType.OSS)
+                .listener(listener)
+                .globalSettings(s -> s.index("foo").routing("bar"))
         );
 
         ingester.add(operation);

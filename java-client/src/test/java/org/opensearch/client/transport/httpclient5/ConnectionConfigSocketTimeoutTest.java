@@ -30,6 +30,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 
 public class ConnectionConfigSocketTimeoutTest {
@@ -123,7 +124,7 @@ public class ConnectionConfigSocketTimeoutTest {
 
         // Verify the exception is SocketTimeoutException or contains it in the cause chain
         Throwable cause = assertThrows(Exception.class, () -> {
-            client.cat().nodes(); // Or any other simple query
+            client.cat().nodes(ApiType.OSS); // Or any other simple query
         });
         while (cause != null && !(cause instanceof SocketTimeoutException)) {
             cause = cause.getCause();

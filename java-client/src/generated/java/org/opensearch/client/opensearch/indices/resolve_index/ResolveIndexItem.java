@@ -80,7 +80,7 @@ public class ResolveIndexItem implements PlainJsonSerializable, ToCopyableBuilde
 
     private ResolveIndexItem(Builder builder) {
         this.aliases = ApiTypeHelper.unmodifiable(builder.aliases);
-        this.attributes = ApiTypeHelper.unmodifiableRequired(builder.attributes, this, "attributes");
+        this.attributes = ApiTypeHelper.unmodifiable(builder.attributes);
         this.dataStream = builder.dataStream;
         this.name = ApiTypeHelper.requireNonNull(builder.name, this, "name");
     }
@@ -101,7 +101,7 @@ public class ResolveIndexItem implements PlainJsonSerializable, ToCopyableBuilde
     }
 
     /**
-     * Required - The list of index attributes.
+     * The list of index attributes.
      * <p>
      * API name: {@code attributes}
      * </p>
@@ -147,12 +147,14 @@ public class ResolveIndexItem implements PlainJsonSerializable, ToCopyableBuilde
             generator.writeEnd();
         }
 
-        generator.writeKey("attributes");
-        generator.writeStartArray();
-        for (String item0 : this.attributes) {
-            generator.write(item0);
+        if (ApiTypeHelper.isDefined(this.attributes)) {
+            generator.writeKey("attributes");
+            generator.writeStartArray();
+            for (String item0 : this.attributes) {
+                generator.write(item0);
+            }
+            generator.writeEnd();
         }
-        generator.writeEnd();
 
         if (this.dataStream != null) {
             generator.writeKey("data_stream");
@@ -182,6 +184,7 @@ public class ResolveIndexItem implements PlainJsonSerializable, ToCopyableBuilde
     public static class Builder extends ObjectBuilderBase implements CopyableBuilder<Builder, ResolveIndexItem> {
         @Nullable
         private List<String> aliases;
+        @Nullable
         private List<String> attributes;
         @Nullable
         private String dataStream;
@@ -242,7 +245,7 @@ public class ResolveIndexItem implements PlainJsonSerializable, ToCopyableBuilde
         }
 
         /**
-         * Required - The list of index attributes.
+         * The list of index attributes.
          * <p>
          * API name: {@code attributes}
          * </p>
@@ -258,7 +261,7 @@ public class ResolveIndexItem implements PlainJsonSerializable, ToCopyableBuilde
         }
 
         /**
-         * Required - The list of index attributes.
+         * The list of index attributes.
          * <p>
          * API name: {@code attributes}
          * </p>
@@ -326,7 +329,7 @@ public class ResolveIndexItem implements PlainJsonSerializable, ToCopyableBuilde
     public int hashCode() {
         int result = 17;
         result = 31 * result + Objects.hashCode(this.aliases);
-        result = 31 * result + this.attributes.hashCode();
+        result = 31 * result + Objects.hashCode(this.attributes);
         result = 31 * result + Objects.hashCode(this.dataStream);
         result = 31 * result + this.name.hashCode();
         return result;
@@ -338,7 +341,7 @@ public class ResolveIndexItem implements PlainJsonSerializable, ToCopyableBuilde
         if (o == null || this.getClass() != o.getClass()) return false;
         ResolveIndexItem other = (ResolveIndexItem) o;
         return Objects.equals(this.aliases, other.aliases)
-            && this.attributes.equals(other.attributes)
+            && Objects.equals(this.attributes, other.attributes)
             && Objects.equals(this.dataStream, other.dataStream)
             && this.name.equals(other.name);
     }
