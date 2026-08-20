@@ -139,10 +139,7 @@ public final class FieldCapsRequest extends RequestBase
     }
 
     /**
-     * A comma-separated list of fields to retrieve capabilities for. Wildcard (<code>*</code>) expressions are supported.
-     * <p>
      * API name: {@code fields}
-     * </p>
      */
     @Nonnull
     public final List<String> fields() {
@@ -325,10 +322,7 @@ public final class FieldCapsRequest extends RequestBase
         }
 
         /**
-         * A comma-separated list of fields to retrieve capabilities for. Wildcard (<code>*</code>) expressions are supported.
-         * <p>
          * API name: {@code fields}
-         * </p>
          *
          * <p>
          * Adds all elements of <code>list</code> to <code>fields</code>.
@@ -341,10 +335,7 @@ public final class FieldCapsRequest extends RequestBase
         }
 
         /**
-         * A comma-separated list of fields to retrieve capabilities for. Wildcard (<code>*</code>) expressions are supported.
-         * <p>
          * API name: {@code fields}
-         * </p>
          *
          * <p>
          * Adds one or more values to <code>fields</code>.

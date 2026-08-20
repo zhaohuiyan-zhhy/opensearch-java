@@ -87,11 +87,6 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
      */
 
     public CompletableFuture<BulkResponse> bulk(BulkRequest request) throws IOException, OpenSearchException {
-        return bulk(request, ApiType.OSS);
-    }
-
-    public CompletableFuture<BulkResponse> bulk(BulkRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "bulk", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<BulkRequest, BulkResponse, ErrorResponse> endpoint = (JsonEndpoint<
             BulkRequest,
@@ -113,12 +108,7 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
 
     public final CompletableFuture<BulkResponse> bulk(Function<BulkRequest.Builder, ObjectBuilder<BulkRequest>> fn) throws IOException,
         OpenSearchException {
-        return bulk(fn, ApiType.OSS);
-    }
-
-    public final CompletableFuture<BulkResponse> bulk(Function<BulkRequest.Builder, ObjectBuilder<BulkRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return bulk(fn.apply(new BulkRequest.Builder()).build(), type);
+        return bulk(fn.apply(new BulkRequest.Builder()).build());
     }
 
     /**
@@ -129,11 +119,7 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
      */
 
     public CompletableFuture<BulkResponse> bulk() throws IOException, OpenSearchException {
-        return bulk(ApiType.OSS);
-    }
-
-    public CompletableFuture<BulkResponse> bulk(ApiType type) throws IOException, OpenSearchException {
-        return bulk(new BulkRequest.Builder().build(), type);
+        return this.transport.performRequestAsync(new BulkRequest.Builder().build(), BulkRequest._ENDPOINT, this.transportOptions);
     }
 
     // ----- Endpoint: create
@@ -148,12 +134,6 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
      */
 
     public <TDocument> CompletableFuture<CreateResponse> create(CreateRequest<TDocument> request) throws IOException, OpenSearchException {
-        return create(request, ApiType.OSS);
-    }
-
-    public <TDocument> CompletableFuture<CreateResponse> create(CreateRequest<TDocument> request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "create", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<CreateRequest<?>, CreateResponse, ErrorResponse> endpoint = (JsonEndpoint<
             CreateRequest<?>,
@@ -178,14 +158,7 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
     public final <TDocument> CompletableFuture<CreateResponse> create(
         Function<CreateRequest.Builder<TDocument>, ObjectBuilder<CreateRequest<TDocument>>> fn
     ) throws IOException, OpenSearchException {
-        return create(fn, ApiType.OSS);
-    }
-
-    public final <TDocument> CompletableFuture<CreateResponse> create(
-        Function<CreateRequest.Builder<TDocument>, ObjectBuilder<CreateRequest<TDocument>>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return create(fn.apply(new CreateRequest.Builder<TDocument>()).build(), type);
+        return create(fn.apply(new CreateRequest.Builder<TDocument>()).build());
     }
 
     // ----- Endpoint: index
@@ -197,12 +170,6 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
      */
 
     public <TDocument> CompletableFuture<IndexResponse> index(IndexRequest<TDocument> request) throws IOException, OpenSearchException {
-        return index(request, ApiType.OSS);
-    }
-
-    public <TDocument> CompletableFuture<IndexResponse> index(IndexRequest<TDocument> request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "index", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<IndexRequest<?>, IndexResponse, ErrorResponse> endpoint = (JsonEndpoint<
             IndexRequest<?>,
@@ -224,14 +191,7 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
     public final <TDocument> CompletableFuture<IndexResponse> index(
         Function<IndexRequest.Builder<TDocument>, ObjectBuilder<IndexRequest<TDocument>>> fn
     ) throws IOException, OpenSearchException {
-        return index(fn, ApiType.OSS);
-    }
-
-    public final <TDocument> CompletableFuture<IndexResponse> index(
-        Function<IndexRequest.Builder<TDocument>, ObjectBuilder<IndexRequest<TDocument>>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return index(fn.apply(new IndexRequest.Builder<TDocument>()).build(), type);
+        return index(fn.apply(new IndexRequest.Builder<TDocument>()).build());
     }
 
     // ----- Endpoint: mget
@@ -244,12 +204,6 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
 
     public <TDocument> CompletableFuture<MgetResponse<TDocument>> mget(MgetRequest request, Class<TDocument> tDocumentClass)
         throws IOException, OpenSearchException {
-        return mget(request, tDocumentClass, ApiType.OSS);
-    }
-
-    public <TDocument> CompletableFuture<MgetResponse<TDocument>> mget(MgetRequest request, Class<TDocument> tDocumentClass, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "mget", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<MgetRequest, MgetResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             MgetRequest,
@@ -277,15 +231,7 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
         Function<MgetRequest.Builder, ObjectBuilder<MgetRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return mget(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    public final <TDocument> CompletableFuture<MgetResponse<TDocument>> mget(
-        Function<MgetRequest.Builder, ObjectBuilder<MgetRequest>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return mget(fn.apply(new MgetRequest.Builder()).build(), tDocumentClass, type);
+        return mget(fn.apply(new MgetRequest.Builder()).build(), tDocumentClass);
     }
 
     // ----- Endpoint: msearch
@@ -298,15 +244,6 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
 
     public <TDocument> CompletableFuture<MsearchResponse<TDocument>> msearch(MsearchRequest request, Class<TDocument> tDocumentClass)
         throws IOException, OpenSearchException {
-        return msearch(request, tDocumentClass, ApiType.OSS);
-    }
-
-    public <TDocument> CompletableFuture<MsearchResponse<TDocument>> msearch(
-        MsearchRequest request,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "msearch", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<MsearchRequest, MsearchResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             MsearchRequest,
@@ -334,15 +271,7 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
         Function<MsearchRequest.Builder, ObjectBuilder<MsearchRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return msearch(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    public final <TDocument> CompletableFuture<MsearchResponse<TDocument>> msearch(
-        Function<MsearchRequest.Builder, ObjectBuilder<MsearchRequest>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return msearch(fn.apply(new MsearchRequest.Builder()).build(), tDocumentClass, type);
+        return msearch(fn.apply(new MsearchRequest.Builder()).build(), tDocumentClass);
     }
 
     // ----- Endpoint: msearch_template
@@ -357,15 +286,6 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
         MsearchTemplateRequest request,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return msearchTemplate(request, tDocumentClass, ApiType.OSS);
-    }
-
-    public <TDocument> CompletableFuture<MsearchTemplateResponse<TDocument>> msearchTemplate(
-        MsearchTemplateRequest request,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "msearch_template", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<MsearchTemplateRequest, MsearchTemplateResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             MsearchTemplateRequest,
@@ -393,15 +313,7 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
         Function<MsearchTemplateRequest.Builder, ObjectBuilder<MsearchTemplateRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return msearchTemplate(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    public final <TDocument> CompletableFuture<MsearchTemplateResponse<TDocument>> msearchTemplate(
-        Function<MsearchTemplateRequest.Builder, ObjectBuilder<MsearchTemplateRequest>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return msearchTemplate(fn.apply(new MsearchTemplateRequest.Builder()).build(), tDocumentClass, type);
+        return msearchTemplate(fn.apply(new MsearchTemplateRequest.Builder()).build(), tDocumentClass);
     }
 
     // ----- Endpoint: termvectors
@@ -415,12 +327,6 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
 
     public <TDocument> CompletableFuture<TermvectorsResponse> termvectors(TermvectorsRequest<TDocument> request) throws IOException,
         OpenSearchException {
-        return termvectors(request, ApiType.OSS);
-    }
-
-    public <TDocument> CompletableFuture<TermvectorsResponse> termvectors(TermvectorsRequest<TDocument> request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "termvectors", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<TermvectorsRequest<?>, TermvectorsResponse, ErrorResponse> endpoint = (JsonEndpoint<
             TermvectorsRequest<?>,
@@ -443,14 +349,7 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
     public final <TDocument> CompletableFuture<TermvectorsResponse> termvectors(
         Function<TermvectorsRequest.Builder<TDocument>, ObjectBuilder<TermvectorsRequest<TDocument>>> fn
     ) throws IOException, OpenSearchException {
-        return termvectors(fn, ApiType.OSS);
-    }
-
-    public final <TDocument> CompletableFuture<TermvectorsResponse> termvectors(
-        Function<TermvectorsRequest.Builder<TDocument>, ObjectBuilder<TermvectorsRequest<TDocument>>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return termvectors(fn.apply(new TermvectorsRequest.Builder<TDocument>()).build(), type);
+        return termvectors(fn.apply(new TermvectorsRequest.Builder<TDocument>()).build());
     }
 
     // ----- Endpoint: update
@@ -465,15 +364,6 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
         UpdateRequest<TDocument, TPartialDocument> request,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return update(request, tDocumentClass, ApiType.OSS);
-    }
-
-    public <TDocument, TPartialDocument> CompletableFuture<UpdateResponse<TDocument>> update(
-        UpdateRequest<TDocument, TPartialDocument> request,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "update", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<UpdateRequest<?, ?>, UpdateResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             UpdateRequest<?, ?>,
@@ -501,14 +391,6 @@ public class OpenSearchAsyncClient extends OpenSearchAsyncClientBase<OpenSearchA
         Function<UpdateRequest.Builder<TDocument, TPartialDocument>, ObjectBuilder<UpdateRequest<TDocument, TPartialDocument>>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return update(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    public final <TDocument, TPartialDocument> CompletableFuture<UpdateResponse<TDocument>> update(
-        Function<UpdateRequest.Builder<TDocument, TPartialDocument>, ObjectBuilder<UpdateRequest<TDocument, TPartialDocument>>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return update(fn.apply(new UpdateRequest.Builder<TDocument, TPartialDocument>()).build(), tDocumentClass, type);
+        return update(fn.apply(new UpdateRequest.Builder<TDocument, TPartialDocument>()).build(), tDocumentClass);
     }
 }

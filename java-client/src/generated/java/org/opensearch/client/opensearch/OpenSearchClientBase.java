@@ -227,16 +227,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Explicitly clears the search context for a scroll.
      */
     public ClearScrollResponse clearScroll(ClearScrollRequest request) throws IOException, OpenSearchException {
-        return clearScroll(request, ApiType.OSS);
-    }
-
-    /**
-     * Explicitly clears the search context for a scroll.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public ClearScrollResponse clearScroll(ClearScrollRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "clear_scroll", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ClearScrollRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -247,34 +237,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final ClearScrollResponse clearScroll(Function<ClearScrollRequest.Builder, ObjectBuilder<ClearScrollRequest>> fn)
         throws IOException, OpenSearchException {
-        return clearScroll(fn, ApiType.OSS);
-    }
-
-    /**
-     * Explicitly clears the search context for a scroll.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ClearScrollRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final ClearScrollResponse clearScroll(Function<ClearScrollRequest.Builder, ObjectBuilder<ClearScrollRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return clearScroll(fn.apply(new ClearScrollRequest.Builder()).build(), type);
+        return clearScroll(fn.apply(new ClearScrollRequest.Builder()).build());
     }
 
     /**
      * Explicitly clears the search context for a scroll.
      */
     public final ClearScrollResponse clearScroll() throws IOException, OpenSearchException {
-        return clearScroll(ApiType.OSS);
-    }
-
-    /**
-     * Explicitly clears the search context for a scroll.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final ClearScrollResponse clearScroll(ApiType type) throws IOException, OpenSearchException {
-        return clearScroll(new ClearScrollRequest.Builder().build(), type);
+        return clearScroll(new ClearScrollRequest.Builder().build());
     }
 
     // ----- Endpoint: count
@@ -283,16 +253,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns number of documents matching a query.
      */
     public CountResponse count(CountRequest request) throws IOException, OpenSearchException {
-        return count(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns number of documents matching a query.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CountResponse count(CountRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "count", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CountRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -303,34 +263,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final CountResponse count(Function<CountRequest.Builder, ObjectBuilder<CountRequest>> fn) throws IOException,
         OpenSearchException {
-        return count(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns number of documents matching a query.
-     *
-     * @param fn   a function that initializes a builder to create the {@link CountRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CountResponse count(Function<CountRequest.Builder, ObjectBuilder<CountRequest>> fn, ApiType type) throws IOException,
-        OpenSearchException {
-        return count(fn.apply(new CountRequest.Builder()).build(), type);
+        return count(fn.apply(new CountRequest.Builder()).build());
     }
 
     /**
      * Returns number of documents matching a query.
      */
     public final CountResponse count() throws IOException, OpenSearchException {
-        return count(ApiType.OSS);
-    }
-
-    /**
-     * Returns number of documents matching a query.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CountResponse count(ApiType type) throws IOException, OpenSearchException {
-        return count(new CountRequest.Builder().build(), type);
+        return count(new CountRequest.Builder().build());
     }
 
     // ----- Endpoint: create_pit
@@ -339,16 +279,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Creates point in time context.
      */
     public CreatePitResponse createPit(CreatePitRequest request) throws IOException, OpenSearchException {
-        return createPit(request, ApiType.OSS);
-    }
-
-    /**
-     * Creates point in time context.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CreatePitResponse createPit(CreatePitRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "create_pit", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, CreatePitRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -359,18 +289,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final CreatePitResponse createPit(Function<CreatePitRequest.Builder, ObjectBuilder<CreatePitRequest>> fn) throws IOException,
         OpenSearchException {
-        return createPit(fn, ApiType.OSS);
-    }
-
-    /**
-     * Creates point in time context.
-     *
-     * @param fn   a function that initializes a builder to create the {@link CreatePitRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CreatePitResponse createPit(Function<CreatePitRequest.Builder, ObjectBuilder<CreatePitRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return createPit(fn.apply(new CreatePitRequest.Builder()).build(), type);
+        return createPit(fn.apply(new CreatePitRequest.Builder()).build());
     }
 
     // ----- Endpoint: delete
@@ -379,16 +298,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Removes a document from the index.
      */
     public DeleteResponse delete(DeleteRequest request) throws IOException, OpenSearchException {
-        return delete(request, ApiType.OSS);
-    }
-
-    /**
-     * Removes a document from the index.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public DeleteResponse delete(DeleteRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "delete", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -399,18 +308,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final DeleteResponse delete(Function<DeleteRequest.Builder, ObjectBuilder<DeleteRequest>> fn) throws IOException,
         OpenSearchException {
-        return delete(fn, ApiType.OSS);
-    }
-
-    /**
-     * Removes a document from the index.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final DeleteResponse delete(Function<DeleteRequest.Builder, ObjectBuilder<DeleteRequest>> fn, ApiType type) throws IOException,
-        OpenSearchException {
-        return delete(fn.apply(new DeleteRequest.Builder()).build(), type);
+        return delete(fn.apply(new DeleteRequest.Builder()).build());
     }
 
     // ----- Endpoint: delete_all_pits
@@ -419,16 +317,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Deletes all active point in time searches.
      */
     public DeleteAllPitsResponse deleteAllPits(DeleteAllPitsRequest request) throws IOException, OpenSearchException {
-        return deleteAllPits(request, ApiType.OSS);
-    }
-
-    /**
-     * Deletes all active point in time searches.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public DeleteAllPitsResponse deleteAllPits(DeleteAllPitsRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "delete_all_pits", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteAllPitsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -439,36 +327,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final DeleteAllPitsResponse deleteAllPits(Function<DeleteAllPitsRequest.Builder, ObjectBuilder<DeleteAllPitsRequest>> fn)
         throws IOException, OpenSearchException {
-        return deleteAllPits(fn, ApiType.OSS);
-    }
-
-    /**
-     * Deletes all active point in time searches.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteAllPitsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final DeleteAllPitsResponse deleteAllPits(
-        Function<DeleteAllPitsRequest.Builder, ObjectBuilder<DeleteAllPitsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return deleteAllPits(fn.apply(new DeleteAllPitsRequest.Builder()).build(), type);
+        return deleteAllPits(fn.apply(new DeleteAllPitsRequest.Builder()).build());
     }
 
     /**
      * Deletes all active point in time searches.
      */
     public final DeleteAllPitsResponse deleteAllPits() throws IOException, OpenSearchException {
-        return deleteAllPits(ApiType.OSS);
-    }
-
-    /**
-     * Deletes all active point in time searches.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final DeleteAllPitsResponse deleteAllPits(ApiType type) throws IOException, OpenSearchException {
-        return deleteAllPits(new DeleteAllPitsRequest.Builder().build(), type);
+        return deleteAllPits(new DeleteAllPitsRequest.Builder().build());
     }
 
     // ----- Endpoint: delete_by_query
@@ -477,16 +343,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Deletes documents matching the provided query.
      */
     public DeleteByQueryResponse deleteByQuery(DeleteByQueryRequest request) throws IOException, OpenSearchException {
-        return deleteByQuery(request, ApiType.OSS);
-    }
-
-    /**
-     * Deletes documents matching the provided query.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public DeleteByQueryResponse deleteByQuery(DeleteByQueryRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "delete_by_query", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteByQueryRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -497,20 +353,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final DeleteByQueryResponse deleteByQuery(Function<DeleteByQueryRequest.Builder, ObjectBuilder<DeleteByQueryRequest>> fn)
         throws IOException, OpenSearchException {
-        return deleteByQuery(fn, ApiType.OSS);
-    }
-
-    /**
-     * Deletes documents matching the provided query.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteByQueryRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final DeleteByQueryResponse deleteByQuery(
-        Function<DeleteByQueryRequest.Builder, ObjectBuilder<DeleteByQueryRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return deleteByQuery(fn.apply(new DeleteByQueryRequest.Builder()).build(), type);
+        return deleteByQuery(fn.apply(new DeleteByQueryRequest.Builder()).build());
     }
 
     // ----- Endpoint: delete_by_query_rethrottle
@@ -520,17 +363,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public DeleteByQueryRethrottleResponse deleteByQueryRethrottle(DeleteByQueryRethrottleRequest request) throws IOException,
         OpenSearchException {
-        return deleteByQueryRethrottle(request, ApiType.OSS);
-    }
-
-    /**
-     * Changes the number of requests per second for a particular Delete By Query operation.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public DeleteByQueryRethrottleResponse deleteByQueryRethrottle(DeleteByQueryRethrottleRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "delete_by_query_rethrottle", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteByQueryRethrottleRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -542,20 +374,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
     public final DeleteByQueryRethrottleResponse deleteByQueryRethrottle(
         Function<DeleteByQueryRethrottleRequest.Builder, ObjectBuilder<DeleteByQueryRethrottleRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteByQueryRethrottle(fn, ApiType.OSS);
-    }
-
-    /**
-     * Changes the number of requests per second for a particular Delete By Query operation.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteByQueryRethrottleRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final DeleteByQueryRethrottleResponse deleteByQueryRethrottle(
-        Function<DeleteByQueryRethrottleRequest.Builder, ObjectBuilder<DeleteByQueryRethrottleRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return deleteByQueryRethrottle(fn.apply(new DeleteByQueryRethrottleRequest.Builder()).build(), type);
+        return deleteByQueryRethrottle(fn.apply(new DeleteByQueryRethrottleRequest.Builder()).build());
     }
 
     // ----- Endpoint: delete_pit
@@ -564,16 +383,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Deletes one or more point in time searches based on the IDs passed.
      */
     public DeletePitResponse deletePit(DeletePitRequest request) throws IOException, OpenSearchException {
-        return deletePit(request, ApiType.OSS);
-    }
-
-    /**
-     * Deletes one or more point in time searches based on the IDs passed.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public DeletePitResponse deletePit(DeletePitRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "delete_pit", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeletePitRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -584,18 +393,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final DeletePitResponse deletePit(Function<DeletePitRequest.Builder, ObjectBuilder<DeletePitRequest>> fn) throws IOException,
         OpenSearchException {
-        return deletePit(fn, ApiType.OSS);
-    }
-
-    /**
-     * Deletes one or more point in time searches based on the IDs passed.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeletePitRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final DeletePitResponse deletePit(Function<DeletePitRequest.Builder, ObjectBuilder<DeletePitRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return deletePit(fn.apply(new DeletePitRequest.Builder()).build(), type);
+        return deletePit(fn.apply(new DeletePitRequest.Builder()).build());
     }
 
     // ----- Endpoint: delete_script
@@ -604,16 +402,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Deletes a script.
      */
     public DeleteScriptResponse deleteScript(DeleteScriptRequest request) throws IOException, OpenSearchException {
-        return deleteScript(request, ApiType.OSS);
-    }
-
-    /**
-     * Deletes a script.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public DeleteScriptResponse deleteScript(DeleteScriptRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "delete_script", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteScriptRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -624,20 +412,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final DeleteScriptResponse deleteScript(Function<DeleteScriptRequest.Builder, ObjectBuilder<DeleteScriptRequest>> fn)
         throws IOException, OpenSearchException {
-        return deleteScript(fn, ApiType.OSS);
-    }
-
-    /**
-     * Deletes a script.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteScriptRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final DeleteScriptResponse deleteScript(
-        Function<DeleteScriptRequest.Builder, ObjectBuilder<DeleteScriptRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return deleteScript(fn.apply(new DeleteScriptRequest.Builder()).build(), type);
+        return deleteScript(fn.apply(new DeleteScriptRequest.Builder()).build());
     }
 
     // ----- Endpoint: exists
@@ -646,16 +421,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns information about whether a document exists in an index.
      */
     public BooleanResponse exists(ExistsRequest request) throws IOException, OpenSearchException {
-        return exists(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about whether a document exists in an index.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public BooleanResponse exists(ExistsRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "exists", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ExistsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -666,18 +431,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final BooleanResponse exists(Function<ExistsRequest.Builder, ObjectBuilder<ExistsRequest>> fn) throws IOException,
         OpenSearchException {
-        return exists(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about whether a document exists in an index.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ExistsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final BooleanResponse exists(Function<ExistsRequest.Builder, ObjectBuilder<ExistsRequest>> fn, ApiType type) throws IOException,
-        OpenSearchException {
-        return exists(fn.apply(new ExistsRequest.Builder()).build(), type);
+        return exists(fn.apply(new ExistsRequest.Builder()).build());
     }
 
     // ----- Endpoint: exists_source
@@ -686,16 +440,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns information about whether a document source exists in an index.
      */
     public BooleanResponse existsSource(ExistsSourceRequest request) throws IOException, OpenSearchException {
-        return existsSource(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about whether a document source exists in an index.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public BooleanResponse existsSource(ExistsSourceRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "exists_source", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ExistsSourceRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -706,18 +450,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final BooleanResponse existsSource(Function<ExistsSourceRequest.Builder, ObjectBuilder<ExistsSourceRequest>> fn)
         throws IOException, OpenSearchException {
-        return existsSource(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about whether a document source exists in an index.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ExistsSourceRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final BooleanResponse existsSource(Function<ExistsSourceRequest.Builder, ObjectBuilder<ExistsSourceRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return existsSource(fn.apply(new ExistsSourceRequest.Builder()).build(), type);
+        return existsSource(fn.apply(new ExistsSourceRequest.Builder()).build());
     }
 
     // ----- Endpoint: explain
@@ -727,17 +460,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public <TDocument> ExplainResponse<TDocument> explain(ExplainRequest request, Class<TDocument> tDocumentClass) throws IOException,
         OpenSearchException {
-        return explain(request, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about why a specific document matches (or doesn't match) a query.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public <TDocument> ExplainResponse<TDocument> explain(ExplainRequest request, Class<TDocument> tDocumentClass, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "explain", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<ExplainRequest, ExplainResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             ExplainRequest,
@@ -761,21 +483,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
         Function<ExplainRequest.Builder, ObjectBuilder<ExplainRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return explain(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about why a specific document matches (or doesn't match) a query.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ExplainRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final <TDocument> ExplainResponse<TDocument> explain(
-        Function<ExplainRequest.Builder, ObjectBuilder<ExplainRequest>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return explain(fn.apply(new ExplainRequest.Builder()).build(), tDocumentClass, type);
+        return explain(fn.apply(new ExplainRequest.Builder()).build(), tDocumentClass);
     }
 
     // ----- Endpoint: field_caps
@@ -784,16 +492,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns the information about the capabilities of fields among multiple indexes.
      */
     public FieldCapsResponse fieldCaps(FieldCapsRequest request) throws IOException, OpenSearchException {
-        return fieldCaps(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns the information about the capabilities of fields among multiple indexes.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public FieldCapsResponse fieldCaps(FieldCapsRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "field_caps", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, FieldCapsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -804,34 +502,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final FieldCapsResponse fieldCaps(Function<FieldCapsRequest.Builder, ObjectBuilder<FieldCapsRequest>> fn) throws IOException,
         OpenSearchException {
-        return fieldCaps(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns the information about the capabilities of fields among multiple indexes.
-     *
-     * @param fn   a function that initializes a builder to create the {@link FieldCapsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final FieldCapsResponse fieldCaps(Function<FieldCapsRequest.Builder, ObjectBuilder<FieldCapsRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return fieldCaps(fn.apply(new FieldCapsRequest.Builder()).build(), type);
+        return fieldCaps(fn.apply(new FieldCapsRequest.Builder()).build());
     }
 
     /**
      * Returns the information about the capabilities of fields among multiple indexes.
      */
     public final FieldCapsResponse fieldCaps() throws IOException, OpenSearchException {
-        return fieldCaps(ApiType.OSS);
-    }
-
-    /**
-     * Returns the information about the capabilities of fields among multiple indexes.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final FieldCapsResponse fieldCaps(ApiType type) throws IOException, OpenSearchException {
-        return fieldCaps(new FieldCapsRequest.Builder().build(), type);
+        return fieldCaps(new FieldCapsRequest.Builder().build());
     }
 
     // ----- Endpoint: get
@@ -841,17 +519,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public <TDocument> GetResponse<TDocument> get(GetRequest request, Class<TDocument> tDocumentClass) throws IOException,
         OpenSearchException {
-        return get(request, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Returns a document.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public <TDocument> GetResponse<TDocument> get(GetRequest request, Class<TDocument> tDocumentClass, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "get", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<GetRequest, GetResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             GetRequest,
@@ -875,21 +542,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
         Function<GetRequest.Builder, ObjectBuilder<GetRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return get(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Returns a document.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final <TDocument> GetResponse<TDocument> get(
-        Function<GetRequest.Builder, ObjectBuilder<GetRequest>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return get(fn.apply(new GetRequest.Builder()).build(), tDocumentClass, type);
+        return get(fn.apply(new GetRequest.Builder()).build(), tDocumentClass);
     }
 
     // ----- Endpoint: get_all_pits
@@ -898,16 +551,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Lists all active point in time searches.
      */
     public GetAllPitsResponse getAllPits(GetAllPitsRequest request) throws IOException, OpenSearchException {
-        return getAllPits(request, ApiType.OSS);
-    }
-
-    /**
-     * Lists all active point in time searches.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public GetAllPitsResponse getAllPits(GetAllPitsRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "get_all_pits", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetAllPitsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -918,34 +561,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final GetAllPitsResponse getAllPits(Function<GetAllPitsRequest.Builder, ObjectBuilder<GetAllPitsRequest>> fn) throws IOException,
         OpenSearchException {
-        return getAllPits(fn, ApiType.OSS);
-    }
-
-    /**
-     * Lists all active point in time searches.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetAllPitsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final GetAllPitsResponse getAllPits(Function<GetAllPitsRequest.Builder, ObjectBuilder<GetAllPitsRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return getAllPits(fn.apply(new GetAllPitsRequest.Builder()).build(), type);
+        return getAllPits(fn.apply(new GetAllPitsRequest.Builder()).build());
     }
 
     /**
      * Lists all active point in time searches.
      */
     public final GetAllPitsResponse getAllPits() throws IOException, OpenSearchException {
-        return getAllPits(ApiType.OSS);
-    }
-
-    /**
-     * Lists all active point in time searches.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final GetAllPitsResponse getAllPits(ApiType type) throws IOException, OpenSearchException {
-        return getAllPits(new GetAllPitsRequest.Builder().build(), type);
+        return getAllPits(new GetAllPitsRequest.Builder().build());
     }
 
     // ----- Endpoint: get_script
@@ -954,16 +577,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns a script.
      */
     public GetScriptResponse getScript(GetScriptRequest request) throws IOException, OpenSearchException {
-        return getScript(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns a script.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public GetScriptResponse getScript(GetScriptRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "get_script", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetScriptRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -974,18 +587,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final GetScriptResponse getScript(Function<GetScriptRequest.Builder, ObjectBuilder<GetScriptRequest>> fn) throws IOException,
         OpenSearchException {
-        return getScript(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns a script.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetScriptRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final GetScriptResponse getScript(Function<GetScriptRequest.Builder, ObjectBuilder<GetScriptRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return getScript(fn.apply(new GetScriptRequest.Builder()).build(), type);
+        return getScript(fn.apply(new GetScriptRequest.Builder()).build());
     }
 
     // ----- Endpoint: get_script_context
@@ -994,17 +596,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns all script contexts.
      */
     public GetScriptContextResponse getScriptContext(GetScriptContextRequest request) throws IOException, OpenSearchException {
-        return getScriptContext(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns all script contexts.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public GetScriptContextResponse getScriptContext(GetScriptContextRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "get_script_context", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetScriptContextRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1016,36 +607,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
     public final GetScriptContextResponse getScriptContext(
         Function<GetScriptContextRequest.Builder, ObjectBuilder<GetScriptContextRequest>> fn
     ) throws IOException, OpenSearchException {
-        return getScriptContext(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns all script contexts.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetScriptContextRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final GetScriptContextResponse getScriptContext(
-        Function<GetScriptContextRequest.Builder, ObjectBuilder<GetScriptContextRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return getScriptContext(fn.apply(new GetScriptContextRequest.Builder()).build(), type);
+        return getScriptContext(fn.apply(new GetScriptContextRequest.Builder()).build());
     }
 
     /**
      * Returns all script contexts.
      */
     public final GetScriptContextResponse getScriptContext() throws IOException, OpenSearchException {
-        return getScriptContext(ApiType.OSS);
-    }
-
-    /**
-     * Returns all script contexts.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final GetScriptContextResponse getScriptContext(ApiType type) throws IOException, OpenSearchException {
-        return getScriptContext(new GetScriptContextRequest.Builder().build(), type);
+        return getScriptContext(new GetScriptContextRequest.Builder().build());
     }
 
     // ----- Endpoint: get_script_languages
@@ -1054,17 +623,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns available script types, languages and contexts.
      */
     public GetScriptLanguagesResponse getScriptLanguages(GetScriptLanguagesRequest request) throws IOException, OpenSearchException {
-        return getScriptLanguages(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns available script types, languages and contexts.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public GetScriptLanguagesResponse getScriptLanguages(GetScriptLanguagesRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "get_script_languages", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetScriptLanguagesRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1076,36 +634,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
     public final GetScriptLanguagesResponse getScriptLanguages(
         Function<GetScriptLanguagesRequest.Builder, ObjectBuilder<GetScriptLanguagesRequest>> fn
     ) throws IOException, OpenSearchException {
-        return getScriptLanguages(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns available script types, languages and contexts.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetScriptLanguagesRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final GetScriptLanguagesResponse getScriptLanguages(
-        Function<GetScriptLanguagesRequest.Builder, ObjectBuilder<GetScriptLanguagesRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return getScriptLanguages(fn.apply(new GetScriptLanguagesRequest.Builder()).build(), type);
+        return getScriptLanguages(fn.apply(new GetScriptLanguagesRequest.Builder()).build());
     }
 
     /**
      * Returns available script types, languages and contexts.
      */
     public final GetScriptLanguagesResponse getScriptLanguages() throws IOException, OpenSearchException {
-        return getScriptLanguages(ApiType.OSS);
-    }
-
-    /**
-     * Returns available script types, languages and contexts.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final GetScriptLanguagesResponse getScriptLanguages(ApiType type) throws IOException, OpenSearchException {
-        return getScriptLanguages(new GetScriptLanguagesRequest.Builder().build(), type);
+        return getScriptLanguages(new GetScriptLanguagesRequest.Builder().build());
     }
 
     // ----- Endpoint: get_source
@@ -1115,17 +651,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public <TDocument> GetSourceResponse<TDocument> getSource(GetSourceRequest request, Class<TDocument> tDocumentClass) throws IOException,
         OpenSearchException {
-        return getSource(request, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Returns the source of a document.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public <TDocument> GetSourceResponse<TDocument> getSource(GetSourceRequest request, Class<TDocument> tDocumentClass, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "get_source", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<GetSourceRequest, GetSourceResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             GetSourceRequest,
@@ -1149,21 +674,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
         Function<GetSourceRequest.Builder, ObjectBuilder<GetSourceRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return getSource(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Returns the source of a document.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetSourceRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final <TDocument> GetSourceResponse<TDocument> getSource(
-        Function<GetSourceRequest.Builder, ObjectBuilder<GetSourceRequest>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return getSource(fn.apply(new GetSourceRequest.Builder()).build(), tDocumentClass, type);
+        return getSource(fn.apply(new GetSourceRequest.Builder()).build(), tDocumentClass);
     }
 
     // ----- Endpoint: info
@@ -1172,16 +683,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns basic information about the cluster.
      */
     public InfoResponse info(InfoRequest request) throws IOException, OpenSearchException {
-        return info(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns basic information about the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public InfoResponse info(InfoRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "info", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequest(request, InfoRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1191,34 +692,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * @param fn a function that initializes a builder to create the {@link InfoRequest}
      */
     public final InfoResponse info(Function<InfoRequest.Builder, ObjectBuilder<InfoRequest>> fn) throws IOException, OpenSearchException {
-        return info(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns basic information about the cluster.
-     *
-     * @param fn   a function that initializes a builder to create the {@link InfoRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final InfoResponse info(Function<InfoRequest.Builder, ObjectBuilder<InfoRequest>> fn, ApiType type) throws IOException,
-        OpenSearchException {
-        return info(fn.apply(new InfoRequest.Builder()).build(), type);
+        return info(fn.apply(new InfoRequest.Builder()).build());
     }
 
     /**
      * Returns basic information about the cluster.
      */
     public final InfoResponse info() throws IOException, OpenSearchException {
-        return info(ApiType.OSS);
-    }
-
-    /**
-     * Returns basic information about the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final InfoResponse info(ApiType type) throws IOException, OpenSearchException {
-        return info(new InfoRequest.Builder().build(), type);
+        return info(new InfoRequest.Builder().build());
     }
 
     // ----- Endpoint: mtermvectors
@@ -1227,16 +708,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns multiple termvectors in one request.
      */
     public MtermvectorsResponse mtermvectors(MtermvectorsRequest request) throws IOException, OpenSearchException {
-        return mtermvectors(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns multiple termvectors in one request.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public MtermvectorsResponse mtermvectors(MtermvectorsRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "mtermvectors", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, MtermvectorsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1247,36 +718,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final MtermvectorsResponse mtermvectors(Function<MtermvectorsRequest.Builder, ObjectBuilder<MtermvectorsRequest>> fn)
         throws IOException, OpenSearchException {
-        return mtermvectors(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns multiple termvectors in one request.
-     *
-     * @param fn   a function that initializes a builder to create the {@link MtermvectorsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final MtermvectorsResponse mtermvectors(
-        Function<MtermvectorsRequest.Builder, ObjectBuilder<MtermvectorsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return mtermvectors(fn.apply(new MtermvectorsRequest.Builder()).build(), type);
+        return mtermvectors(fn.apply(new MtermvectorsRequest.Builder()).build());
     }
 
     /**
      * Returns multiple termvectors in one request.
      */
     public final MtermvectorsResponse mtermvectors() throws IOException, OpenSearchException {
-        return mtermvectors(ApiType.OSS);
-    }
-
-    /**
-     * Returns multiple termvectors in one request.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final MtermvectorsResponse mtermvectors(ApiType type) throws IOException, OpenSearchException {
-        return mtermvectors(new MtermvectorsRequest.Builder().build(), type);
+        return mtermvectors(new MtermvectorsRequest.Builder().build());
     }
 
     // ----- Endpoint: ping
@@ -1285,16 +734,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns whether the cluster is running.
      */
     public BooleanResponse ping(PingRequest request) throws IOException, OpenSearchException {
-        return ping(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns whether the cluster is running.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public BooleanResponse ping(PingRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "ping", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequest(request, PingRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1305,34 +744,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final BooleanResponse ping(Function<PingRequest.Builder, ObjectBuilder<PingRequest>> fn) throws IOException,
         OpenSearchException {
-        return ping(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns whether the cluster is running.
-     *
-     * @param fn   a function that initializes a builder to create the {@link PingRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final BooleanResponse ping(Function<PingRequest.Builder, ObjectBuilder<PingRequest>> fn, ApiType type) throws IOException,
-        OpenSearchException {
-        return ping(fn.apply(new PingRequest.Builder()).build(), type);
+        return ping(fn.apply(new PingRequest.Builder()).build());
     }
 
     /**
      * Returns whether the cluster is running.
      */
     public final BooleanResponse ping() throws IOException, OpenSearchException {
-        return ping(ApiType.OSS);
-    }
-
-    /**
-     * Returns whether the cluster is running.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final BooleanResponse ping(ApiType type) throws IOException, OpenSearchException {
-        return ping(new PingRequest.Builder().build(), type);
+        return ping(new PingRequest.Builder().build());
     }
 
     // ----- Endpoint: put_script
@@ -1341,16 +760,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Creates or updates a script.
      */
     public PutScriptResponse putScript(PutScriptRequest request) throws IOException, OpenSearchException {
-        return putScript(request, ApiType.OSS);
-    }
-
-    /**
-     * Creates or updates a script.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public PutScriptResponse putScript(PutScriptRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "put_script", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, PutScriptRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1361,18 +770,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final PutScriptResponse putScript(Function<PutScriptRequest.Builder, ObjectBuilder<PutScriptRequest>> fn) throws IOException,
         OpenSearchException {
-        return putScript(fn, ApiType.OSS);
-    }
-
-    /**
-     * Creates or updates a script.
-     *
-     * @param fn   a function that initializes a builder to create the {@link PutScriptRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final PutScriptResponse putScript(Function<PutScriptRequest.Builder, ObjectBuilder<PutScriptRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return putScript(fn.apply(new PutScriptRequest.Builder()).build(), type);
+        return putScript(fn.apply(new PutScriptRequest.Builder()).build());
     }
 
     // ----- Endpoint: rank_eval
@@ -1381,16 +779,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Allows to evaluate the quality of ranked search results over a set of typical search queries.
      */
     public RankEvalResponse rankEval(RankEvalRequest request) throws IOException, OpenSearchException {
-        return rankEval(request, ApiType.OSS);
-    }
-
-    /**
-     * Allows to evaluate the quality of ranked search results over a set of typical search queries.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public RankEvalResponse rankEval(RankEvalRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "rank_eval", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, RankEvalRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1401,18 +789,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final RankEvalResponse rankEval(Function<RankEvalRequest.Builder, ObjectBuilder<RankEvalRequest>> fn) throws IOException,
         OpenSearchException {
-        return rankEval(fn, ApiType.OSS);
-    }
-
-    /**
-     * Allows to evaluate the quality of ranked search results over a set of typical search queries.
-     *
-     * @param fn   a function that initializes a builder to create the {@link RankEvalRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final RankEvalResponse rankEval(Function<RankEvalRequest.Builder, ObjectBuilder<RankEvalRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return rankEval(fn.apply(new RankEvalRequest.Builder()).build(), type);
+        return rankEval(fn.apply(new RankEvalRequest.Builder()).build());
     }
 
     // ----- Endpoint: reindex
@@ -1422,17 +799,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * index settings, or fetching the documents from a remote cluster.
      */
     public ReindexResponse reindex(ReindexRequest request) throws IOException, OpenSearchException {
-        return reindex(request, ApiType.OSS);
-    }
-
-    /**
-     * Allows to copy documents from one index to another, optionally filtering the source documents by a query, changing the destination
-     * index settings, or fetching the documents from a remote cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public ReindexResponse reindex(ReindexRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "reindex", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ReindexRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1444,19 +810,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final ReindexResponse reindex(Function<ReindexRequest.Builder, ObjectBuilder<ReindexRequest>> fn) throws IOException,
         OpenSearchException {
-        return reindex(fn, ApiType.OSS);
-    }
-
-    /**
-     * Allows to copy documents from one index to another, optionally filtering the source documents by a query, changing the destination
-     * index settings, or fetching the documents from a remote cluster.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ReindexRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final ReindexResponse reindex(Function<ReindexRequest.Builder, ObjectBuilder<ReindexRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return reindex(fn.apply(new ReindexRequest.Builder()).build(), type);
+        return reindex(fn.apply(new ReindexRequest.Builder()).build());
     }
 
     // ----- Endpoint: reindex_rethrottle
@@ -1465,17 +819,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Changes the number of requests per second for a particular reindex operation.
      */
     public ReindexRethrottleResponse reindexRethrottle(ReindexRethrottleRequest request) throws IOException, OpenSearchException {
-        return reindexRethrottle(request, ApiType.OSS);
-    }
-
-    /**
-     * Changes the number of requests per second for a particular reindex operation.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public ReindexRethrottleResponse reindexRethrottle(ReindexRethrottleRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "reindex_rethrottle", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, ReindexRethrottleRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1487,20 +830,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
     public final ReindexRethrottleResponse reindexRethrottle(
         Function<ReindexRethrottleRequest.Builder, ObjectBuilder<ReindexRethrottleRequest>> fn
     ) throws IOException, OpenSearchException {
-        return reindexRethrottle(fn, ApiType.OSS);
-    }
-
-    /**
-     * Changes the number of requests per second for a particular reindex operation.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ReindexRethrottleRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final ReindexRethrottleResponse reindexRethrottle(
-        Function<ReindexRethrottleRequest.Builder, ObjectBuilder<ReindexRethrottleRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return reindexRethrottle(fn.apply(new ReindexRethrottleRequest.Builder()).build(), type);
+        return reindexRethrottle(fn.apply(new ReindexRethrottleRequest.Builder()).build());
     }
 
     // ----- Endpoint: render_search_template
@@ -1509,17 +839,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Allows to use the Mustache language to pre-render a search definition.
      */
     public RenderSearchTemplateResponse renderSearchTemplate(RenderSearchTemplateRequest request) throws IOException, OpenSearchException {
-        return renderSearchTemplate(request, ApiType.OSS);
-    }
-
-    /**
-     * Allows to use the Mustache language to pre-render a search definition.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public RenderSearchTemplateResponse renderSearchTemplate(RenderSearchTemplateRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "render_search_template", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, RenderSearchTemplateRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1531,36 +850,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
     public final RenderSearchTemplateResponse renderSearchTemplate(
         Function<RenderSearchTemplateRequest.Builder, ObjectBuilder<RenderSearchTemplateRequest>> fn
     ) throws IOException, OpenSearchException {
-        return renderSearchTemplate(fn, ApiType.OSS);
-    }
-
-    /**
-     * Allows to use the Mustache language to pre-render a search definition.
-     *
-     * @param fn   a function that initializes a builder to create the {@link RenderSearchTemplateRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final RenderSearchTemplateResponse renderSearchTemplate(
-        Function<RenderSearchTemplateRequest.Builder, ObjectBuilder<RenderSearchTemplateRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return renderSearchTemplate(fn.apply(new RenderSearchTemplateRequest.Builder()).build(), type);
+        return renderSearchTemplate(fn.apply(new RenderSearchTemplateRequest.Builder()).build());
     }
 
     /**
      * Allows to use the Mustache language to pre-render a search definition.
      */
     public final RenderSearchTemplateResponse renderSearchTemplate() throws IOException, OpenSearchException {
-        return renderSearchTemplate(ApiType.OSS);
-    }
-
-    /**
-     * Allows to use the Mustache language to pre-render a search definition.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final RenderSearchTemplateResponse renderSearchTemplate(ApiType type) throws IOException, OpenSearchException {
-        return renderSearchTemplate(new RenderSearchTemplateRequest.Builder().build(), type);
+        return renderSearchTemplate(new RenderSearchTemplateRequest.Builder().build());
     }
 
     // ----- Endpoint: scripts_painless_execute
@@ -1572,20 +869,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
         ScriptsPainlessExecuteRequest request,
         Class<TResult> tResultClass
     ) throws IOException, OpenSearchException {
-        return scriptsPainlessExecute(request, tResultClass, ApiType.OSS);
-    }
-
-    /**
-     * Allows an arbitrary script to be executed and a result to be returned.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public <TResult> ScriptsPainlessExecuteResponse<TResult> scriptsPainlessExecute(
-        ScriptsPainlessExecuteRequest request,
-        Class<TResult> tResultClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "scripts_painless_execute", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<ScriptsPainlessExecuteRequest, ScriptsPainlessExecuteResponse<TResult>, ErrorResponse> endpoint = (JsonEndpoint<
             ScriptsPainlessExecuteRequest,
@@ -1609,21 +892,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
         Function<ScriptsPainlessExecuteRequest.Builder, ObjectBuilder<ScriptsPainlessExecuteRequest>> fn,
         Class<TResult> tResultClass
     ) throws IOException, OpenSearchException {
-        return scriptsPainlessExecute(fn, tResultClass, ApiType.OSS);
-    }
-
-    /**
-     * Allows an arbitrary script to be executed and a result to be returned.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ScriptsPainlessExecuteRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final <TResult> ScriptsPainlessExecuteResponse<TResult> scriptsPainlessExecute(
-        Function<ScriptsPainlessExecuteRequest.Builder, ObjectBuilder<ScriptsPainlessExecuteRequest>> fn,
-        Class<TResult> tResultClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return scriptsPainlessExecute(fn.apply(new ScriptsPainlessExecuteRequest.Builder()).build(), tResultClass, type);
+        return scriptsPainlessExecute(fn.apply(new ScriptsPainlessExecuteRequest.Builder()).build(), tResultClass);
     }
 
     // ----- Endpoint: scroll
@@ -1633,17 +902,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public <TDocument> ScrollResponse<TDocument> scroll(ScrollRequest request, Class<TDocument> tDocumentClass) throws IOException,
         OpenSearchException {
-        return scroll(request, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Allows to retrieve a large numbers of results from a single search request.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public <TDocument> ScrollResponse<TDocument> scroll(ScrollRequest request, Class<TDocument> tDocumentClass, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "scroll", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<ScrollRequest, ScrollResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             ScrollRequest,
@@ -1667,21 +925,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
         Function<ScrollRequest.Builder, ObjectBuilder<ScrollRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return scroll(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Allows to retrieve a large numbers of results from a single search request.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ScrollRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final <TDocument> ScrollResponse<TDocument> scroll(
-        Function<ScrollRequest.Builder, ObjectBuilder<ScrollRequest>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return scroll(fn.apply(new ScrollRequest.Builder()).build(), tDocumentClass, type);
+        return scroll(fn.apply(new ScrollRequest.Builder()).build(), tDocumentClass);
     }
 
     // ----- Endpoint: search
@@ -1691,17 +935,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public <TDocument> SearchResponse<TDocument> search(SearchRequest request, Class<TDocument> tDocumentClass) throws IOException,
         OpenSearchException {
-        return search(request, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Returns results matching a query.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public <TDocument> SearchResponse<TDocument> search(SearchRequest request, Class<TDocument> tDocumentClass, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "search", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<SearchRequest, SearchResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             SearchRequest,
@@ -1725,21 +958,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
         Function<SearchRequest.Builder, ObjectBuilder<SearchRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return search(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Returns results matching a query.
-     *
-     * @param fn   a function that initializes a builder to create the {@link SearchRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final <TDocument> SearchResponse<TDocument> search(
-        Function<SearchRequest.Builder, ObjectBuilder<SearchRequest>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return search(fn.apply(new SearchRequest.Builder()).build(), tDocumentClass, type);
+        return search(fn.apply(new SearchRequest.Builder()).build(), tDocumentClass);
     }
 
     // ----- Endpoint: search_shards
@@ -1748,16 +967,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Returns information about the indexes and shards that a search request would be executed against.
      */
     public SearchShardsResponse searchShards(SearchShardsRequest request) throws IOException, OpenSearchException {
-        return searchShards(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about the indexes and shards that a search request would be executed against.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public SearchShardsResponse searchShards(SearchShardsRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "search_shards", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, SearchShardsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1768,36 +977,14 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final SearchShardsResponse searchShards(Function<SearchShardsRequest.Builder, ObjectBuilder<SearchShardsRequest>> fn)
         throws IOException, OpenSearchException {
-        return searchShards(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about the indexes and shards that a search request would be executed against.
-     *
-     * @param fn   a function that initializes a builder to create the {@link SearchShardsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final SearchShardsResponse searchShards(
-        Function<SearchShardsRequest.Builder, ObjectBuilder<SearchShardsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return searchShards(fn.apply(new SearchShardsRequest.Builder()).build(), type);
+        return searchShards(fn.apply(new SearchShardsRequest.Builder()).build());
     }
 
     /**
      * Returns information about the indexes and shards that a search request would be executed against.
      */
     public final SearchShardsResponse searchShards() throws IOException, OpenSearchException {
-        return searchShards(ApiType.OSS);
-    }
-
-    /**
-     * Returns information about the indexes and shards that a search request would be executed against.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final SearchShardsResponse searchShards(ApiType type) throws IOException, OpenSearchException {
-        return searchShards(new SearchShardsRequest.Builder().build(), type);
+        return searchShards(new SearchShardsRequest.Builder().build());
     }
 
     // ----- Endpoint: search_template
@@ -1807,20 +994,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public <TDocument> SearchTemplateResponse<TDocument> searchTemplate(SearchTemplateRequest request, Class<TDocument> tDocumentClass)
         throws IOException, OpenSearchException {
-        return searchTemplate(request, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Allows to use the Mustache language to pre-render a search definition.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public <TDocument> SearchTemplateResponse<TDocument> searchTemplate(
-        SearchTemplateRequest request,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "search_template", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<SearchTemplateRequest, SearchTemplateResponse<TDocument>, ErrorResponse> endpoint = (JsonEndpoint<
             SearchTemplateRequest,
@@ -1844,21 +1017,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
         Function<SearchTemplateRequest.Builder, ObjectBuilder<SearchTemplateRequest>> fn,
         Class<TDocument> tDocumentClass
     ) throws IOException, OpenSearchException {
-        return searchTemplate(fn, tDocumentClass, ApiType.OSS);
-    }
-
-    /**
-     * Allows to use the Mustache language to pre-render a search definition.
-     *
-     * @param fn   a function that initializes a builder to create the {@link SearchTemplateRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final <TDocument> SearchTemplateResponse<TDocument> searchTemplate(
-        Function<SearchTemplateRequest.Builder, ObjectBuilder<SearchTemplateRequest>> fn,
-        Class<TDocument> tDocumentClass,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return searchTemplate(fn.apply(new SearchTemplateRequest.Builder()).build(), tDocumentClass, type);
+        return searchTemplate(fn.apply(new SearchTemplateRequest.Builder()).build(), tDocumentClass);
     }
 
     // ----- Endpoint: update_by_query
@@ -1867,16 +1026,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      * Performs an update on every document in the index without changing the source, for example to pick up a mapping change.
      */
     public UpdateByQueryResponse updateByQuery(UpdateByQueryRequest request) throws IOException, OpenSearchException {
-        return updateByQuery(request, ApiType.OSS);
-    }
-
-    /**
-     * Performs an update on every document in the index without changing the source, for example to pick up a mapping change.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public UpdateByQueryResponse updateByQuery(UpdateByQueryRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "update_by_query", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, UpdateByQueryRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1887,20 +1036,7 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public final UpdateByQueryResponse updateByQuery(Function<UpdateByQueryRequest.Builder, ObjectBuilder<UpdateByQueryRequest>> fn)
         throws IOException, OpenSearchException {
-        return updateByQuery(fn, ApiType.OSS);
-    }
-
-    /**
-     * Performs an update on every document in the index without changing the source, for example to pick up a mapping change.
-     *
-     * @param fn   a function that initializes a builder to create the {@link UpdateByQueryRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final UpdateByQueryResponse updateByQuery(
-        Function<UpdateByQueryRequest.Builder, ObjectBuilder<UpdateByQueryRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return updateByQuery(fn.apply(new UpdateByQueryRequest.Builder()).build(), type);
+        return updateByQuery(fn.apply(new UpdateByQueryRequest.Builder()).build());
     }
 
     // ----- Endpoint: update_by_query_rethrottle
@@ -1910,17 +1046,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
      */
     public UpdateByQueryRethrottleResponse updateByQueryRethrottle(UpdateByQueryRethrottleRequest request) throws IOException,
         OpenSearchException {
-        return updateByQueryRethrottle(request, ApiType.OSS);
-    }
-
-    /**
-     * Changes the number of requests per second for a particular Update By Query operation.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public UpdateByQueryRethrottleResponse updateByQueryRethrottle(UpdateByQueryRethrottleRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "update_by_query_rethrottle", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, UpdateByQueryRethrottleRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1932,19 +1057,6 @@ public abstract class OpenSearchClientBase<Self extends OpenSearchClientBase<Sel
     public final UpdateByQueryRethrottleResponse updateByQueryRethrottle(
         Function<UpdateByQueryRethrottleRequest.Builder, ObjectBuilder<UpdateByQueryRethrottleRequest>> fn
     ) throws IOException, OpenSearchException {
-        return updateByQueryRethrottle(fn, ApiType.OSS);
-    }
-
-    /**
-     * Changes the number of requests per second for a particular Update By Query operation.
-     *
-     * @param fn   a function that initializes a builder to create the {@link UpdateByQueryRethrottleRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final UpdateByQueryRethrottleResponse updateByQueryRethrottle(
-        Function<UpdateByQueryRethrottleRequest.Builder, ObjectBuilder<UpdateByQueryRethrottleRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return updateByQueryRethrottle(fn.apply(new UpdateByQueryRethrottleRequest.Builder()).build(), type);
+        return updateByQueryRethrottle(fn.apply(new UpdateByQueryRethrottleRequest.Builder()).build());
     }
 }

@@ -10,7 +10,6 @@ package org.opensearch.client.codegen.model;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
@@ -38,8 +37,6 @@ public class Field {
     private final Deprecation deprecation;
     @Nullable
     private final Set<String> aliases;
-    @Nonnull
-    private final List<String> clientApiTypes;
 
     private Field(@Nonnull Builder builder) {
         Objects.requireNonNull(builder, "builder must not be null");
@@ -58,7 +55,6 @@ public class Field {
         this.description = builder.description;
         this.deprecation = builder.deprecation;
         this.aliases = builder.aliases;
-        this.clientApiTypes = builder.clientApiTypes != null ? List.copyOf(builder.clientApiTypes) : List.of();
     }
 
     @Nullable
@@ -95,15 +91,6 @@ public class Field {
         return aliases != null ? Collections.unmodifiableSet(aliases) : Collections.emptySet();
     }
 
-    @Nonnull
-    public List<String> getClientApiTypes() {
-        return clientApiTypes;
-    }
-
-    public boolean hasRestrictedClientApiTypes() {
-        return !clientApiTypes.isEmpty() && clientApiTypes.size() < 3;
-    }
-
     public boolean needsJavaDocSummary() {
         return required || description != null || wireName != null;
     }
@@ -127,7 +114,6 @@ public class Field {
         private String description;
         private Deprecation deprecation;
         private Set<String> aliases;
-        private List<String> clientApiTypes;
 
         private Builder() {}
 
@@ -139,7 +125,6 @@ public class Field {
             this.description = f.description;
             this.deprecation = f.deprecation;
             this.aliases = f.aliases != null ? new HashSet<>(f.aliases) : null;
-            this.clientApiTypes = f.clientApiTypes;
         }
 
         @Nonnull
@@ -195,12 +180,6 @@ public class Field {
         @Nonnull
         public Builder withAliases(@Nonnull Function<SetBuilder<String>, ObjectBuilder<Set<String>>> fn) {
             this.aliases = Objects.requireNonNull(fn, "fn must not be null").apply(new SetBuilder<>()).build();
-            return this;
-        }
-
-        @Nonnull
-        public Builder withClientApiTypes(@Nullable List<String> clientApiTypes) {
-            this.clientApiTypes = clientApiTypes;
             return this;
         }
     }

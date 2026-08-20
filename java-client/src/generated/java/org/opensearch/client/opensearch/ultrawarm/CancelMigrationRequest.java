@@ -53,7 +53,7 @@ import org.opensearch.client.util.ToCopyableBuilder;
 // typedef: ultrawarm.cancel_migration.Request
 
 /**
- * Cancels an in-progress UltraWarm migration.
+ * AOS only. Cancels an in-progress UltraWarm migration.
  */
 @Generated("org.opensearch.client.codegen.CodeGenerator")
 public final class CancelMigrationRequest extends RequestBase
@@ -75,7 +75,7 @@ public final class CancelMigrationRequest extends RequestBase
     }
 
     /**
-     * Required - The name of the index to migrate.
+     * Required - The name of the index to migrate. Only a single index per request.
      * <p>
      * API name: {@code index}
      * </p>
@@ -129,7 +129,7 @@ public final class CancelMigrationRequest extends RequestBase
         }
 
         /**
-         * Required - The name of the index to migrate.
+         * Required - The name of the index to migrate. Only a single index per request.
          * <p>
          * API name: {@code index}
          * </p>

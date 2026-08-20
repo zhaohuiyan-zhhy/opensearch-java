@@ -17,7 +17,6 @@ import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
 import org.apache.hc.core5.http.HttpHost;
 import org.opensearch.client.json.jackson3.JacksonJsonpMapper;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.Refresh;
 import org.opensearch.client.opensearch._types.Result;
@@ -49,42 +48,41 @@ public final class AosJarSmokeTest {
         boolean indexCreated = false;
 
         try {
-            String version = client.info(ApiType.AOS).version().number();
+            String version = client.info().version().number();
             require(version != null && !version.isEmpty(), "info response did not contain a version");
             System.out.println("PASS info: OpenSearch " + version);
 
             CreateIndexResponse created = client.indices()
-                .create(request -> request.index(index).settings(settings -> settings.numberOfShards(1).numberOfReplicas(0)), ApiType.AOS);
+                .create(request -> request.index(index).settings(settings -> settings.numberOfShards(1).numberOfReplicas(0)));
             require(created.acknowledged(), "index creation was not acknowledged");
             indexCreated = true;
-            require(client.indices().exists(request -> request.index(index), ApiType.AOS).value(), "created index does not exist");
+            require(client.indices().exists(request -> request.index(index)).value(), "created index does not exist");
             System.out.println("PASS indices.create/exists: " + index);
 
             IndexResponse indexed = client.index(
                 request -> request.index(index)
                     .document(Map.of("message", "AOS JAR smoke test", "source", "opensearch-java-aos"))
-                    .refresh(Refresh.True),
-                ApiType.AOS
+                    .refresh(Refresh.True)
             );
             require(indexed.result() == Result.Created, "document was not created");
             require(indexed.id() != null && !indexed.id().isEmpty(), "index response did not contain a document ID");
             require(
-                client.get(request -> request.index(index).id(indexed.id()), Map.class, ApiType.AOS).found(),
+                client.get(request -> request.index(index).id(indexed.id()), Map.class).found(),
                 "document could not be read by its generated ID"
             );
             System.out.println("PASS index/get: " + indexed.id());
 
-            int migrations = client.ultrawarm().listMigrationStatus(ApiType.AOS).valueBody().size();
+            int migrations = client.ultrawarm().listMigrationStatus().valueBody().size();
             require(migrations >= 0, "invalid UltraWarm migration count");
             System.out.println("PASS ultrawarm.list_migration_status: " + migrations);
         } finally {
             if (indexCreated) {
                 require(
-                    client.indices().delete(request -> request.index(index), ApiType.AOS).acknowledged(),
+                    client.indices().delete(request -> request.index(index)).acknowledged(),
                     "index deletion was not acknowledged"
                 );
                 require(
-                    !client.indices().exists(request -> request.index(index), ApiType.AOS).value(),
+                    !client.indices().exists(request -> request.index(index)).value(),
                     "temporary index still exists"
                 );
                 System.out.println("PASS cleanup: " + index);

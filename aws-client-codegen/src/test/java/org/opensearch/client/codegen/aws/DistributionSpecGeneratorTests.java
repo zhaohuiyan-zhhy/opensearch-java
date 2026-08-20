@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -195,7 +194,7 @@ class DistributionSpecGeneratorTests {
     }
 
     @Test
-    void buildsUnifiedSpecWithPerOperationApiTypes() throws Exception {
+    void buildsAdditiveSpecAndIgnoresOverlayRemovals() throws Exception {
         Path specification = temporaryDirectory.resolve("specification.yaml");
         Path aosOverlay = temporaryDirectory.resolve("aos.overlay.yaml");
         Path aossOverlay = temporaryDirectory.resolve("aoss.overlay.yaml");
@@ -287,25 +286,12 @@ class DistributionSpecGeneratorTests {
 
         var result = UnifiedSpecGenerator.buildUnifiedSpec(specification, aosOverlay, aossOverlay);
 
-        assertEquals(List.of("AOS", "OSS"), apiTypes(result, "/common", "get"));
-        assertEquals(List.of("AOS", "AOSS", "OSS"), apiTypes(result, "/common/{index}", "get"));
-        assertEquals(List.of("AOS", "OSS"), apiTypes(result, "/oss-aos", "get"));
-        assertEquals(List.of("AOS"), apiTypes(result, "/aos", "post"));
+        assertTrue(result.path("paths").has("/common"));
+        assertTrue(result.path("paths").has("/common/{index}"));
+        assertTrue(result.path("paths").has("/oss-aos"));
+        assertTrue(result.path("paths").has("/aos"));
         assertTrue(result.at("/components/schemas/Shared/properties").has("serverless_field"));
-        assertFalse(result.at("/components/requestBodies/field_caps/content/application~1json/schema/properties").has("fields"));
-        assertEquals(
-            List.of("AOSS"),
-            jsonValues(result.at("/components/schemas/Shared/properties/serverless_field/x-client-api-types"))
-        );
-    }
-
-    private static List<String> apiTypes(com.fasterxml.jackson.databind.node.ObjectNode document, String path, String method) {
-        return jsonValues(document.path("paths").path(path).path(method).path("x-client-api-types"));
-    }
-
-    private static List<String> jsonValues(com.fasterxml.jackson.databind.JsonNode values) {
-        var result = new java.util.ArrayList<String>();
-        values.forEach(value -> result.add(value.asText()));
-        return result;
+        assertTrue(result.at("/components/requestBodies/field_caps/content/application~1json/schema/properties").has("fields"));
+        assertFalse(result.toString().contains("x-client-api-types"));
     }
 }

@@ -20,7 +20,6 @@ import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
 import org.apache.hc.core5.http.HttpHost;
 import org.opensearch.client.json.jackson3.JacksonJsonpMapper;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchAsyncClient;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.Refresh;
@@ -32,7 +31,6 @@ import org.opensearch.client.transport.httpclient5.ApacheHttpClient5TransportBui
 
 /** Live smoke test for sources generated from the AOS distribution specification. */
 public final class AosLiveSmokeTest {
-    private static final ApiType API_TYPE = ApiType.AOS;
 
     private AosLiveSmokeTest() {}
 
@@ -71,8 +69,7 @@ public final class AosLiveSmokeTest {
                 "indices.create",
                 () -> client.indices()
                     .create(
-                        request -> request.index(index).settings(settings -> settings.numberOfShards(1).numberOfReplicas(0)),
-                        API_TYPE
+                        request -> request.index(index).settings(settings -> settings.numberOfShards(1).numberOfReplicas(0))
                     ),
                 CreateIndexResponse::acknowledged
             );
@@ -83,7 +80,7 @@ public final class AosLiveSmokeTest {
 
                 Boolean aliasAdded = recorder.check(
                     "indices.put_alias",
-                    () -> client.indices().putAlias(request -> request.index(index).name(alias), API_TYPE).acknowledged(),
+                    () -> client.indices().putAlias(request -> request.index(index).name(alias)).acknowledged(),
                     Boolean.TRUE::equals
                 );
                 aliasCreated = Boolean.TRUE.equals(aliasAdded);
@@ -91,7 +88,7 @@ public final class AosLiveSmokeTest {
                     runAliasChecks(client, recorder, index, alias);
                     Boolean aliasDeleted = recorder.check(
                         "indices.delete_alias",
-                        () -> client.indices().deleteAlias(request -> request.index(index).name(alias), API_TYPE).acknowledged(),
+                        () -> client.indices().deleteAlias(request -> request.index(index).name(alias)).acknowledged(),
                         Boolean.TRUE::equals
                     );
                     aliasCreated = !Boolean.TRUE.equals(aliasDeleted);
@@ -100,26 +97,25 @@ public final class AosLiveSmokeTest {
 
             recorder.check(
                 "ultrawarm.list_migration_status",
-                () -> client.ultrawarm().listMigrationStatus(API_TYPE).valueBody().size(),
+                () -> client.ultrawarm().listMigrationStatus().valueBody().size(),
                 count -> count >= 0
             );
 
             recorder.check(
                 "async.root.info",
-                () -> asyncClient.info(API_TYPE).get(30, TimeUnit.SECONDS).version().number(),
+                () -> asyncClient.info().get(30, TimeUnit.SECONDS).version().number(),
                 notEmpty()
             );
             recorder.check(
                 "async.cluster.health",
-                () -> asyncClient.cluster().health(API_TYPE).get(30, TimeUnit.SECONDS).status().jsonValue(),
+                () -> asyncClient.cluster().health().get(30, TimeUnit.SECONDS).status().jsonValue(),
                 AosLiveSmokeTest::healthy
             );
             CreateIndexResponse asyncCreated = recorder.check(
                 "async.indices.create",
                 () -> asyncClient.indices()
                     .create(
-                        request -> request.index(asyncIndex).settings(settings -> settings.numberOfShards(1).numberOfReplicas(0)),
-                        API_TYPE
+                        request -> request.index(asyncIndex).settings(settings -> settings.numberOfShards(1).numberOfReplicas(0))
                     )
                     .get(30, TimeUnit.SECONDS),
                 CreateIndexResponse::acknowledged
@@ -132,7 +128,7 @@ public final class AosLiveSmokeTest {
             if (aliasCreated) {
                 recorder.check(
                     "cleanup.indices.delete_alias",
-                    () -> client.indices().deleteAlias(request -> request.index(index).name(alias), API_TYPE).acknowledged(),
+                    () -> client.indices().deleteAlias(request -> request.index(index).name(alias)).acknowledged(),
                     Boolean.TRUE::equals
                 );
             }
@@ -140,26 +136,26 @@ public final class AosLiveSmokeTest {
                 recorder.check(
                     "cleanup.async.indices.delete",
                     () -> asyncClient.indices()
-                        .delete(request -> request.index(asyncIndex), API_TYPE)
+                        .delete(request -> request.index(asyncIndex))
                         .get(30, TimeUnit.SECONDS)
                         .acknowledged(),
                     Boolean.TRUE::equals
                 );
                 recorder.check(
                     "cleanup.async.index_absent",
-                    () -> !client.indices().exists(request -> request.index(asyncIndex), API_TYPE).value(),
+                    () -> !client.indices().exists(request -> request.index(asyncIndex)).value(),
                     Boolean.TRUE::equals
                 );
             }
             if (indexCreated) {
                 recorder.check(
                     "cleanup.indices.delete",
-                    () -> client.indices().delete(request -> request.index(index), API_TYPE).acknowledged(),
+                    () -> client.indices().delete(request -> request.index(index)).acknowledged(),
                     Boolean.TRUE::equals
                 );
                 recorder.check(
                     "cleanup.index_absent",
-                    () -> !client.indices().exists(request -> request.index(index), API_TYPE).value(),
+                    () -> !client.indices().exists(request -> request.index(index)).value(),
                     Boolean.TRUE::equals
                 );
             }
@@ -171,53 +167,53 @@ public final class AosLiveSmokeTest {
     }
 
     private static void runReadOnlyChecks(OpenSearchClient client, Recorder recorder) {
-        recorder.check("root.ping", () -> client.ping(API_TYPE).value(), Boolean.TRUE::equals);
-        recorder.check("root.info", () -> client.info(API_TYPE).version().number(), notEmpty());
-        recorder.check("cluster.health", () -> client.cluster().health(API_TYPE).status().jsonValue(), AosLiveSmokeTest::healthy);
-        recorder.check("cluster.get_settings", () -> client.cluster().getSettings(API_TYPE), value -> value != null);
-        recorder.check("cluster.stats", () -> client.cluster().stats(API_TYPE), value -> value != null);
-        recorder.check("cluster.pending_tasks", () -> client.cluster().pendingTasks(API_TYPE), value -> value != null);
-        recorder.check("nodes.info", () -> client.nodes().info(API_TYPE), value -> value != null);
-        recorder.check("nodes.stats", () -> client.nodes().stats(API_TYPE), value -> value != null);
-        recorder.check("nodes.usage", () -> client.nodes().usage(API_TYPE), value -> value != null);
-        recorder.check("cat.health", () -> client.cat().health(API_TYPE).valueBody().size(), count -> count > 0);
-        recorder.check("cat.nodes", () -> client.cat().nodes(API_TYPE).valueBody().size(), count -> count > 0);
-        recorder.check("cat.plugins", () -> client.cat().plugins(API_TYPE).valueBody().size(), count -> count >= 0);
-        recorder.check("tasks.list", () -> client.tasks().list(API_TYPE), value -> value != null);
-        recorder.check("security.get_sslinfo", () -> client.security().getSslinfo(API_TYPE), value -> value != null);
+        recorder.check("root.ping", () -> client.ping().value(), Boolean.TRUE::equals);
+        recorder.check("root.info", () -> client.info().version().number(), notEmpty());
+        recorder.check("cluster.health", () -> client.cluster().health().status().jsonValue(), AosLiveSmokeTest::healthy);
+        recorder.check("cluster.get_settings", () -> client.cluster().getSettings(), value -> value != null);
+        recorder.check("cluster.stats", () -> client.cluster().stats(), value -> value != null);
+        recorder.check("cluster.pending_tasks", () -> client.cluster().pendingTasks(), value -> value != null);
+        recorder.check("nodes.info", () -> client.nodes().info(), value -> value != null);
+        recorder.check("nodes.stats", () -> client.nodes().stats(), value -> value != null);
+        recorder.check("nodes.usage", () -> client.nodes().usage(), value -> value != null);
+        recorder.check("cat.health", () -> client.cat().health().valueBody().size(), count -> count > 0);
+        recorder.check("cat.nodes", () -> client.cat().nodes().valueBody().size(), count -> count > 0);
+        recorder.check("cat.plugins", () -> client.cat().plugins().valueBody().size(), count -> count >= 0);
+        recorder.check("tasks.list", () -> client.tasks().list(), value -> value != null);
+        recorder.check("security.get_sslinfo", () -> client.security().getSslinfo(), value -> value != null);
     }
 
     private static void runIndexMetadataChecks(OpenSearchClient client, Recorder recorder, String index) {
         recorder.check(
             "indices.exists",
-            () -> client.indices().exists(request -> request.index(index), API_TYPE).value(),
+            () -> client.indices().exists(request -> request.index(index)).value(),
             Boolean.TRUE::equals
         );
-        recorder.check("indices.get", () -> client.indices().get(request -> request.index(index), API_TYPE), value -> value != null);
+        recorder.check("indices.get", () -> client.indices().get(request -> request.index(index)), value -> value != null);
         recorder.check(
             "indices.get_mapping",
-            () -> client.indices().getMapping(request -> request.index(index), API_TYPE),
+            () -> client.indices().getMapping(request -> request.index(index)),
             value -> value != null
         );
         recorder.check(
             "indices.get_settings",
-            () -> client.indices().getSettings(request -> request.index(index), API_TYPE),
+            () -> client.indices().getSettings(request -> request.index(index)),
             value -> value != null
         );
         recorder.check(
             "indices.analyze",
             () -> client.indices()
-                .analyze(request -> request.index(index).analyzer("standard").text("AOS smoke test"), API_TYPE)
+                .analyze(request -> request.index(index).analyzer("standard").text("AOS smoke test"))
                 .tokens()
                 .size(),
             count -> count > 0
         );
         recorder.check(
             "indices.resolve_index",
-            () -> client.indices().resolveIndex(request -> request.name(index), API_TYPE).indices().size(),
+            () -> client.indices().resolveIndex(request -> request.name(index)).indices().size(),
             count -> count > 0
         );
-        recorder.check("indices.stats", () -> client.indices().stats(request -> request.index(index), API_TYPE), value -> value != null);
+        recorder.check("indices.stats", () -> client.indices().stats(request -> request.index(index)), value -> value != null);
     }
 
     private static boolean runDocumentChecks(OpenSearchClient client, Recorder recorder, String index) {
@@ -226,32 +222,32 @@ public final class AosLiveSmokeTest {
 
         IndexResponse indexed = recorder.check(
             "root.index",
-            () -> client.index(request -> request.index(index).document(first).refresh(Refresh.True), API_TYPE),
+            () -> client.index(request -> request.index(index).document(first).refresh(Refresh.True)),
             response -> response.result() == Result.Created || response.result() == Result.Updated
         );
         String firstId = indexed == null ? null : indexed.id();
 
         recorder.check(
             "root.create",
-            () -> client.create(request -> request.index(index).id("2").document(second).refresh(Refresh.True), API_TYPE).result(),
+            () -> client.create(request -> request.index(index).id("2").document(second).refresh(Refresh.True)).result(),
             result -> result == Result.Created
         );
         if (firstId != null) {
             recorder.check(
                 "root.exists",
-                () -> client.exists(request -> request.index(index).id(firstId), API_TYPE).value(),
+                () -> client.exists(request -> request.index(index).id(firstId)).value(),
                 Boolean.TRUE::equals
             );
             recorder.check(
                 "root.get",
-                () -> client.get(request -> request.index(index).id(firstId), Map.class, API_TYPE).found(),
+                () -> client.get(request -> request.index(index).id(firstId), Map.class).found(),
                 Boolean.TRUE::equals
             );
         }
 
         Result deleted = recorder.checkOrSkip(
             "root.delete",
-            () -> client.delete(request -> request.index(index).id("2").refresh(Refresh.True), API_TYPE).result(),
+            () -> client.delete(request -> request.index(index).id("2").refresh(Refresh.True)).result(),
             result -> result == Result.Deleted,
             AosLiveSmokeTest::isAppendOnlyError,
             "Optimized Engine append-only indexes reject document deletion"
@@ -261,13 +257,12 @@ public final class AosLiveSmokeTest {
             recorder.skip("root.count", "Optimized Engine blocks count requests on this domain");
             recorder.skip("root.search", "Optimized Engine blocks search requests on this domain");
         } else {
-            recorder.check("root.count", () -> client.count(request -> request.index(index), API_TYPE).count(), count -> count >= 1);
+            recorder.check("root.count", () -> client.count(request -> request.index(index)).count(), count -> count >= 1);
             recorder.check(
                 "root.search",
                 () -> client.search(
                     request -> request.index(index).query(query -> query.matchAll(matchAll -> matchAll)),
-                    Map.class,
-                    API_TYPE
+                    Map.class
                 )
                     .hits()
                     .hits()
@@ -277,37 +272,37 @@ public final class AosLiveSmokeTest {
         }
         recorder.check(
             "root.field_caps",
-            () -> client.fieldCaps(request -> request.index(index).fields("category", "count"), API_TYPE),
+            () -> client.fieldCaps(request -> request.index(index).fields("category", "count")),
             value -> value != null
         );
         recorder.check(
             "root.search_shards",
-            () -> client.searchShards(request -> request.index(index), API_TYPE),
+            () -> client.searchShards(request -> request.index(index)),
             value -> value != null
         );
         recorder.check(
             "indices.refresh",
-            () -> client.indices().refresh(request -> request.index(index), API_TYPE),
+            () -> client.indices().refresh(request -> request.index(index)),
             value -> value != null
         );
         recorder.check(
             "indices.flush",
-            () -> client.indices().flush(request -> request.index(index), API_TYPE),
+            () -> client.indices().flush(request -> request.index(index)),
             value -> value != null
         );
         recorder.check(
             "cat.indices",
-            () -> client.cat().indices(request -> request.index(index), API_TYPE).valueBody().size(),
+            () -> client.cat().indices(request -> request.index(index)).valueBody().size(),
             count -> count > 0
         );
         recorder.check(
             "cat.count",
-            () -> client.cat().count(request -> request.index(index), API_TYPE).valueBody().size(),
+            () -> client.cat().count(request -> request.index(index)).valueBody().size(),
             count -> count > 0
         );
         recorder.check(
             "cat.shards",
-            () -> client.cat().shards(request -> request.index(index), API_TYPE).valueBody().size(),
+            () -> client.cat().shards(request -> request.index(index)).valueBody().size(),
             count -> count > 0
         );
         return appendOnly;
@@ -316,17 +311,17 @@ public final class AosLiveSmokeTest {
     private static void runAliasChecks(OpenSearchClient client, Recorder recorder, String index, String alias) {
         recorder.check(
             "indices.exists_alias",
-            () -> client.indices().existsAlias(request -> request.index(index).name(alias), API_TYPE).value(),
+            () -> client.indices().existsAlias(request -> request.index(index).name(alias)).value(),
             Boolean.TRUE::equals
         );
         recorder.check(
             "indices.get_alias",
-            () -> client.indices().getAlias(request -> request.index(index).name(alias), API_TYPE),
+            () -> client.indices().getAlias(request -> request.index(index).name(alias)),
             value -> value != null
         );
         recorder.check(
             "cat.aliases",
-            () -> client.cat().aliases(request -> request.name(alias), API_TYPE).valueBody().size(),
+            () -> client.cat().aliases(request -> request.name(alias)).valueBody().size(),
             count -> count > 0
         );
     }
@@ -335,16 +330,16 @@ public final class AosLiveSmokeTest {
         Map<String, Object> document = document("async smoke document", "async", 1);
         String documentId = recorder.check("async.root.index", () -> client.index(request -> {
             return request.index(index).document(document).refresh(Refresh.True);
-        }, API_TYPE).get(30, TimeUnit.SECONDS).id(), notEmpty());
+        }).get(30, TimeUnit.SECONDS).id(), notEmpty());
         if (documentId != null) {
             recorder.check(
                 "async.root.exists",
-                () -> client.exists(request -> request.index(index).id(documentId), API_TYPE).get(30, TimeUnit.SECONDS).value(),
+                () -> client.exists(request -> request.index(index).id(documentId)).get(30, TimeUnit.SECONDS).value(),
                 Boolean.TRUE::equals
             );
             recorder.check(
                 "async.root.get",
-                () -> client.get(request -> request.index(index).id(documentId), Map.class, API_TYPE)
+                () -> client.get(request -> request.index(index).id(documentId), Map.class)
                     .get(30, TimeUnit.SECONDS)
                     .found(),
                 Boolean.TRUE::equals
@@ -356,12 +351,12 @@ public final class AosLiveSmokeTest {
         } else {
             recorder.check(
                 "async.root.count",
-                () -> client.count(request -> request.index(index), API_TYPE).get(30, TimeUnit.SECONDS).count(),
+                () -> client.count(request -> request.index(index)).get(30, TimeUnit.SECONDS).count(),
                 count -> count == 1
             );
             recorder.check(
                 "async.root.delete",
-                () -> client.delete(request -> request.index(index).id(documentId).refresh(Refresh.True), API_TYPE)
+                () -> client.delete(request -> request.index(index).id(documentId).refresh(Refresh.True))
                     .get(30, TimeUnit.SECONDS)
                     .result(),
                 result -> result == Result.Deleted

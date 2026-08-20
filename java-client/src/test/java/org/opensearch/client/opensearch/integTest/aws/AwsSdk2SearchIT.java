@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.junit.Assert;
 import org.junit.Test;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchAsyncClient;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.OpenSearchException;
@@ -112,7 +111,7 @@ public class AwsSdk2SearchIT extends AwsSdk2TransportTestCase {
         // attempt to create the same index a second time
         OpenSearchIndicesClient client = getIndexesClient(false, null, null);
         final CreateIndexRequest.Builder req = new CreateIndexRequest.Builder().index(TEST_INDEX);
-        Exception exception = Assert.assertThrows(OpenSearchException.class, () -> { client.create(req.build(), ApiType.OSS); });
+        Exception exception = Assert.assertThrows(OpenSearchException.class, () -> { client.create(req.build()); });
         // error message contains the actual error, not a generic [http_exception]
         Assert.assertTrue(exception.getMessage().contains("[resource_already_exists_exception]"));
     }

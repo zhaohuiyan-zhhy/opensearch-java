@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Test;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.Refresh;
 import org.opensearch.client.opensearch._types.query_dsl.Query;
@@ -39,7 +38,7 @@ public class AwsSdk2BulkRequestIT extends AwsSdk2TransportTestCase {
         ops.add(new BulkOperation.Builder().index(IndexOperation.of(io -> io.index(TEST_INDEX).id("id3").document(doc3))).build());
 
         BulkRequest.Builder bulkReq = new BulkRequest.Builder().index(TEST_INDEX).operations(ops).refresh(Refresh.WaitFor);
-        BulkResponse bulkResponse = client.bulk(bulkReq.build(), ApiType.OSS);
+        BulkResponse bulkResponse = client.bulk(bulkReq.build());
         Assert.assertEquals(3, bulkResponse.items().size());
 
         Query query = Query.of(qb -> qb.match(mb -> mb.field("title").query(fv -> fv.stringValue("Document"))));
@@ -49,7 +48,7 @@ public class AwsSdk2BulkRequestIT extends AwsSdk2TransportTestCase {
             .source(sc -> sc.fetch(false))
             .ignoreThrottled(false)
             .query(query);
-        SearchResponse<SimplePojo> searchResponse = client.search(searchReq.build(), SimplePojo.class, ApiType.OSS);
+        SearchResponse<SimplePojo> searchResponse = client.search(searchReq.build(), SimplePojo.class);
         Assert.assertEquals(3, searchResponse.hits().hits().size());
     }
 }

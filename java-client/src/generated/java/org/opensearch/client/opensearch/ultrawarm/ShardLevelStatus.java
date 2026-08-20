@@ -55,6 +55,9 @@ import org.opensearch.client.util.ToCopyableBuilder;
 
 // typedef: ultrawarm.ShardLevelStatus
 
+/**
+ * Per-shard migration counters.
+ */
 @JsonpDeserializable
 @Generated("org.opensearch.client.codegen.CodeGenerator")
 public class ShardLevelStatus implements PlainJsonSerializable, ToCopyableBuilder<ShardLevelStatus.Builder, ShardLevelStatus> {

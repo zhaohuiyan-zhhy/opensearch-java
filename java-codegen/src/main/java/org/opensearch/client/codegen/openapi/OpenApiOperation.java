@@ -49,8 +49,6 @@ public final class OpenApiOperation extends OpenApiElement<OpenApiOperation> imp
     private final String deprecationMessage;
     @Nullable
     private final Boolean ignorable;
-    @Nullable
-    private final List<String> clientApiTypes;
 
     OpenApiOperation(@Nonnull Builder builder) {
         super(builder);
@@ -65,7 +63,6 @@ public final class OpenApiOperation extends OpenApiElement<OpenApiOperation> imp
         this.versionDeprecated = builder.versionDeprecated;
         this.deprecationMessage = builder.deprecationMessage;
         this.ignorable = builder.ignorable;
-        this.clientApiTypes = builder.clientApiTypes;
     }
 
     OpenApiOperation(@Nonnull Operation operation) {
@@ -82,7 +79,6 @@ public final class OpenApiOperation extends OpenApiElement<OpenApiOperation> imp
         this.versionDeprecated = ifNonnull(extensions.get("x-version-deprecated"), v -> Versions.coerce((String) v));
         this.deprecationMessage = ifNonnull(extensions.get("x-deprecation-message"), String::valueOf);
         this.ignorable = ifNonnull(extensions.get("x-ignorable"), Boolean.class::cast);
-        this.clientApiTypes = ifNonnull(extensions.get("x-client-api-types"), value -> (List<String>) value);
     }
 
     @Override
@@ -154,11 +150,6 @@ public final class OpenApiOperation extends OpenApiElement<OpenApiOperation> imp
         return ignorable != null && ignorable;
     }
 
-    @Nonnull
-    public List<String> getClientApiTypes() {
-        return clientApiTypes == null ? List.of() : List.copyOf(clientApiTypes);
-    }
-
     @Override
     protected void toJsonInner(JsonGenerator generator) {
         generator.writeField("operationId", id);
@@ -187,9 +178,6 @@ public final class OpenApiOperation extends OpenApiElement<OpenApiOperation> imp
         if (deprecationMessage != null) {
             generator.writeField("x-deprecation-message", deprecationMessage);
         }
-        if (clientApiTypes != null) {
-            generator.writeField("x-client-api-types", clientApiTypes);
-        }
     }
 
     @Override
@@ -209,8 +197,7 @@ public final class OpenApiOperation extends OpenApiElement<OpenApiOperation> imp
             .withVersionAdded(versionAdded)
             .withVersionDeprecated(versionDeprecated)
             .withDeprecationMessage(deprecationMessage)
-            .withIgnorable(ignorable)
-            .withClientApiTypes(clientApiTypes);
+            .withIgnorable(ignorable);
     }
 
     public static @Nonnull Builder builder() {
@@ -229,7 +216,6 @@ public final class OpenApiOperation extends OpenApiElement<OpenApiOperation> imp
         private Semver versionDeprecated;
         private String deprecationMessage;
         private Boolean ignorable;
-        private List<String> clientApiTypes;
 
         private Builder() {}
 
@@ -291,11 +277,6 @@ public final class OpenApiOperation extends OpenApiElement<OpenApiOperation> imp
 
         public @Nonnull Builder withIgnorable(@Nullable Boolean ignorable) {
             this.ignorable = ignorable;
-            return this;
-        }
-
-        public @Nonnull Builder withClientApiTypes(@Nullable List<String> clientApiTypes) {
-            this.clientApiTypes = clientApiTypes;
             return this;
         }
     }

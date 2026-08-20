@@ -55,7 +55,7 @@ import org.opensearch.client.util.ToCopyableBuilder;
 // typedef: ultrawarm.migrate_to_hot.Request
 
 /**
- * Starts an asynchronous migration from UltraWarm to hot storage.
+ * AOS only. Migrates an index from UltraWarm back to hot. Asynchronous.
  */
 @Generated("org.opensearch.client.codegen.CodeGenerator")
 public final class MigrateToHotRequest extends RequestBase implements ToCopyableBuilder<MigrateToHotRequest.Builder, MigrateToHotRequest> {
@@ -90,7 +90,7 @@ public final class MigrateToHotRequest extends RequestBase implements ToCopyable
     }
 
     /**
-     * Required - The name of the index to migrate.
+     * Required - The name of the index to migrate. Only a single index per request.
      * <p>
      * API name: {@code index}
      * </p>
@@ -160,7 +160,7 @@ public final class MigrateToHotRequest extends RequestBase implements ToCopyable
         }
 
         /**
-         * Required - The name of the index to migrate.
+         * Required - The name of the index to migrate. Only a single index per request.
          * <p>
          * API name: {@code index}
          * </p>

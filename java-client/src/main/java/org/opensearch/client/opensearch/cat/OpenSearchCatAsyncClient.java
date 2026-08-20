@@ -35,7 +35,6 @@ package org.opensearch.client.opensearch.cat;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Nullable;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -66,11 +65,6 @@ public class OpenSearchCatAsyncClient extends OpenSearchCatAsyncClientBase<OpenS
      *
      */
     public CompletableFuture<HelpResponse> help() throws IOException, OpenSearchException {
-        return help(ApiType.OSS);
-    }
-
-    public CompletableFuture<HelpResponse> help(ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cat.help", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(HelpRequest._INSTANCE, HelpRequest._ENDPOINT, this.transportOptions);
     }
 }

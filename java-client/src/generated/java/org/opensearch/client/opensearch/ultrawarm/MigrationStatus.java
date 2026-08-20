@@ -55,6 +55,9 @@ import org.opensearch.client.util.ToCopyableBuilder;
 
 // typedef: ultrawarm.MigrationStatus
 
+/**
+ * Migration status for a single index.
+ */
 @JsonpDeserializable
 @Generated("org.opensearch.client.codegen.CodeGenerator")
 public class MigrationStatus implements PlainJsonSerializable, ToCopyableBuilder<MigrationStatus.Builder, MigrationStatus> {

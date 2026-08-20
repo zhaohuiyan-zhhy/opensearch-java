@@ -53,58 +53,37 @@ import org.opensearch.client.util.ObjectBuilder;
 import org.opensearch.client.util.ObjectBuilderBase;
 import org.opensearch.client.util.ToCopyableBuilder;
 
-// typedef: ultrawarm.MigrationStatusEntry
+// typedef: ultrawarm.update_migration.Response
 
-/**
- * A single entry in the cluster-wide migration status list.
- */
 @JsonpDeserializable
 @Generated("org.opensearch.client.codegen.CodeGenerator")
-public class MigrationStatusEntry implements PlainJsonSerializable, ToCopyableBuilder<MigrationStatusEntry.Builder, MigrationStatusEntry> {
+public class UpdateMigrationResponse
+    implements
+        PlainJsonSerializable,
+        ToCopyableBuilder<UpdateMigrationResponse.Builder, UpdateMigrationResponse> {
 
     @Nullable
-    private final String index;
-
-    @Nullable
-    private final String migrationType;
-
-    @Nullable
-    private final String state;
+    private final Boolean acknowledged;
 
     // ---------------------------------------------------------------------------------------------
 
-    private MigrationStatusEntry(Builder builder) {
-        this.index = builder.index;
-        this.migrationType = builder.migrationType;
-        this.state = builder.state;
+    private UpdateMigrationResponse(Builder builder) {
+        this.acknowledged = builder.acknowledged;
     }
 
-    public static MigrationStatusEntry of(Function<MigrationStatusEntry.Builder, ObjectBuilder<MigrationStatusEntry>> fn) {
+    public static UpdateMigrationResponse of(Function<UpdateMigrationResponse.Builder, ObjectBuilder<UpdateMigrationResponse>> fn) {
         return fn.apply(new Builder()).build();
     }
 
     /**
-     * API name: {@code index}
+     * Whether the migration request was accepted.
+     * <p>
+     * API name: {@code acknowledged}
+     * </p>
      */
     @Nullable
-    public final String index() {
-        return this.index;
-    }
-
-    /**
-     * API name: {@code migration_type}
-     */
-    @Nullable
-    public final String migrationType() {
-        return this.migrationType;
-    }
-
-    /**
-     * API name: {@code state}
-     */
-    @Nullable
-    public final String state() {
-        return this.state;
+    public final Boolean acknowledged() {
+        return this.acknowledged;
     }
 
     /**
@@ -118,19 +97,9 @@ public class MigrationStatusEntry implements PlainJsonSerializable, ToCopyableBu
     }
 
     protected void serializeInternal(JsonGenerator generator, JsonpMapper mapper) {
-        if (this.index != null) {
-            generator.writeKey("index");
-            generator.write(this.index);
-        }
-
-        if (this.migrationType != null) {
-            generator.writeKey("migration_type");
-            generator.write(this.migrationType);
-        }
-
-        if (this.state != null) {
-            generator.writeKey("state");
-            generator.write(this.state);
+        if (this.acknowledged != null) {
+            generator.writeKey("acknowledged");
+            generator.write(this.acknowledged);
         }
     }
 
@@ -148,28 +117,20 @@ public class MigrationStatusEntry implements PlainJsonSerializable, ToCopyableBu
     }
 
     /**
-     * Builder for {@link MigrationStatusEntry}.
+     * Builder for {@link UpdateMigrationResponse}.
      */
-    public static class Builder extends ObjectBuilderBase implements CopyableBuilder<Builder, MigrationStatusEntry> {
+    public static class Builder extends ObjectBuilderBase implements CopyableBuilder<Builder, UpdateMigrationResponse> {
         @Nullable
-        private String index;
-        @Nullable
-        private String migrationType;
-        @Nullable
-        private String state;
+        private Boolean acknowledged;
 
         public Builder() {}
 
-        private Builder(MigrationStatusEntry o) {
-            this.index = o.index;
-            this.migrationType = o.migrationType;
-            this.state = o.state;
+        private Builder(UpdateMigrationResponse o) {
+            this.acknowledged = o.acknowledged;
         }
 
         private Builder(Builder o) {
-            this.index = o.index;
-            this.migrationType = o.migrationType;
-            this.state = o.state;
+            this.acknowledged = o.acknowledged;
         }
 
         @Override
@@ -179,68 +140,49 @@ public class MigrationStatusEntry implements PlainJsonSerializable, ToCopyableBu
         }
 
         /**
-         * API name: {@code index}
+         * Whether the migration request was accepted.
+         * <p>
+         * API name: {@code acknowledged}
+         * </p>
          */
         @Nonnull
-        public final Builder index(@Nullable String value) {
-            this.index = value;
+        public final Builder acknowledged(@Nullable Boolean value) {
+            this.acknowledged = value;
             return this;
         }
 
         /**
-         * API name: {@code migration_type}
-         */
-        @Nonnull
-        public final Builder migrationType(@Nullable String value) {
-            this.migrationType = value;
-            return this;
-        }
-
-        /**
-         * API name: {@code state}
-         */
-        @Nonnull
-        public final Builder state(@Nullable String value) {
-            this.state = value;
-            return this;
-        }
-
-        /**
-         * Builds a {@link MigrationStatusEntry}.
+         * Builds a {@link UpdateMigrationResponse}.
          *
          * @throws NullPointerException if some of the required fields are null.
          */
         @Override
         @Nonnull
-        public MigrationStatusEntry build() {
+        public UpdateMigrationResponse build() {
             _checkSingleUse();
 
-            return new MigrationStatusEntry(this);
+            return new UpdateMigrationResponse(this);
         }
     }
 
     // ---------------------------------------------------------------------------------------------
 
     /**
-     * Json deserializer for {@link MigrationStatusEntry}
+     * Json deserializer for {@link UpdateMigrationResponse}
      */
-    public static final JsonpDeserializer<MigrationStatusEntry> _DESERIALIZER = ObjectBuilderDeserializer.lazy(
+    public static final JsonpDeserializer<UpdateMigrationResponse> _DESERIALIZER = ObjectBuilderDeserializer.lazy(
         Builder::new,
-        MigrationStatusEntry::setupMigrationStatusEntryDeserializer
+        UpdateMigrationResponse::setupUpdateMigrationResponseDeserializer
     );
 
-    protected static void setupMigrationStatusEntryDeserializer(ObjectDeserializer<MigrationStatusEntry.Builder> op) {
-        op.add(Builder::index, JsonpDeserializer.stringDeserializer(), "index");
-        op.add(Builder::migrationType, JsonpDeserializer.stringDeserializer(), "migration_type");
-        op.add(Builder::state, JsonpDeserializer.stringDeserializer(), "state");
+    protected static void setupUpdateMigrationResponseDeserializer(ObjectDeserializer<UpdateMigrationResponse.Builder> op) {
+        op.add(Builder::acknowledged, JsonpDeserializer.booleanDeserializer(), "acknowledged");
     }
 
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + Objects.hashCode(this.index);
-        result = 31 * result + Objects.hashCode(this.migrationType);
-        result = 31 * result + Objects.hashCode(this.state);
+        result = 31 * result + Objects.hashCode(this.acknowledged);
         return result;
     }
 
@@ -248,9 +190,7 @@ public class MigrationStatusEntry implements PlainJsonSerializable, ToCopyableBu
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        MigrationStatusEntry other = (MigrationStatusEntry) o;
-        return Objects.equals(this.index, other.index)
-            && Objects.equals(this.migrationType, other.migrationType)
-            && Objects.equals(this.state, other.state);
+        UpdateMigrationResponse other = (UpdateMigrationResponse) o;
+        return Objects.equals(this.acknowledged, other.acknowledged);
     }
 }

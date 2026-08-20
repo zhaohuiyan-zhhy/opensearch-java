@@ -55,7 +55,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.generic.Requests;
 import org.opensearch.client.transport.TransportException;
@@ -308,8 +307,7 @@ public class AwsSdk2TransportTests {
                     b -> b.index("sample-index1")
                         .aliases("sample-alias1", a -> a)
                         .mappings(m -> m.properties("age", p -> p.integer(i -> i)))
-                        .settings(s -> s.index(i -> i.numberOfReplicas(1).numberOfShards(2))),
-                    ApiType.OSS
+                        .settings(s -> s.index(i -> i.numberOfReplicas(1).numberOfShards(2)))
                 ),
             "PUT",
             "/" + TEST_INDEX,
@@ -326,7 +324,7 @@ public class AwsSdk2TransportTests {
     @Test
     public void testSigV4ClearScroll() throws Exception {
         assertSigV4Request(
-            c -> c.clearScroll(ApiType.OSS),
+            OpenSearchClient::clearScroll,
             "DELETE",
             "/_search/scroll",
             2,
@@ -343,7 +341,7 @@ public class AwsSdk2TransportTests {
     public void testSigV4DeletePit() throws Exception {
         // noinspection ArraysAsListWithZeroOrOneArgument
         assertSigV4Request(
-            c -> c.deletePit(d -> d.pitId(Arrays.asList("pit1")), ApiType.OSS),
+            c -> c.deletePit(d -> d.pitId(Arrays.asList("pit1"))),
             "DELETE",
             "/_search/point_in_time",
             19,
@@ -359,7 +357,7 @@ public class AwsSdk2TransportTests {
     @Test
     public void testSigV4Refresh() throws Exception {
         assertSigV4Request(
-            c -> c.indices().refresh(s -> s.index(TEST_INDEX).ignoreUnavailable(true), ApiType.OSS),
+            c -> c.indices().refresh(s -> s.index(TEST_INDEX).ignoreUnavailable(true)),
             "POST",
             "/" + TEST_INDEX + "/_refresh?ignore_unavailable=true",
             0,
@@ -375,7 +373,7 @@ public class AwsSdk2TransportTests {
     @Test
     public void testHeadWithBody() throws Exception {
         assertSigV4Request(
-            c -> c.generic().execute(Requests.builder().method("HEAD").endpoint("/").json("{}").build(), ApiType.OSS),
+            c -> c.generic().execute(Requests.builder().method("HEAD").endpoint("/").json("{}").build()),
             "HEAD",
             "/",
             2,
@@ -391,7 +389,7 @@ public class AwsSdk2TransportTests {
     @Test
     public void testOptionsWithBody() throws Exception {
         assertSigV4Request(
-            c -> c.generic().execute(Requests.builder().method("OPTIONS").endpoint("/").json("{}").build(), ApiType.OSS),
+            c -> c.generic().execute(Requests.builder().method("OPTIONS").endpoint("/").json("{}").build()),
             "OPTIONS",
             "/",
             2,

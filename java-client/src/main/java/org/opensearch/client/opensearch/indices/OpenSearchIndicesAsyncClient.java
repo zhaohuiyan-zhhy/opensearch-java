@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import javax.annotation.Nullable;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.ErrorResponse;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.JsonEndpoint;
@@ -72,12 +71,6 @@ public class OpenSearchIndicesAsyncClient extends OpenSearchIndicesAsyncClientBa
 
     public CompletableFuture<GetFieldMappingResponse> getFieldMapping(GetFieldMappingRequest request) throws IOException,
         OpenSearchException {
-        return getFieldMapping(request, ApiType.OSS);
-    }
-
-    public CompletableFuture<GetFieldMappingResponse> getFieldMapping(GetFieldMappingRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "indices.get_field_mapping", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         @SuppressWarnings("unchecked")
         JsonEndpoint<GetFieldMappingRequest, GetFieldMappingResponse, ErrorResponse> endpoint = (JsonEndpoint<
             GetFieldMappingRequest,
@@ -99,13 +92,6 @@ public class OpenSearchIndicesAsyncClient extends OpenSearchIndicesAsyncClientBa
     public final CompletableFuture<GetFieldMappingResponse> getFieldMapping(
         Function<GetFieldMappingRequest.Builder, ObjectBuilder<GetFieldMappingRequest>> fn
     ) throws IOException, OpenSearchException {
-        return getFieldMapping(fn, ApiType.OSS);
-    }
-
-    public final CompletableFuture<GetFieldMappingResponse> getFieldMapping(
-        Function<GetFieldMappingRequest.Builder, ObjectBuilder<GetFieldMappingRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return getFieldMapping(fn.apply(new GetFieldMappingRequest.Builder()).build(), type);
+        return getFieldMapping(fn.apply(new GetFieldMappingRequest.Builder()).build());
     }
 }

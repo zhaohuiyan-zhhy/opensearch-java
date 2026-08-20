@@ -11,7 +11,6 @@ package org.opensearch.client.opensearch.integTest.aws;
 import java.util.concurrent.CompletableFuture;
 import org.junit.Assert;
 import org.junit.Test;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchAsyncClient;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.core.GetRequest;
@@ -29,11 +28,11 @@ public class AwsSdk2GetRequestIT extends AwsSdk2TransportTestCase {
         Thread.sleep(1000);
 
         GetRequest doc1Request = new GetRequest.Builder().index(TEST_INDEX).id("id1").build();
-        GetResponse<SimplePojo> doc1Response = client.get(doc1Request, SimplePojo.class, ApiType.OSS);
+        GetResponse<SimplePojo> doc1Response = client.get(doc1Request, SimplePojo.class);
         Assert.assertTrue(doc1Response.found());
 
         GetRequest doc2Request = new GetRequest.Builder().index(TEST_INDEX).id("does-not-exist").build();
-        GetResponse<SimplePojo> doc2Response = client.get(doc2Request, SimplePojo.class, ApiType.OSS);
+        GetResponse<SimplePojo> doc2Response = client.get(doc2Request, SimplePojo.class);
         Assert.assertFalse(doc2Response.found());
     }
 
@@ -48,10 +47,10 @@ public class AwsSdk2GetRequestIT extends AwsSdk2TransportTestCase {
         Thread.sleep(1000);
 
         GetRequest doc1Request = new GetRequest.Builder().index(TEST_INDEX).id("id1").build();
-        CompletableFuture<GetResponse<SimplePojo>> doc1ResponseFuture = client.get(doc1Request, SimplePojo.class, ApiType.OSS);
+        CompletableFuture<GetResponse<SimplePojo>> doc1ResponseFuture = client.get(doc1Request, SimplePojo.class);
 
         GetRequest doc2Request = new GetRequest.Builder().index(TEST_INDEX).id("does-not-exist").build();
-        CompletableFuture<GetResponse<SimplePojo>> doc2ResponseFuture = client.get(doc2Request, SimplePojo.class, ApiType.OSS);
+        CompletableFuture<GetResponse<SimplePojo>> doc2ResponseFuture = client.get(doc2Request, SimplePojo.class);
 
         Assert.assertTrue(doc1ResponseFuture.join().found());
         Assert.assertFalse(doc2ResponseFuture.join().found());

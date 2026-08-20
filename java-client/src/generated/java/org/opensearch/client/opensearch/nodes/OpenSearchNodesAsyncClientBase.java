@@ -42,7 +42,6 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -65,16 +64,6 @@ public abstract class OpenSearchNodesAsyncClientBase<Self extends OpenSearchNode
      * Returns information about nodes in the cluster.
      */
     public CompletableFuture<NodesInfoResponse> info(NodesInfoRequest request) throws IOException, OpenSearchException {
-        return info(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about nodes in the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<NodesInfoResponse> info(NodesInfoRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "nodes.info", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, NodesInfoRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -85,36 +74,14 @@ public abstract class OpenSearchNodesAsyncClientBase<Self extends OpenSearchNode
      */
     public final CompletableFuture<NodesInfoResponse> info(Function<NodesInfoRequest.Builder, ObjectBuilder<NodesInfoRequest>> fn)
         throws IOException, OpenSearchException {
-        return info(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about nodes in the cluster.
-     *
-     * @param fn   a function that initializes a builder to create the {@link NodesInfoRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<NodesInfoResponse> info(
-        Function<NodesInfoRequest.Builder, ObjectBuilder<NodesInfoRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return info(fn.apply(new NodesInfoRequest.Builder()).build(), type);
+        return info(fn.apply(new NodesInfoRequest.Builder()).build());
     }
 
     /**
      * Returns information about nodes in the cluster.
      */
     public final CompletableFuture<NodesInfoResponse> info() throws IOException, OpenSearchException {
-        return info(ApiType.OSS);
-    }
-
-    /**
-     * Returns information about nodes in the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<NodesInfoResponse> info(ApiType type) throws IOException, OpenSearchException {
-        return info(new NodesInfoRequest.Builder().build(), type);
+        return info(new NodesInfoRequest.Builder().build());
     }
 
     // ----- Endpoint: nodes.reload_secure_settings
@@ -124,17 +91,6 @@ public abstract class OpenSearchNodesAsyncClientBase<Self extends OpenSearchNode
      */
     public CompletableFuture<ReloadSecureSettingsResponse> reloadSecureSettings(ReloadSecureSettingsRequest request) throws IOException,
         OpenSearchException {
-        return reloadSecureSettings(request, ApiType.OSS);
-    }
-
-    /**
-     * Reloads secure settings.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<ReloadSecureSettingsResponse> reloadSecureSettings(ReloadSecureSettingsRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "nodes.reload_secure_settings", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, ReloadSecureSettingsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -146,37 +102,14 @@ public abstract class OpenSearchNodesAsyncClientBase<Self extends OpenSearchNode
     public final CompletableFuture<ReloadSecureSettingsResponse> reloadSecureSettings(
         Function<ReloadSecureSettingsRequest.Builder, ObjectBuilder<ReloadSecureSettingsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return reloadSecureSettings(fn, ApiType.OSS);
-    }
-
-    /**
-     * Reloads secure settings.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ReloadSecureSettingsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<ReloadSecureSettingsResponse> reloadSecureSettings(
-        Function<ReloadSecureSettingsRequest.Builder, ObjectBuilder<ReloadSecureSettingsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return reloadSecureSettings(fn.apply(new ReloadSecureSettingsRequest.Builder()).build(), type);
+        return reloadSecureSettings(fn.apply(new ReloadSecureSettingsRequest.Builder()).build());
     }
 
     /**
      * Reloads secure settings.
      */
     public final CompletableFuture<ReloadSecureSettingsResponse> reloadSecureSettings() throws IOException, OpenSearchException {
-        return reloadSecureSettings(ApiType.OSS);
-    }
-
-    /**
-     * Reloads secure settings.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<ReloadSecureSettingsResponse> reloadSecureSettings(ApiType type) throws IOException,
-        OpenSearchException {
-        return reloadSecureSettings(new ReloadSecureSettingsRequest.Builder().build(), type);
+        return reloadSecureSettings(new ReloadSecureSettingsRequest.Builder().build());
     }
 
     // ----- Endpoint: nodes.stats
@@ -185,16 +118,6 @@ public abstract class OpenSearchNodesAsyncClientBase<Self extends OpenSearchNode
      * Returns statistical information about nodes in the cluster.
      */
     public CompletableFuture<NodesStatsResponse> stats(NodesStatsRequest request) throws IOException, OpenSearchException {
-        return stats(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns statistical information about nodes in the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<NodesStatsResponse> stats(NodesStatsRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "nodes.stats", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, NodesStatsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -205,36 +128,14 @@ public abstract class OpenSearchNodesAsyncClientBase<Self extends OpenSearchNode
      */
     public final CompletableFuture<NodesStatsResponse> stats(Function<NodesStatsRequest.Builder, ObjectBuilder<NodesStatsRequest>> fn)
         throws IOException, OpenSearchException {
-        return stats(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns statistical information about nodes in the cluster.
-     *
-     * @param fn   a function that initializes a builder to create the {@link NodesStatsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<NodesStatsResponse> stats(
-        Function<NodesStatsRequest.Builder, ObjectBuilder<NodesStatsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return stats(fn.apply(new NodesStatsRequest.Builder()).build(), type);
+        return stats(fn.apply(new NodesStatsRequest.Builder()).build());
     }
 
     /**
      * Returns statistical information about nodes in the cluster.
      */
     public final CompletableFuture<NodesStatsResponse> stats() throws IOException, OpenSearchException {
-        return stats(ApiType.OSS);
-    }
-
-    /**
-     * Returns statistical information about nodes in the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<NodesStatsResponse> stats(ApiType type) throws IOException, OpenSearchException {
-        return stats(new NodesStatsRequest.Builder().build(), type);
+        return stats(new NodesStatsRequest.Builder().build());
     }
 
     // ----- Endpoint: nodes.usage
@@ -243,16 +144,6 @@ public abstract class OpenSearchNodesAsyncClientBase<Self extends OpenSearchNode
      * Returns low-level information about REST actions usage on nodes.
      */
     public CompletableFuture<NodesUsageResponse> usage(NodesUsageRequest request) throws IOException, OpenSearchException {
-        return usage(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns low-level information about REST actions usage on nodes.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<NodesUsageResponse> usage(NodesUsageRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "nodes.usage", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, NodesUsageRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -263,35 +154,13 @@ public abstract class OpenSearchNodesAsyncClientBase<Self extends OpenSearchNode
      */
     public final CompletableFuture<NodesUsageResponse> usage(Function<NodesUsageRequest.Builder, ObjectBuilder<NodesUsageRequest>> fn)
         throws IOException, OpenSearchException {
-        return usage(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns low-level information about REST actions usage on nodes.
-     *
-     * @param fn   a function that initializes a builder to create the {@link NodesUsageRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<NodesUsageResponse> usage(
-        Function<NodesUsageRequest.Builder, ObjectBuilder<NodesUsageRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return usage(fn.apply(new NodesUsageRequest.Builder()).build(), type);
+        return usage(fn.apply(new NodesUsageRequest.Builder()).build());
     }
 
     /**
      * Returns low-level information about REST actions usage on nodes.
      */
     public final CompletableFuture<NodesUsageResponse> usage() throws IOException, OpenSearchException {
-        return usage(ApiType.OSS);
-    }
-
-    /**
-     * Returns low-level information about REST actions usage on nodes.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<NodesUsageResponse> usage(ApiType type) throws IOException, OpenSearchException {
-        return usage(new NodesUsageRequest.Builder().build(), type);
+        return usage(new NodesUsageRequest.Builder().build());
     }
 }

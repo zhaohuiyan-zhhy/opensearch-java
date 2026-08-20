@@ -53,7 +53,6 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchAsyncClient;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.core.BulkRequest;
@@ -90,7 +89,6 @@ import org.opensearch.client.util.ObjectBuilder;
  * <pre>{@code
  * BulkIngester<Void> ingester = BulkIngester.of(b -> b
  *     .client(client)
- *     .type(ApiType.OSS)
  *     .maxOperations(1000)
  *     .flushInterval(5, TimeUnit.SECONDS)
  * );
@@ -113,7 +111,6 @@ public class BulkIngester<Context> implements AutoCloseable {
 
     // Configuration
     private final OpenSearchAsyncClient client;
-    private final ApiType type;
     private final @Nullable BulkRequest globalSettings;
     private final int maxRequests;
     private final long maxSize;
@@ -158,7 +155,6 @@ public class BulkIngester<Context> implements AutoCloseable {
     private BulkIngester(Builder<Context> builder) {
         int ingesterId = idCounter.incrementAndGet();
         this.client = ApiTypeHelper.requireNonNull(builder.client, this, "client");
-        this.type = ApiType.require(builder.type);
         this.globalSettings = builder.globalSettings;
         this.maxRequests = builder.maxConcurrentRequests;
         this.maxSize = builder.bulkSize < 0 ? Long.MAX_VALUE : builder.bulkSize;
@@ -394,7 +390,7 @@ public class BulkIngester<Context> implements AutoCloseable {
 
             CompletionStage<BulkResponse> result;
             try {
-                result = client.bulk(request, type);
+                result = client.bulk(request);
             } catch (IOException e) {
                 // Convert IOException to a failed CompletionStage
                 result = CompletableFuture.failedFuture(e);
@@ -687,7 +683,6 @@ public class BulkIngester<Context> implements AutoCloseable {
 
     public static class Builder<Context> implements ObjectBuilder<BulkIngester<Context>> {
         private OpenSearchAsyncClient client;
-        private ApiType type = ApiType.OSS;
         private BulkRequest globalSettings;
         private int bulkOperations = 1000;
         private long bulkSize = 5 * 1024 * 1024;
@@ -708,14 +703,6 @@ public class BulkIngester<Context> implements AutoCloseable {
                 options = null;
             }
             return client(new OpenSearchAsyncClient(client._transport(), options));
-        }
-
-        /**
-         * Sets the OpenSearch API distribution used for bulk requests.
-         */
-        public Builder<Context> type(ApiType type) {
-            this.type = type;
-            return this;
         }
 
         /**

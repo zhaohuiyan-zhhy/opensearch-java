@@ -26,7 +26,6 @@ import org.apache.hc.core5.util.TimeValue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.generic.Requests;
 import org.opensearch.client.opensearch.generic.Response;
@@ -119,7 +118,7 @@ public class AutomaticRetriesTest {
     public void testDefaultRetryStrategyRetriesFailedRequest() throws IOException {
         OpenSearchClient client = createClient(builder().setAutomaticRetriesDisabled(false));
 
-        Response response = client.generic().execute(Requests.builder().method("GET").endpoint("/").build(), ApiType.OSS);
+        Response response = client.generic().execute(Requests.builder().method("GET").endpoint("/").build());
 
         assertEquals(200, response.getStatus());
         assertEquals(2, requestCount.get());
@@ -136,7 +135,7 @@ public class AutomaticRetriesTest {
                 )
         );
 
-        Response response = client.generic().execute(Requests.builder().method("GET").endpoint("/").build(), ApiType.OSS);
+        Response response = client.generic().execute(Requests.builder().method("GET").endpoint("/").build());
 
         assertEquals(200, response.getStatus());
         assertEquals(2, requestCount.get());
@@ -146,10 +145,7 @@ public class AutomaticRetriesTest {
     public void testNoRetriesByDefault() {
         OpenSearchClient client = createClient(builder());
 
-        assertThrows(
-            ResponseException.class,
-            () -> client.generic().execute(Requests.builder().method("GET").endpoint("/").build(), ApiType.OSS)
-        );
+        assertThrows(ResponseException.class, () -> client.generic().execute(Requests.builder().method("GET").endpoint("/").build()));
 
         assertEquals(1, requestCount.get());
     }

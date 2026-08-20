@@ -29,8 +29,6 @@ public class HttpPath {
     private final Deprecation deprecation;
     @Nullable
     private final String versionAdded;
-    @Nonnull
-    private final Set<String> clientApiTypes;
 
     public static HttpPath from(String httpPath, OpenApiOperation operation, Map<String, Field> pathParams) {
         var parts = new ArrayList<Part>();
@@ -53,24 +51,13 @@ public class HttpPath {
             parts.add(Part.from(isParameter, text.toString(), pathParams));
         }
 
-        return new HttpPath(
-            parts,
-            operation.getDeprecation().orElse(null),
-            operation.getVersionAdded().orElse(null),
-            Set.copyOf(operation.getClientApiTypes())
-        );
+        return new HttpPath(parts, operation.getDeprecation().orElse(null), operation.getVersionAdded().orElse(null));
     }
 
-    private HttpPath(
-        @Nonnull List<Part> parts,
-        @Nullable Deprecation deprecation,
-        @Nullable String versionAdded,
-        @Nonnull Set<String> clientApiTypes
-    ) {
+    private HttpPath(@Nonnull List<Part> parts, @Nullable Deprecation deprecation, @Nullable String versionAdded) {
         this.parts = Objects.requireNonNull(parts, "parts must not be null");
         this.deprecation = deprecation;
         this.versionAdded = versionAdded;
-        this.clientApiTypes = Objects.requireNonNull(clientApiTypes, "clientApiTypes must not be null");
     }
 
     public List<Field> getParams() {
@@ -87,10 +74,6 @@ public class HttpPath {
 
     public Collection<Part> getParts() {
         return parts;
-    }
-
-    public boolean supportsClientApiType(String clientApiType) {
-        return clientApiTypes.contains(clientApiType);
     }
 
     public boolean hasParams() {

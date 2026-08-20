@@ -212,7 +212,6 @@ public class SpecTransformer {
             var op = variant.getRight();
 
             shape.addSupportedHttpMethod(op.getHttpMethod().toString().toUpperCase());
-            shape.addClientApiTypes(op.getClientApiTypes());
 
             var httpPathStr = path.getHttpPath();
             if (!seenHttpPaths.add(httpPathStr)) {
@@ -234,7 +233,6 @@ public class SpecTransformer {
                     var paramBuilder = Field.builder()
                         .withWireName(parameter.name)
                         .withType(typeMapper.mapType(parameter.schema))
-                        .withClientApiTypes(parameter.schema.resolve().getClientApiTypes())
                         .withDescription(parameter.description)
                         .withDeprecation(parameter.deprecation);
                     paramOverrides.flatMap(PathParameterOverride::getName).ifPresent(paramBuilder::withName);
@@ -323,7 +321,6 @@ public class SpecTransformer {
             var builder = Field.builder()
                 .withWireName(parameter.getName().orElseThrow())
                 .withType(typeMapper.mapType(parameter.getSchema().orElseThrow()))
-                .withClientApiTypes(parameter.getSchema().orElseThrow().resolve().getClientApiTypes())
                 .withRequired(parameter.getRequired())
                 .withDescription(parameter.getResolvedDescription().orElse(null))
                 .withDeprecation(parameter.getDeprecation().orElse(null));
@@ -619,7 +616,6 @@ public class SpecTransformer {
                 .withWireName(k)
                 .withName(propOverrides.flatMap(PropertyOverride::getName).orElse(null))
                 .withType(type)
-                .withClientApiTypes(v.resolve().getClientApiTypes())
                 .withRequired(!canBeNull)
                 .withDescription(v.getDescription().orElse(null))
                 .whenPresent(propOverrides.flatMap(PropertyOverride::getAliases), (b, aliases) -> b.withAliases(a -> a.with(aliases)))

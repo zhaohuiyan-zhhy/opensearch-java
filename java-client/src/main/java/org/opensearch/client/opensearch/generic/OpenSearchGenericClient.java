@@ -19,7 +19,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
 
@@ -156,11 +155,6 @@ public class OpenSearchGenericClient extends ApiClient<OpenSearchTransport, Open
      * @throws IOException I/O exception
      */
     public Response execute(Request request) throws IOException {
-        return execute(request, ApiType.OSS);
-    }
-
-    public Response execute(Request request, ApiType type) throws IOException {
-        ApiType.require(type);
         return transport.performRequest(request, new GenericEndpoint(request, clientOptions.error), this.transportOptions);
     }
 
@@ -170,11 +164,6 @@ public class OpenSearchGenericClient extends ApiClient<OpenSearchTransport, Open
      * @return generic HTTP response future
      */
     public CompletableFuture<Response> executeAsync(Request request) {
-        return executeAsync(request, ApiType.OSS);
-    }
-
-    public CompletableFuture<Response> executeAsync(Request request, ApiType type) {
-        ApiType.require(type);
         return transport.performRequestAsync(request, new GenericEndpoint(request, clientOptions.error), this.transportOptions);
     }
 }

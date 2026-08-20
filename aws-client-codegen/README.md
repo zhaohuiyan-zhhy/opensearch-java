@@ -1,4 +1,4 @@
-# Unified OSS/AOS/AOSS Java Client Code Generation
+# Combined OSS/AOS/AOSS Java Client Code Generation
 
 This directory contains the OpenAPI overlay processing used to generate one
 Java client for OSS OpenSearch, Amazon OpenSearch Service (AOS), and Amazon
@@ -21,16 +21,16 @@ Run the existing Java generator:
 The task:
 
 1. Reads `java-codegen/opensearch-openapi.yaml`.
-2. Applies `overlays/amazon-managed.overlay.yaml` and the
-   `amazon-managed` distribution filter.
-3. Applies `overlays/amazon-serverless.overlay.yaml` and the
-   `amazon-serverless` distribution filter.
-4. Builds the union spec at
+2. Applies `overlays/amazon-managed.overlay.yaml`.
+3. Applies `overlays/amazon-serverless.overlay.yaml`.
+4. Builds the additive combined spec at
    `java-codegen/build/generated-specs/opensearch-unified.yaml`.
 5. Generates the single client into `java-client/src/generated/java`.
 
-The AOS-only and AOSS-only filtered specifications can still be generated for
-diagnostics:
+Overlay `update` actions are applied in order. Overlay `remove` actions are
+ignored so the generated client retains the complete base API surface.
+
+AOS-only and AOSS-only filtered specifications can still be generated for diagnostics:
 
 ```shell
 ./gradlew :java-codegen:generateAosSpec
@@ -39,22 +39,18 @@ diagnostics:
 
 ## Use
 
-Every client API call takes a final `ApiType` argument:
+The generated client uses the existing method signatures:
 
 ```java
-client.indices().create(request -> request.index("example"), ApiType.AOSS);
-client.info(ApiType.AOS);
-client.search(request -> request.index("example"), Map.class, ApiType.OSS);
+client.indices().create(request -> request.index("example"));
+client.info();
+client.search(request -> request.index("example"), Map.class);
+client.ultrawarm().listMigrationStatus();
 ```
 
-Generated validation rejects unsupported combinations before transport:
-
-- APIs removed from a distribution.
-- Path variants unavailable to a distribution.
-- Distribution-specific request fields.
-
-The union response model uses relaxed required-field constraints when AOS or
-AOSS can omit an OSS-required response field.
+The client exposes the combined OSS, AOS, and AOSS API surface without runtime
+distribution checks. Calling an API unsupported by the configured endpoint is
+sent to the service and returns the service error.
 
 ## Verify
 

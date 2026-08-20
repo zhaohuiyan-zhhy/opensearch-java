@@ -181,7 +181,6 @@ public final class Types {
 
         public static final class OpenSearch {
             public static final String PACKAGE = Client.PACKAGE + ".opensearch";
-            public static final Type ApiType = type(PACKAGE, "ApiType");
 
             public static final class _Types {
                 public static final String PACKAGE = OpenSearch.PACKAGE + "._types";

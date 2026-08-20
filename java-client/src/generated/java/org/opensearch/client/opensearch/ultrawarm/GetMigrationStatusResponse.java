@@ -55,6 +55,9 @@ import org.opensearch.client.util.ToCopyableBuilder;
 
 // typedef: ultrawarm.get_migration_status.Response
 
+/**
+ * Response from GET /_ultrawarm/migration/{index}/_status.
+ */
 @JsonpDeserializable
 @Generated("org.opensearch.client.codegen.CodeGenerator")
 public class GetMigrationStatusResponse

@@ -41,7 +41,6 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -71,16 +70,6 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      * Used to delete a particular model in the cluster.
      */
     public DeleteModelResponse deleteModel(DeleteModelRequest request) throws IOException, OpenSearchException {
-        return deleteModel(request, ApiType.OSS);
-    }
-
-    /**
-     * Used to delete a particular model in the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public DeleteModelResponse deleteModel(DeleteModelRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "knn.delete_model", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, DeleteModelRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -91,18 +80,7 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final DeleteModelResponse deleteModel(Function<DeleteModelRequest.Builder, ObjectBuilder<DeleteModelRequest>> fn)
         throws IOException, OpenSearchException {
-        return deleteModel(fn, ApiType.OSS);
-    }
-
-    /**
-     * Used to delete a particular model in the cluster.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteModelRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final DeleteModelResponse deleteModel(Function<DeleteModelRequest.Builder, ObjectBuilder<DeleteModelRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return deleteModel(fn.apply(new DeleteModelRequest.Builder()).build(), type);
+        return deleteModel(fn.apply(new DeleteModelRequest.Builder()).build());
     }
 
     // ----- Endpoint: knn.get_model
@@ -111,16 +89,6 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      * Used to retrieve information about models present in the cluster.
      */
     public GetModelResponse getModel(GetModelRequest request) throws IOException, OpenSearchException {
-        return getModel(request, ApiType.OSS);
-    }
-
-    /**
-     * Used to retrieve information about models present in the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public GetModelResponse getModel(GetModelRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "knn.get_model", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, GetModelRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -131,18 +99,7 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final GetModelResponse getModel(Function<GetModelRequest.Builder, ObjectBuilder<GetModelRequest>> fn) throws IOException,
         OpenSearchException {
-        return getModel(fn, ApiType.OSS);
-    }
-
-    /**
-     * Used to retrieve information about models present in the cluster.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetModelRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final GetModelResponse getModel(Function<GetModelRequest.Builder, ObjectBuilder<GetModelRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return getModel(fn.apply(new GetModelRequest.Builder()).build(), type);
+        return getModel(fn.apply(new GetModelRequest.Builder()).build());
     }
 
     // ----- Endpoint: knn.search_models
@@ -151,16 +108,6 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      * Use an OpenSearch query to search for models in the index.
      */
     public SearchModelsResponse searchModels(SearchModelsRequest request) throws IOException, OpenSearchException {
-        return searchModels(request, ApiType.OSS);
-    }
-
-    /**
-     * Use an OpenSearch query to search for models in the index.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public SearchModelsResponse searchModels(SearchModelsRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "knn.search_models", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, SearchModelsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -171,36 +118,14 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final SearchModelsResponse searchModels(Function<SearchModelsRequest.Builder, ObjectBuilder<SearchModelsRequest>> fn)
         throws IOException, OpenSearchException {
-        return searchModels(fn, ApiType.OSS);
-    }
-
-    /**
-     * Use an OpenSearch query to search for models in the index.
-     *
-     * @param fn   a function that initializes a builder to create the {@link SearchModelsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final SearchModelsResponse searchModels(
-        Function<SearchModelsRequest.Builder, ObjectBuilder<SearchModelsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return searchModels(fn.apply(new SearchModelsRequest.Builder()).build(), type);
+        return searchModels(fn.apply(new SearchModelsRequest.Builder()).build());
     }
 
     /**
      * Use an OpenSearch query to search for models in the index.
      */
     public final SearchModelsResponse searchModels() throws IOException, OpenSearchException {
-        return searchModels(ApiType.OSS);
-    }
-
-    /**
-     * Use an OpenSearch query to search for models in the index.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final SearchModelsResponse searchModels(ApiType type) throws IOException, OpenSearchException {
-        return searchModels(new SearchModelsRequest.Builder().build(), type);
+        return searchModels(new SearchModelsRequest.Builder().build());
     }
 
     // ----- Endpoint: knn.stats
@@ -209,16 +134,6 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      * Provides information about the current status of the k-NN plugin.
      */
     public KnnStatsResponse stats(KnnStatsRequest request) throws IOException, OpenSearchException {
-        return stats(request, ApiType.OSS);
-    }
-
-    /**
-     * Provides information about the current status of the k-NN plugin.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public KnnStatsResponse stats(KnnStatsRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "knn.stats", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, KnnStatsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -229,34 +144,14 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final KnnStatsResponse stats(Function<KnnStatsRequest.Builder, ObjectBuilder<KnnStatsRequest>> fn) throws IOException,
         OpenSearchException {
-        return stats(fn, ApiType.OSS);
-    }
-
-    /**
-     * Provides information about the current status of the k-NN plugin.
-     *
-     * @param fn   a function that initializes a builder to create the {@link KnnStatsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final KnnStatsResponse stats(Function<KnnStatsRequest.Builder, ObjectBuilder<KnnStatsRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return stats(fn.apply(new KnnStatsRequest.Builder()).build(), type);
+        return stats(fn.apply(new KnnStatsRequest.Builder()).build());
     }
 
     /**
      * Provides information about the current status of the k-NN plugin.
      */
     public final KnnStatsResponse stats() throws IOException, OpenSearchException {
-        return stats(ApiType.OSS);
-    }
-
-    /**
-     * Provides information about the current status of the k-NN plugin.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final KnnStatsResponse stats(ApiType type) throws IOException, OpenSearchException {
-        return stats(new KnnStatsRequest.Builder().build(), type);
+        return stats(new KnnStatsRequest.Builder().build());
     }
 
     // ----- Endpoint: knn.train_model
@@ -265,16 +160,6 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      * Create and train a model that can be used for initializing k-NN native library indexes during indexing.
      */
     public TrainModelResponse trainModel(TrainModelRequest request) throws IOException, OpenSearchException {
-        return trainModel(request, ApiType.OSS);
-    }
-
-    /**
-     * Create and train a model that can be used for initializing k-NN native library indexes during indexing.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public TrainModelResponse trainModel(TrainModelRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "knn.train_model", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, TrainModelRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -285,18 +170,7 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final TrainModelResponse trainModel(Function<TrainModelRequest.Builder, ObjectBuilder<TrainModelRequest>> fn) throws IOException,
         OpenSearchException {
-        return trainModel(fn, ApiType.OSS);
-    }
-
-    /**
-     * Create and train a model that can be used for initializing k-NN native library indexes during indexing.
-     *
-     * @param fn   a function that initializes a builder to create the {@link TrainModelRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final TrainModelResponse trainModel(Function<TrainModelRequest.Builder, ObjectBuilder<TrainModelRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return trainModel(fn.apply(new TrainModelRequest.Builder()).build(), type);
+        return trainModel(fn.apply(new TrainModelRequest.Builder()).build());
     }
 
     // ----- Endpoint: knn.warmup
@@ -305,16 +179,6 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      * Preloads native library files into memory, reducing initial search latency for specified indexes.
      */
     public WarmupResponse warmup(WarmupRequest request) throws IOException, OpenSearchException {
-        return warmup(request, ApiType.OSS);
-    }
-
-    /**
-     * Preloads native library files into memory, reducing initial search latency for specified indexes.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public WarmupResponse warmup(WarmupRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "knn.warmup", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequest(request, WarmupRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -325,17 +189,6 @@ public class OpenSearchKnnClient extends ApiClient<OpenSearchTransport, OpenSear
      */
     public final WarmupResponse warmup(Function<WarmupRequest.Builder, ObjectBuilder<WarmupRequest>> fn) throws IOException,
         OpenSearchException {
-        return warmup(fn, ApiType.OSS);
-    }
-
-    /**
-     * Preloads native library files into memory, reducing initial search latency for specified indexes.
-     *
-     * @param fn   a function that initializes a builder to create the {@link WarmupRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final WarmupResponse warmup(Function<WarmupRequest.Builder, ObjectBuilder<WarmupRequest>> fn, ApiType type) throws IOException,
-        OpenSearchException {
-        return warmup(fn.apply(new WarmupRequest.Builder()).build(), type);
+        return warmup(fn.apply(new WarmupRequest.Builder()).build());
     }
 }

@@ -38,11 +38,9 @@ package org.opensearch.client.opensearch.ultrawarm;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import org.opensearch.client.opensearch._types.ErrorResponse;
 import org.opensearch.client.opensearch._types.RequestBase;
 import org.opensearch.client.transport.Endpoint;
@@ -52,43 +50,28 @@ import org.opensearch.client.util.CopyableBuilder;
 import org.opensearch.client.util.ObjectBuilder;
 import org.opensearch.client.util.ToCopyableBuilder;
 
-// typedef: ultrawarm.migrate_to_warm.Request
+// typedef: ultrawarm.update_migration.Request
 
 /**
- * AOS only. Migrates an index from hot storage to UltraWarm (warm). Asynchronous.
+ * AOS only. Updates the configuration of an in-progress UltraWarm migration.
  */
 @Generated("org.opensearch.client.codegen.CodeGenerator")
-public final class MigrateToWarmRequest extends RequestBase
+public final class UpdateMigrationRequest extends RequestBase
     implements
-        ToCopyableBuilder<MigrateToWarmRequest.Builder, MigrateToWarmRequest> {
-
-    @Nullable
-    private final String clusterManagerTimeout;
+        ToCopyableBuilder<UpdateMigrationRequest.Builder, UpdateMigrationRequest> {
 
     @Nonnull
     private final String index;
 
     // ---------------------------------------------------------------------------------------------
 
-    private MigrateToWarmRequest(Builder builder) {
+    private UpdateMigrationRequest(Builder builder) {
         super(builder);
-        this.clusterManagerTimeout = builder.clusterManagerTimeout;
         this.index = ApiTypeHelper.requireNonNull(builder.index, this, "index");
     }
 
-    public static MigrateToWarmRequest of(Function<MigrateToWarmRequest.Builder, ObjectBuilder<MigrateToWarmRequest>> fn) {
+    public static UpdateMigrationRequest of(Function<UpdateMigrationRequest.Builder, ObjectBuilder<UpdateMigrationRequest>> fn) {
         return fn.apply(new Builder()).build();
-    }
-
-    /**
-     * Time to wait for a response from the cluster manager node.
-     * <p>
-     * API name: {@code cluster_manager_timeout}
-     * </p>
-     */
-    @Nullable
-    public final String clusterManagerTimeout() {
-        return this.clusterManagerTimeout;
     }
 
     /**
@@ -116,24 +99,20 @@ public final class MigrateToWarmRequest extends RequestBase
     }
 
     /**
-     * Builder for {@link MigrateToWarmRequest}.
+     * Builder for {@link UpdateMigrationRequest}.
      */
-    public static class Builder extends RequestBase.AbstractBuilder<Builder> implements CopyableBuilder<Builder, MigrateToWarmRequest> {
-        @Nullable
-        private String clusterManagerTimeout;
+    public static class Builder extends RequestBase.AbstractBuilder<Builder> implements CopyableBuilder<Builder, UpdateMigrationRequest> {
         private String index;
 
         public Builder() {}
 
-        private Builder(MigrateToWarmRequest o) {
+        private Builder(UpdateMigrationRequest o) {
             super(o);
-            this.clusterManagerTimeout = o.clusterManagerTimeout;
             this.index = o.index;
         }
 
         private Builder(Builder o) {
             super(o);
-            this.clusterManagerTimeout = o.clusterManagerTimeout;
             this.index = o.index;
         }
 
@@ -150,18 +129,6 @@ public final class MigrateToWarmRequest extends RequestBase
         }
 
         /**
-         * Time to wait for a response from the cluster manager node.
-         * <p>
-         * API name: {@code cluster_manager_timeout}
-         * </p>
-         */
-        @Nonnull
-        public final Builder clusterManagerTimeout(@Nullable String value) {
-            this.clusterManagerTimeout = value;
-            return this;
-        }
-
-        /**
          * Required - The name of the index to migrate. Only a single index per request.
          * <p>
          * API name: {@code index}
@@ -174,41 +141,32 @@ public final class MigrateToWarmRequest extends RequestBase
         }
 
         /**
-         * Builds a {@link MigrateToWarmRequest}.
+         * Builds a {@link UpdateMigrationRequest}.
          *
          * @throws NullPointerException if some of the required fields are null.
          */
         @Override
         @Nonnull
-        public MigrateToWarmRequest build() {
+        public UpdateMigrationRequest build() {
             _checkSingleUse();
 
-            return new MigrateToWarmRequest(this);
+            return new UpdateMigrationRequest(this);
         }
     }
 
     // ---------------------------------------------------------------------------------------------
 
-    @Override
-    protected void applyQueryParameters(@Nonnull Map<String, String> params) {
-        super.applyQueryParameters(params);
-        if (this.clusterManagerTimeout != null) {
-            params.put("cluster_manager_timeout", this.clusterManagerTimeout);
-        }
-    }
-
     /**
-     * Endpoint "{@code ultrawarm.migrate_to_warm}".
+     * Endpoint "{@code ultrawarm.update_migration}".
      */
-    public static final Endpoint<MigrateToWarmRequest, MigrateToWarmResponse, ErrorResponse> _ENDPOINT = new SimpleEndpoint<>(
+    public static final Endpoint<UpdateMigrationRequest, UpdateMigrationResponse, ErrorResponse> _ENDPOINT = new SimpleEndpoint<>(
         // Request method
-        request -> "POST",
+        request -> "PUT",
         // Request path
         request -> {
             StringBuilder buf = new StringBuilder();
             buf.append("/_ultrawarm/migration/");
             SimpleEndpoint.pathEncode(request.index, buf);
-            buf.append("/_warm");
             return buf.toString();
         },
         // Request parameters
@@ -219,13 +177,12 @@ public final class MigrateToWarmRequest extends RequestBase
         },
         SimpleEndpoint.emptyMap(),
         false,
-        MigrateToWarmResponse._DESERIALIZER
+        UpdateMigrationResponse._DESERIALIZER
     );
 
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + Objects.hashCode(this.clusterManagerTimeout);
         result = 31 * result + this.index.hashCode();
         return result;
     }
@@ -234,7 +191,7 @@ public final class MigrateToWarmRequest extends RequestBase
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
-        MigrateToWarmRequest other = (MigrateToWarmRequest) o;
-        return Objects.equals(this.clusterManagerTimeout, other.clusterManagerTimeout) && this.index.equals(other.index);
+        UpdateMigrationRequest other = (UpdateMigrationRequest) o;
+        return this.index.equals(other.index);
     }
 }

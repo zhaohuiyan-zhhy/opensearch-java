@@ -52,7 +52,7 @@ import org.opensearch.client.util.ToCopyableBuilder;
 // typedef: ultrawarm.list_migration_status.Request
 
 /**
- * Lists active UltraWarm migrations.
+ * AOS only. Returns migration status for all indices currently migrating.
  */
 @Generated("org.opensearch.client.codegen.CodeGenerator")
 public final class ListMigrationStatusRequest extends RequestBase

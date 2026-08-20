@@ -18,7 +18,6 @@ import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.Result;
 import org.opensearch.client.opensearch._types.Time;
@@ -37,7 +36,6 @@ import software.amazon.awssdk.regions.Region;
 
 /** Live SigV4 coverage test for safe, reversible AOSS data-plane operations. */
 public final class AossLiveSmokeTest {
-    private static final ApiType API_TYPE = ApiType.AOSS;
 
     private AossLiveSmokeTest() {}
 
@@ -74,8 +72,7 @@ public final class AossLiveSmokeTest {
                                 template -> template.mappings(
                                     mapping -> mapping.properties("template_marker", property -> property.keyword(keyword -> keyword))
                                 )
-                            ),
-                        API_TYPE
+                            )
                     )
                     .acknowledged(),
                 Boolean.TRUE::equals
@@ -84,13 +81,13 @@ public final class AossLiveSmokeTest {
             if (componentTemplateCreated) {
                 recorder.check(
                     "cluster.exists_component_template",
-                    () -> client.cluster().existsComponentTemplate(request -> request.name(componentTemplate), API_TYPE).value(),
+                    () -> client.cluster().existsComponentTemplate(request -> request.name(componentTemplate)).value(),
                     Boolean.TRUE::equals
                 );
                 recorder.check(
                     "cluster.get_component_template",
                     () -> client.cluster()
-                        .getComponentTemplate(request -> request.name(componentTemplate), API_TYPE)
+                        .getComponentTemplate(request -> request.name(componentTemplate))
                         .componentTemplates()
                         .size(),
                     count -> count == 1
@@ -101,8 +98,7 @@ public final class AossLiveSmokeTest {
                 "indices.put_index_template",
                 () -> client.indices()
                     .putIndexTemplate(
-                        request -> request.name(indexTemplate).indexPatterns(prefix + "-*").composedOf(componentTemplate),
-                        API_TYPE
+                        request -> request.name(indexTemplate).indexPatterns(prefix + "-*").composedOf(componentTemplate)
                     )
                     .acknowledged(),
                 Boolean.TRUE::equals
@@ -111,24 +107,24 @@ public final class AossLiveSmokeTest {
             if (indexTemplateCreated) {
                 recorder.check(
                     "indices.exists_index_template",
-                    () -> client.indices().existsIndexTemplate(request -> request.name(indexTemplate), API_TYPE).value(),
+                    () -> client.indices().existsIndexTemplate(request -> request.name(indexTemplate)).value(),
                     Boolean.TRUE::equals
                 );
                 recorder.check(
                     "indices.get_index_template",
-                    () -> client.indices().getIndexTemplate(request -> request.name(indexTemplate), API_TYPE).indexTemplates().size(),
+                    () -> client.indices().getIndexTemplate(request -> request.name(indexTemplate)).indexTemplates().size(),
                     count -> count == 1
                 );
                 recorder.check(
                     "cat.templates",
-                    () -> client.cat().templates(request -> request.name(indexTemplate), API_TYPE).valueBody().size(),
+                    () -> client.cat().templates(request -> request.name(indexTemplate)).valueBody().size(),
                     count -> count == 1
                 );
             }
 
             CreateIndexResponse created = recorder.check(
                 "indices.create",
-                () -> client.indices().create(request -> request.index(index), API_TYPE),
+                () -> client.indices().create(request -> request.index(index)),
                 CreateIndexResponse::acknowledged
             );
             indexCreated = created != null;
@@ -138,7 +134,7 @@ public final class AossLiveSmokeTest {
 
                 Boolean aliasPut = recorder.check(
                     "indices.put_alias",
-                    () -> client.indices().putAlias(request -> request.index(index).name(alias), API_TYPE).acknowledged(),
+                    () -> client.indices().putAlias(request -> request.index(index).name(alias)).acknowledged(),
                     Boolean.TRUE::equals
                 );
                 aliasCreated = Boolean.TRUE.equals(aliasPut);
@@ -146,7 +142,7 @@ public final class AossLiveSmokeTest {
                     runAliasChecks(client, recorder, index, alias);
                     Boolean aliasDeleted = recorder.check(
                         "indices.delete_alias",
-                        () -> client.indices().deleteAlias(request -> request.index(index).name(alias), API_TYPE).acknowledged(),
+                        () -> client.indices().deleteAlias(request -> request.index(index).name(alias)).acknowledged(),
                         Boolean.TRUE::equals
                     );
                     aliasCreated = !Boolean.TRUE.equals(aliasDeleted);
@@ -154,19 +150,19 @@ public final class AossLiveSmokeTest {
 
                 pitId = recorder.check(
                     "root.create_pit",
-                    () -> client.createPit(request -> request.index(index).keepAlive(Time.of(time -> time.time("1m"))), API_TYPE).pitId(),
+                    () -> client.createPit(request -> request.index(index).keepAlive(Time.of(time -> time.time("1m")))).pitId(),
                     notEmpty()
                 );
                 if (pitId != null) {
                     String createdPitId = pitId;
                     recorder.check(
                         "root.get_all_pits",
-                        () -> client.getAllPits(API_TYPE).pits().stream().anyMatch(pit -> createdPitId.equals(pit.pitId())),
+                        () -> client.getAllPits().pits().stream().anyMatch(pit -> createdPitId.equals(pit.pitId())),
                         Boolean.TRUE::equals
                     );
                     Boolean pitDeleted = recorder.check(
                         "root.delete_pit",
-                        () -> client.deletePit(request -> request.pitId(createdPitId), API_TYPE)
+                        () -> client.deletePit(request -> request.pitId(createdPitId))
                             .pits()
                             .stream()
                             .anyMatch(pit -> createdPitId.equals(pit.pitId()) && pit.successful()),
@@ -182,7 +178,7 @@ public final class AossLiveSmokeTest {
                 String leakedPitId = pitId;
                 recorder.check(
                     "root.delete_pit",
-                    () -> client.deletePit(request -> request.pitId(leakedPitId), API_TYPE)
+                    () -> client.deletePit(request -> request.pitId(leakedPitId))
                         .pits()
                         .stream()
                         .anyMatch(pit -> leakedPitId.equals(pit.pitId()) && pit.successful()),
@@ -192,33 +188,33 @@ public final class AossLiveSmokeTest {
             if (aliasCreated) {
                 recorder.check(
                     "indices.delete_alias",
-                    () -> client.indices().deleteAlias(request -> request.index(index).name(alias), API_TYPE).acknowledged(),
+                    () -> client.indices().deleteAlias(request -> request.index(index).name(alias)).acknowledged(),
                     Boolean.TRUE::equals
                 );
             }
             if (indexCreated) {
                 recorder.check(
                     "indices.delete",
-                    () -> client.indices().delete(request -> request.index(index), API_TYPE).acknowledged(),
+                    () -> client.indices().delete(request -> request.index(index)).acknowledged(),
                     Boolean.TRUE::equals
                 );
                 recorder.check(
                     "indices.exists",
-                    () -> !client.indices().exists(request -> request.index(index), API_TYPE).value(),
+                    () -> !client.indices().exists(request -> request.index(index)).value(),
                     Boolean.TRUE::equals
                 );
             }
             if (indexTemplateCreated) {
                 recorder.check(
                     "indices.delete_index_template",
-                    () -> client.indices().deleteIndexTemplate(request -> request.name(indexTemplate), API_TYPE).acknowledged(),
+                    () -> client.indices().deleteIndexTemplate(request -> request.name(indexTemplate)).acknowledged(),
                     Boolean.TRUE::equals
                 );
             }
             if (componentTemplateCreated) {
                 recorder.check(
                     "cluster.delete_component_template",
-                    () -> client.cluster().deleteComponentTemplate(request -> request.name(componentTemplate), API_TYPE).acknowledged(),
+                    () -> client.cluster().deleteComponentTemplate(request -> request.name(componentTemplate)).acknowledged(),
                     Boolean.TRUE::equals
                 );
             }
@@ -235,12 +231,12 @@ public final class AossLiveSmokeTest {
     private static void runIndexMetadataChecks(OpenSearchClient client, Recorder recorder, String index) {
         recorder.check(
             "indices.exists",
-            () -> client.indices().exists(request -> request.index(index), API_TYPE).value(),
+            () -> client.indices().exists(request -> request.index(index)).value(),
             Boolean.TRUE::equals
         );
         recorder.check(
             "indices.get",
-            () -> client.indices().get(request -> request.index(index), API_TYPE).result().containsKey(index),
+            () -> client.indices().get(request -> request.index(index)).result().containsKey(index),
             Boolean.TRUE::equals
         );
         recorder.check(
@@ -250,31 +246,30 @@ public final class AossLiveSmokeTest {
                     request -> request.index(index)
                         .properties("message", property -> property.text(text -> text))
                         .properties("category", property -> property.keyword(keyword -> keyword))
-                        .properties("count", property -> property.integer(integer -> integer)),
-                    API_TYPE
+                        .properties("count", property -> property.integer(integer -> integer))
                 )
                 .acknowledged(),
             Boolean.TRUE::equals
         );
         recorder.check(
             "indices.get_mapping",
-            () -> client.indices().getMapping(request -> request.index(index), API_TYPE).result().containsKey(index),
+            () -> client.indices().getMapping(request -> request.index(index)).result().containsKey(index),
             Boolean.TRUE::equals
         );
         recorder.check(
             "indices.get_settings",
-            () -> client.indices().getSettings(request -> request.index(index), API_TYPE).result().containsKey(index),
+            () -> client.indices().getSettings(request -> request.index(index)).result().containsKey(index),
             Boolean.TRUE::equals
         );
         recorder.check(
             "indices.resolve_index",
-            () -> client.indices().resolveIndex(request -> request.name(index), API_TYPE).indices().size(),
+            () -> client.indices().resolveIndex(request -> request.name(index)).indices().size(),
             count -> count == 1
         );
         recorder.check(
             "indices.analyze",
             () -> client.indices()
-                .analyze(request -> request.index(index).analyzer("standard").text("AOSS coverage test"), API_TYPE)
+                .analyze(request -> request.index(index).analyzer("standard").text("AOSS coverage test"))
                 .tokens()
                 .size(),
             count -> count > 0
@@ -282,13 +277,13 @@ public final class AossLiveSmokeTest {
         recorder.check(
             "indices.validate_query",
             () -> client.indices()
-                .validateQuery(request -> request.index(index).query(query -> query.matchAll(matchAll -> matchAll)), API_TYPE)
+                .validateQuery(request -> request.index(index).query(query -> query.matchAll(matchAll -> matchAll)))
                 .valid(),
             Boolean.TRUE::equals
         );
         recorder.check(
             "cat.indices",
-            () -> client.cat().indices(request -> request.index(index), API_TYPE).valueBody().size(),
+            () -> client.cat().indices(request -> request.index(index)).valueBody().size(),
             count -> count == 1
         );
     }
@@ -296,14 +291,13 @@ public final class AossLiveSmokeTest {
     private static void runDocumentChecks(OpenSearchClient client, Recorder recorder, String index) {
         IndexResponse indexed = recorder.check(
             "root.index",
-            () -> client.index(request -> request.index(index).id("doc-1").document(document("first document", "alpha", 1)), API_TYPE),
+            () -> client.index(request -> request.index(index).id("doc-1").document(document("first document", "alpha", 1))),
             response -> response.result() == Result.Created || response.result() == Result.Updated
         );
         recorder.check(
             "root.create",
             () -> client.create(
-                request -> request.index(index).id("doc-2").document(document("second document", "beta", 2)),
-                API_TYPE
+                request -> request.index(index).id("doc-2").document(document("second document", "beta", 2))
             ).result(),
             result -> result == Result.Created
         );
@@ -322,40 +316,39 @@ public final class AossLiveSmokeTest {
         );
         recorder.check(
             "root.bulk",
-            () -> client.bulk(new BulkRequest.Builder().index(index).operations(operations).build(), API_TYPE),
+            () -> client.bulk(new BulkRequest.Builder().index(index).operations(operations).build()),
             response -> !response.errors() && response.items().size() == 2
         );
 
         if (indexed != null) {
             recorder.check(
                 "root.exists",
-                () -> waitForBoolean(() -> client.exists(request -> request.index(index).id("doc-1"), API_TYPE).value(), true),
+                () -> waitForBoolean(() -> client.exists(request -> request.index(index).id("doc-1")).value(), true),
                 Boolean.TRUE::equals
             );
             recorder.check(
                 "root.exists_source",
-                () -> client.existsSource(request -> request.index(index).id("doc-1"), API_TYPE).value(),
+                () -> client.existsSource(request -> request.index(index).id("doc-1")).value(),
                 Boolean.TRUE::equals
             );
             recorder.check(
                 "root.get",
                 () -> waitForBoolean(
-                    () -> client.get(request -> request.index(index).id("doc-1"), Map.class, API_TYPE).found(),
+                    () -> client.get(request -> request.index(index).id("doc-1"), Map.class).found(),
                     true
                 ),
                 Boolean.TRUE::equals
             );
             recorder.check(
                 "root.get_source",
-                () -> client.getSource(request -> request.index(index).id("doc-1"), Map.class, API_TYPE).valueBody().get("message"),
+                () -> client.getSource(request -> request.index(index).id("doc-1"), Map.class).valueBody().get("message"),
                 "first document"::equals
             );
             recorder.check(
                 "root.explain",
                 () -> client.explain(
                     request -> request.index(index).id("doc-1").query(query -> query.matchAll(matchAll -> matchAll)),
-                    Map.class,
-                    API_TYPE
+                    Map.class
                 ).matched(),
                 Boolean.TRUE::equals
             );
@@ -365,12 +358,12 @@ public final class AossLiveSmokeTest {
                 .doc(Map.of("count", 10))
 
                 .build();
-            recorder.check("root.update", () -> client.update(update, Map.class, API_TYPE).result(), result -> result == Result.Updated);
+            recorder.check("root.update", () -> client.update(update, Map.class).result(), result -> result == Result.Updated);
         }
 
         recorder.check(
             "root.mget",
-            () -> client.mget(request -> request.index(index).ids("doc-1", "doc-2", "doc-3"), Map.class, API_TYPE).docs().size(),
+            () -> client.mget(request -> request.index(index).ids("doc-1", "doc-2", "doc-3"), Map.class).docs().size(),
             count -> count == 3
         );
         recorder.check("root.count", () -> waitForCount(client, index, 4), count -> count >= 4);
@@ -378,8 +371,7 @@ public final class AossLiveSmokeTest {
             "root.search",
             () -> client.search(
                 request -> request.index(index).query(query -> query.matchAll(matchAll -> matchAll)),
-                Map.class,
-                API_TYPE
+                Map.class
             )
                 .hits()
                 .hits()
@@ -395,24 +387,23 @@ public final class AossLiveSmokeTest {
                             item -> item.header(header -> header).body(body -> body.query(query -> query.matchAll(matchAll -> matchAll)))
                         )
                     ),
-                Map.class,
-                API_TYPE
+                Map.class
             ).responses().size(),
             count -> count == 1
         );
         recorder.check(
             "root.field_caps",
-            () -> client.fieldCaps(request -> request.index(index).fields("message", "category", "count"), API_TYPE),
+            () -> client.fieldCaps(request -> request.index(index).fields("message", "category", "count")),
             response -> response != null
         );
         recorder.check(
             "root.delete",
-            () -> client.delete(request -> request.index(index).id("doc-2"), API_TYPE).result(),
+            () -> client.delete(request -> request.index(index).id("doc-2")).result(),
             result -> result == Result.Deleted
         );
         recorder.check(
             "root.exists",
-            () -> waitForBoolean(() -> client.exists(request -> request.index(index).id("doc-2"), API_TYPE).value(), false),
+            () -> waitForBoolean(() -> client.exists(request -> request.index(index).id("doc-2")).value(), false),
             Boolean.TRUE::equals
         );
     }
@@ -420,17 +411,17 @@ public final class AossLiveSmokeTest {
     private static void runAliasChecks(OpenSearchClient client, Recorder recorder, String index, String alias) {
         recorder.check(
             "indices.exists_alias",
-            () -> client.indices().existsAlias(request -> request.index(index).name(alias), API_TYPE).value(),
+            () -> client.indices().existsAlias(request -> request.index(index).name(alias)).value(),
             Boolean.TRUE::equals
         );
         recorder.check(
             "indices.get_alias",
-            () -> client.indices().getAlias(request -> request.index(index).name(alias), API_TYPE).result().containsKey(index),
+            () -> client.indices().getAlias(request -> request.index(index).name(alias)).result().containsKey(index),
             Boolean.TRUE::equals
         );
         recorder.check(
             "cat.aliases",
-            () -> client.cat().aliases(request -> request.name(alias), API_TYPE).valueBody().size(),
+            () -> client.cat().aliases(request -> request.name(alias)).valueBody().size(),
             count -> count == 1
         );
     }
@@ -452,7 +443,7 @@ public final class AossLiveSmokeTest {
         long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(30);
         long count = 0;
         do {
-            count = client.count(request -> request.index(index), API_TYPE).count();
+            count = client.count(request -> request.index(index)).count();
             if (count >= expected) {
                 return count;
             }

@@ -73,7 +73,10 @@ public class MigrateToHotResponse implements PlainJsonSerializable, ToCopyableBu
     }
 
     /**
+     * Whether the migration request was accepted.
+     * <p>
      * API name: {@code acknowledged}
+     * </p>
      */
     @Nullable
     public final Boolean acknowledged() {
@@ -134,7 +137,10 @@ public class MigrateToHotResponse implements PlainJsonSerializable, ToCopyableBu
         }
 
         /**
+         * Whether the migration request was accepted.
+         * <p>
          * API name: {@code acknowledged}
+         * </p>
          */
         @Nonnull
         public final Builder acknowledged(@Nullable Boolean value) {

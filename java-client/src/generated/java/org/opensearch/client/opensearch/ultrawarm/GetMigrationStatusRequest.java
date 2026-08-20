@@ -53,7 +53,7 @@ import org.opensearch.client.util.ToCopyableBuilder;
 // typedef: ultrawarm.get_migration_status.Request
 
 /**
- * Returns migration status for an index.
+ * AOS only. Returns migration status for a specific index.
  */
 @Generated("org.opensearch.client.codegen.CodeGenerator")
 public final class GetMigrationStatusRequest extends RequestBase
@@ -75,7 +75,7 @@ public final class GetMigrationStatusRequest extends RequestBase
     }
 
     /**
-     * Required - The name of the index to migrate.
+     * Required - The name of the index to migrate. Only a single index per request.
      * <p>
      * API name: {@code index}
      * </p>
@@ -131,7 +131,7 @@ public final class GetMigrationStatusRequest extends RequestBase
         }
 
         /**
-         * Required - The name of the index to migrate.
+         * Required - The name of the index to migrate. Only a single index per request.
          * <p>
          * API name: {@code index}
          * </p>

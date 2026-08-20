@@ -40,7 +40,6 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch.OpenSearchAsyncClient;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch._types.NodeStatistics;
@@ -70,7 +69,7 @@ public class ApiConventionsTest extends Assert {
         // Synchronous blocking client
         OpenSearchClient client = new OpenSearchClient(transport);
 
-        if (client.exists(b -> b.index("products").id("foo"), ApiType.OSS).value()) {
+        if (client.exists(b -> b.index("products").id("foo")).value()) {
             logger.info("product exists");
         }
 
@@ -79,7 +78,7 @@ public class ApiConventionsTest extends Assert {
             new OpenSearchAsyncClient(transport);
 
         asyncClient
-            .exists(b -> b.index("products").id("foo"), ApiType.OSS)
+            .exists(b -> b.index("products").id("foo"))
             .thenAccept(response -> {
                 if (response.value()) {
                     logger.info("product exists");
@@ -100,8 +99,7 @@ public class ApiConventionsTest extends Assert {
                 .aliases("foo",
                     new Alias.Builder().isWriteIndex(true).build()
                 )
-                .build(),
-            ApiType.OSS
+                .build()
         );
         //end::builders
     }
@@ -116,8 +114,7 @@ public class ApiConventionsTest extends Assert {
                 .index("my-index")
                 .aliases("foo", aliasBuilder -> aliasBuilder
                     .isWriteIndex(true)
-                ),
-                ApiType.OSS
+                )
             );
         //end::builder-lambdas
     }
@@ -132,8 +129,7 @@ public class ApiConventionsTest extends Assert {
                 .index("my-index")
                 .aliases("foo", a -> a
                     .isWriteIndex(true)
-                ),
-                ApiType.OSS
+                )
             );
         //end::builder-lambdas-short
     }
@@ -174,8 +170,7 @@ public class ApiConventionsTest extends Assert {
                         )
                     )
                 ),
-            SomeApplicationData.class, // <1>
-            ApiType.OSS
+            SomeApplicationData.class // <1>
         );
         //end::builder-intervals
     }

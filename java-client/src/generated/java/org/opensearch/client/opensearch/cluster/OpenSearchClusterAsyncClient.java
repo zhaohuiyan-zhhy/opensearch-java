@@ -42,7 +42,6 @@ import java.util.function.Function;
 import javax.annotation.Generated;
 import javax.annotation.Nullable;
 import org.opensearch.client.ApiClient;
-import org.opensearch.client.opensearch.ApiType;
 import org.opensearch.client.opensearch._types.OpenSearchException;
 import org.opensearch.client.transport.OpenSearchTransport;
 import org.opensearch.client.transport.TransportOptions;
@@ -75,18 +74,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<AllocationExplainResponse> allocationExplain(AllocationExplainRequest request) throws IOException,
         OpenSearchException {
-        return allocationExplain(request, ApiType.OSS);
-    }
-
-    /**
-     * Explains how shards are allocated in the current cluster and provides an explanation for why unassigned shards can't be allocated to
-     * a node.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<AllocationExplainResponse> allocationExplain(AllocationExplainRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.allocation_explain", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, AllocationExplainRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -99,21 +86,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<AllocationExplainResponse> allocationExplain(
         Function<AllocationExplainRequest.Builder, ObjectBuilder<AllocationExplainRequest>> fn
     ) throws IOException, OpenSearchException {
-        return allocationExplain(fn, ApiType.OSS);
-    }
-
-    /**
-     * Explains how shards are allocated in the current cluster and provides an explanation for why unassigned shards can't be allocated to
-     * a node.
-     *
-     * @param fn   a function that initializes a builder to create the {@link AllocationExplainRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<AllocationExplainResponse> allocationExplain(
-        Function<AllocationExplainRequest.Builder, ObjectBuilder<AllocationExplainRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return allocationExplain(fn.apply(new AllocationExplainRequest.Builder()).build(), type);
+        return allocationExplain(fn.apply(new AllocationExplainRequest.Builder()).build());
     }
 
     /**
@@ -121,17 +94,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      * a node.
      */
     public final CompletableFuture<AllocationExplainResponse> allocationExplain() throws IOException, OpenSearchException {
-        return allocationExplain(ApiType.OSS);
-    }
-
-    /**
-     * Explains how shards are allocated in the current cluster and provides an explanation for why unassigned shards can't be allocated to
-     * a node.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<AllocationExplainResponse> allocationExplain(ApiType type) throws IOException, OpenSearchException {
-        return allocationExplain(new AllocationExplainRequest.Builder().build(), type);
+        return allocationExplain(new AllocationExplainRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.delete_component_template
@@ -141,17 +104,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<DeleteComponentTemplateResponse> deleteComponentTemplate(DeleteComponentTemplateRequest request)
         throws IOException, OpenSearchException {
-        return deleteComponentTemplate(request, ApiType.OSS);
-    }
-
-    /**
-     * Deletes a component template.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<DeleteComponentTemplateResponse> deleteComponentTemplate(DeleteComponentTemplateRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.delete_component_template", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, DeleteComponentTemplateRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -163,20 +115,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<DeleteComponentTemplateResponse> deleteComponentTemplate(
         Function<DeleteComponentTemplateRequest.Builder, ObjectBuilder<DeleteComponentTemplateRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteComponentTemplate(fn, ApiType.OSS);
-    }
-
-    /**
-     * Deletes a component template.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteComponentTemplateRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<DeleteComponentTemplateResponse> deleteComponentTemplate(
-        Function<DeleteComponentTemplateRequest.Builder, ObjectBuilder<DeleteComponentTemplateRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return deleteComponentTemplate(fn.apply(new DeleteComponentTemplateRequest.Builder()).build(), type);
+        return deleteComponentTemplate(fn.apply(new DeleteComponentTemplateRequest.Builder()).build());
     }
 
     // ----- Endpoint: cluster.delete_decommission_awareness
@@ -186,19 +125,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<DeleteDecommissionAwarenessResponse> deleteDecommissionAwareness(DeleteDecommissionAwarenessRequest request)
         throws IOException, OpenSearchException {
-        return deleteDecommissionAwareness(request, ApiType.OSS);
-    }
-
-    /**
-     * Recommissions a decommissioned zone.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<DeleteDecommissionAwarenessResponse> deleteDecommissionAwareness(
-        DeleteDecommissionAwarenessRequest request,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.delete_decommission_awareness", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, DeleteDecommissionAwarenessRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -210,20 +136,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<DeleteDecommissionAwarenessResponse> deleteDecommissionAwareness(
         Function<DeleteDecommissionAwarenessRequest.Builder, ObjectBuilder<DeleteDecommissionAwarenessRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteDecommissionAwareness(fn, ApiType.OSS);
-    }
-
-    /**
-     * Recommissions a decommissioned zone.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteDecommissionAwarenessRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<DeleteDecommissionAwarenessResponse> deleteDecommissionAwareness(
-        Function<DeleteDecommissionAwarenessRequest.Builder, ObjectBuilder<DeleteDecommissionAwarenessRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return deleteDecommissionAwareness(fn.apply(new DeleteDecommissionAwarenessRequest.Builder()).build(), type);
+        return deleteDecommissionAwareness(fn.apply(new DeleteDecommissionAwarenessRequest.Builder()).build());
     }
 
     /**
@@ -231,17 +144,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public final CompletableFuture<DeleteDecommissionAwarenessResponse> deleteDecommissionAwareness() throws IOException,
         OpenSearchException {
-        return deleteDecommissionAwareness(ApiType.OSS);
-    }
-
-    /**
-     * Recommissions a decommissioned zone.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<DeleteDecommissionAwarenessResponse> deleteDecommissionAwareness(ApiType type) throws IOException,
-        OpenSearchException {
-        return deleteDecommissionAwareness(new DeleteDecommissionAwarenessRequest.Builder().build(), type);
+        return deleteDecommissionAwareness(new DeleteDecommissionAwarenessRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.delete_voting_config_exclusions
@@ -251,17 +154,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<BooleanResponse> deleteVotingConfigExclusions(DeleteVotingConfigExclusionsRequest request) throws IOException,
         OpenSearchException {
-        return deleteVotingConfigExclusions(request, ApiType.OSS);
-    }
-
-    /**
-     * Clears any cluster voting configuration exclusions.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<BooleanResponse> deleteVotingConfigExclusions(DeleteVotingConfigExclusionsRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.delete_voting_config_exclusions", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, DeleteVotingConfigExclusionsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -273,36 +165,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<BooleanResponse> deleteVotingConfigExclusions(
         Function<DeleteVotingConfigExclusionsRequest.Builder, ObjectBuilder<DeleteVotingConfigExclusionsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteVotingConfigExclusions(fn, ApiType.OSS);
-    }
-
-    /**
-     * Clears any cluster voting configuration exclusions.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteVotingConfigExclusionsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<BooleanResponse> deleteVotingConfigExclusions(
-        Function<DeleteVotingConfigExclusionsRequest.Builder, ObjectBuilder<DeleteVotingConfigExclusionsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return deleteVotingConfigExclusions(fn.apply(new DeleteVotingConfigExclusionsRequest.Builder()).build(), type);
+        return deleteVotingConfigExclusions(fn.apply(new DeleteVotingConfigExclusionsRequest.Builder()).build());
     }
 
     /**
      * Clears any cluster voting configuration exclusions.
      */
     public final CompletableFuture<BooleanResponse> deleteVotingConfigExclusions() throws IOException, OpenSearchException {
-        return deleteVotingConfigExclusions(ApiType.OSS);
-    }
-
-    /**
-     * Clears any cluster voting configuration exclusions.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<BooleanResponse> deleteVotingConfigExclusions(ApiType type) throws IOException, OpenSearchException {
-        return deleteVotingConfigExclusions(new DeleteVotingConfigExclusionsRequest.Builder().build(), type);
+        return deleteVotingConfigExclusions(new DeleteVotingConfigExclusionsRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.delete_weighted_routing
@@ -312,17 +182,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<DeleteWeightedRoutingResponse> deleteWeightedRouting(DeleteWeightedRoutingRequest request) throws IOException,
         OpenSearchException {
-        return deleteWeightedRouting(request, ApiType.OSS);
-    }
-
-    /**
-     * Delete weighted shard routing weights.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<DeleteWeightedRoutingResponse> deleteWeightedRouting(DeleteWeightedRoutingRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.delete_weighted_routing", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, DeleteWeightedRoutingRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -334,37 +193,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<DeleteWeightedRoutingResponse> deleteWeightedRouting(
         Function<DeleteWeightedRoutingRequest.Builder, ObjectBuilder<DeleteWeightedRoutingRequest>> fn
     ) throws IOException, OpenSearchException {
-        return deleteWeightedRouting(fn, ApiType.OSS);
-    }
-
-    /**
-     * Delete weighted shard routing weights.
-     *
-     * @param fn   a function that initializes a builder to create the {@link DeleteWeightedRoutingRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<DeleteWeightedRoutingResponse> deleteWeightedRouting(
-        Function<DeleteWeightedRoutingRequest.Builder, ObjectBuilder<DeleteWeightedRoutingRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return deleteWeightedRouting(fn.apply(new DeleteWeightedRoutingRequest.Builder()).build(), type);
+        return deleteWeightedRouting(fn.apply(new DeleteWeightedRoutingRequest.Builder()).build());
     }
 
     /**
      * Delete weighted shard routing weights.
      */
     public final CompletableFuture<DeleteWeightedRoutingResponse> deleteWeightedRouting() throws IOException, OpenSearchException {
-        return deleteWeightedRouting(ApiType.OSS);
-    }
-
-    /**
-     * Delete weighted shard routing weights.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<DeleteWeightedRoutingResponse> deleteWeightedRouting(ApiType type) throws IOException,
-        OpenSearchException {
-        return deleteWeightedRouting(new DeleteWeightedRoutingRequest.Builder().build(), type);
+        return deleteWeightedRouting(new DeleteWeightedRoutingRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.exists_component_template
@@ -374,17 +210,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<BooleanResponse> existsComponentTemplate(ExistsComponentTemplateRequest request) throws IOException,
         OpenSearchException {
-        return existsComponentTemplate(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about whether a particular component template exist.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<BooleanResponse> existsComponentTemplate(ExistsComponentTemplateRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.exists_component_template", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, ExistsComponentTemplateRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -396,20 +221,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<BooleanResponse> existsComponentTemplate(
         Function<ExistsComponentTemplateRequest.Builder, ObjectBuilder<ExistsComponentTemplateRequest>> fn
     ) throws IOException, OpenSearchException {
-        return existsComponentTemplate(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns information about whether a particular component template exist.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ExistsComponentTemplateRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<BooleanResponse> existsComponentTemplate(
-        Function<ExistsComponentTemplateRequest.Builder, ObjectBuilder<ExistsComponentTemplateRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return existsComponentTemplate(fn.apply(new ExistsComponentTemplateRequest.Builder()).build(), type);
+        return existsComponentTemplate(fn.apply(new ExistsComponentTemplateRequest.Builder()).build());
     }
 
     // ----- Endpoint: cluster.get_component_template
@@ -419,17 +231,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<GetComponentTemplateResponse> getComponentTemplate(GetComponentTemplateRequest request) throws IOException,
         OpenSearchException {
-        return getComponentTemplate(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns one or more component templates.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<GetComponentTemplateResponse> getComponentTemplate(GetComponentTemplateRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.get_component_template", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, GetComponentTemplateRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -441,37 +242,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<GetComponentTemplateResponse> getComponentTemplate(
         Function<GetComponentTemplateRequest.Builder, ObjectBuilder<GetComponentTemplateRequest>> fn
     ) throws IOException, OpenSearchException {
-        return getComponentTemplate(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns one or more component templates.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetComponentTemplateRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<GetComponentTemplateResponse> getComponentTemplate(
-        Function<GetComponentTemplateRequest.Builder, ObjectBuilder<GetComponentTemplateRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return getComponentTemplate(fn.apply(new GetComponentTemplateRequest.Builder()).build(), type);
+        return getComponentTemplate(fn.apply(new GetComponentTemplateRequest.Builder()).build());
     }
 
     /**
      * Returns one or more component templates.
      */
     public final CompletableFuture<GetComponentTemplateResponse> getComponentTemplate() throws IOException, OpenSearchException {
-        return getComponentTemplate(ApiType.OSS);
-    }
-
-    /**
-     * Returns one or more component templates.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<GetComponentTemplateResponse> getComponentTemplate(ApiType type) throws IOException,
-        OpenSearchException {
-        return getComponentTemplate(new GetComponentTemplateRequest.Builder().build(), type);
+        return getComponentTemplate(new GetComponentTemplateRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.get_decommission_awareness
@@ -481,19 +259,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<GetDecommissionAwarenessResponse> getDecommissionAwareness(GetDecommissionAwarenessRequest request)
         throws IOException, OpenSearchException {
-        return getDecommissionAwareness(request, ApiType.OSS);
-    }
-
-    /**
-     * Retrieves the decommission status for all zones.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<GetDecommissionAwarenessResponse> getDecommissionAwareness(
-        GetDecommissionAwarenessRequest request,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.get_decommission_awareness", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, GetDecommissionAwarenessRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -505,20 +270,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<GetDecommissionAwarenessResponse> getDecommissionAwareness(
         Function<GetDecommissionAwarenessRequest.Builder, ObjectBuilder<GetDecommissionAwarenessRequest>> fn
     ) throws IOException, OpenSearchException {
-        return getDecommissionAwareness(fn, ApiType.OSS);
-    }
-
-    /**
-     * Retrieves the decommission status for all zones.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetDecommissionAwarenessRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<GetDecommissionAwarenessResponse> getDecommissionAwareness(
-        Function<GetDecommissionAwarenessRequest.Builder, ObjectBuilder<GetDecommissionAwarenessRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return getDecommissionAwareness(fn.apply(new GetDecommissionAwarenessRequest.Builder()).build(), type);
+        return getDecommissionAwareness(fn.apply(new GetDecommissionAwarenessRequest.Builder()).build());
     }
 
     // ----- Endpoint: cluster.get_settings
@@ -528,17 +280,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<GetClusterSettingsResponse> getSettings(GetClusterSettingsRequest request) throws IOException,
         OpenSearchException {
-        return getSettings(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns cluster settings.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<GetClusterSettingsResponse> getSettings(GetClusterSettingsRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "cluster.get_settings", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, GetClusterSettingsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -550,36 +291,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<GetClusterSettingsResponse> getSettings(
         Function<GetClusterSettingsRequest.Builder, ObjectBuilder<GetClusterSettingsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return getSettings(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns cluster settings.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetClusterSettingsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<GetClusterSettingsResponse> getSettings(
-        Function<GetClusterSettingsRequest.Builder, ObjectBuilder<GetClusterSettingsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return getSettings(fn.apply(new GetClusterSettingsRequest.Builder()).build(), type);
+        return getSettings(fn.apply(new GetClusterSettingsRequest.Builder()).build());
     }
 
     /**
      * Returns cluster settings.
      */
     public final CompletableFuture<GetClusterSettingsResponse> getSettings() throws IOException, OpenSearchException {
-        return getSettings(ApiType.OSS);
-    }
-
-    /**
-     * Returns cluster settings.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<GetClusterSettingsResponse> getSettings(ApiType type) throws IOException, OpenSearchException {
-        return getSettings(new GetClusterSettingsRequest.Builder().build(), type);
+        return getSettings(new GetClusterSettingsRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.get_weighted_routing
@@ -589,17 +308,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<GetWeightedRoutingResponse> getWeightedRouting(GetWeightedRoutingRequest request) throws IOException,
         OpenSearchException {
-        return getWeightedRouting(request, ApiType.OSS);
-    }
-
-    /**
-     * Fetches weighted shard routing weights.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<GetWeightedRoutingResponse> getWeightedRouting(GetWeightedRoutingRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.get_weighted_routing", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, GetWeightedRoutingRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -611,20 +319,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<GetWeightedRoutingResponse> getWeightedRouting(
         Function<GetWeightedRoutingRequest.Builder, ObjectBuilder<GetWeightedRoutingRequest>> fn
     ) throws IOException, OpenSearchException {
-        return getWeightedRouting(fn, ApiType.OSS);
-    }
-
-    /**
-     * Fetches weighted shard routing weights.
-     *
-     * @param fn   a function that initializes a builder to create the {@link GetWeightedRoutingRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<GetWeightedRoutingResponse> getWeightedRouting(
-        Function<GetWeightedRoutingRequest.Builder, ObjectBuilder<GetWeightedRoutingRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return getWeightedRouting(fn.apply(new GetWeightedRoutingRequest.Builder()).build(), type);
+        return getWeightedRouting(fn.apply(new GetWeightedRoutingRequest.Builder()).build());
     }
 
     // ----- Endpoint: cluster.health
@@ -633,16 +328,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      * Returns basic information about the health of the cluster.
      */
     public CompletableFuture<HealthResponse> health(HealthRequest request) throws IOException, OpenSearchException {
-        return health(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns basic information about the health of the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<HealthResponse> health(HealthRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.health", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, HealthRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -653,34 +338,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public final CompletableFuture<HealthResponse> health(Function<HealthRequest.Builder, ObjectBuilder<HealthRequest>> fn)
         throws IOException, OpenSearchException {
-        return health(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns basic information about the health of the cluster.
-     *
-     * @param fn   a function that initializes a builder to create the {@link HealthRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<HealthResponse> health(Function<HealthRequest.Builder, ObjectBuilder<HealthRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return health(fn.apply(new HealthRequest.Builder()).build(), type);
+        return health(fn.apply(new HealthRequest.Builder()).build());
     }
 
     /**
      * Returns basic information about the health of the cluster.
      */
     public final CompletableFuture<HealthResponse> health() throws IOException, OpenSearchException {
-        return health(ApiType.OSS);
-    }
-
-    /**
-     * Returns basic information about the health of the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<HealthResponse> health(ApiType type) throws IOException, OpenSearchException {
-        return health(new HealthRequest.Builder().build(), type);
+        return health(new HealthRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.pending_tasks
@@ -689,17 +354,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      * Returns a list of pending cluster-level tasks, such as index creation, mapping updates, or new allocations.
      */
     public CompletableFuture<PendingTasksResponse> pendingTasks(PendingTasksRequest request) throws IOException, OpenSearchException {
-        return pendingTasks(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns a list of pending cluster-level tasks, such as index creation, mapping updates, or new allocations.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<PendingTasksResponse> pendingTasks(PendingTasksRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "cluster.pending_tasks", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, PendingTasksRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -711,36 +365,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<PendingTasksResponse> pendingTasks(
         Function<PendingTasksRequest.Builder, ObjectBuilder<PendingTasksRequest>> fn
     ) throws IOException, OpenSearchException {
-        return pendingTasks(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns a list of pending cluster-level tasks, such as index creation, mapping updates, or new allocations.
-     *
-     * @param fn   a function that initializes a builder to create the {@link PendingTasksRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<PendingTasksResponse> pendingTasks(
-        Function<PendingTasksRequest.Builder, ObjectBuilder<PendingTasksRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return pendingTasks(fn.apply(new PendingTasksRequest.Builder()).build(), type);
+        return pendingTasks(fn.apply(new PendingTasksRequest.Builder()).build());
     }
 
     /**
      * Returns a list of pending cluster-level tasks, such as index creation, mapping updates, or new allocations.
      */
     public final CompletableFuture<PendingTasksResponse> pendingTasks() throws IOException, OpenSearchException {
-        return pendingTasks(ApiType.OSS);
-    }
-
-    /**
-     * Returns a list of pending cluster-level tasks, such as index creation, mapping updates, or new allocations.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<PendingTasksResponse> pendingTasks(ApiType type) throws IOException, OpenSearchException {
-        return pendingTasks(new PendingTasksRequest.Builder().build(), type);
+        return pendingTasks(new PendingTasksRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.post_voting_config_exclusions
@@ -750,17 +382,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<BooleanResponse> postVotingConfigExclusions(PostVotingConfigExclusionsRequest request) throws IOException,
         OpenSearchException {
-        return postVotingConfigExclusions(request, ApiType.OSS);
-    }
-
-    /**
-     * Updates the cluster voting configuration by excluding certain node IDs or names.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<BooleanResponse> postVotingConfigExclusions(PostVotingConfigExclusionsRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.post_voting_config_exclusions", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, PostVotingConfigExclusionsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -772,36 +393,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<BooleanResponse> postVotingConfigExclusions(
         Function<PostVotingConfigExclusionsRequest.Builder, ObjectBuilder<PostVotingConfigExclusionsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return postVotingConfigExclusions(fn, ApiType.OSS);
-    }
-
-    /**
-     * Updates the cluster voting configuration by excluding certain node IDs or names.
-     *
-     * @param fn   a function that initializes a builder to create the {@link PostVotingConfigExclusionsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<BooleanResponse> postVotingConfigExclusions(
-        Function<PostVotingConfigExclusionsRequest.Builder, ObjectBuilder<PostVotingConfigExclusionsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return postVotingConfigExclusions(fn.apply(new PostVotingConfigExclusionsRequest.Builder()).build(), type);
+        return postVotingConfigExclusions(fn.apply(new PostVotingConfigExclusionsRequest.Builder()).build());
     }
 
     /**
      * Updates the cluster voting configuration by excluding certain node IDs or names.
      */
     public final CompletableFuture<BooleanResponse> postVotingConfigExclusions() throws IOException, OpenSearchException {
-        return postVotingConfigExclusions(ApiType.OSS);
-    }
-
-    /**
-     * Updates the cluster voting configuration by excluding certain node IDs or names.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<BooleanResponse> postVotingConfigExclusions(ApiType type) throws IOException, OpenSearchException {
-        return postVotingConfigExclusions(new PostVotingConfigExclusionsRequest.Builder().build(), type);
+        return postVotingConfigExclusions(new PostVotingConfigExclusionsRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.put_component_template
@@ -811,17 +410,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<PutComponentTemplateResponse> putComponentTemplate(PutComponentTemplateRequest request) throws IOException,
         OpenSearchException {
-        return putComponentTemplate(request, ApiType.OSS);
-    }
-
-    /**
-     * Creates or updates a component template.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<PutComponentTemplateResponse> putComponentTemplate(PutComponentTemplateRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.put_component_template", ApiType.AOS, ApiType.AOSS, ApiType.OSS);
         return this.transport.performRequestAsync(request, PutComponentTemplateRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -833,20 +421,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<PutComponentTemplateResponse> putComponentTemplate(
         Function<PutComponentTemplateRequest.Builder, ObjectBuilder<PutComponentTemplateRequest>> fn
     ) throws IOException, OpenSearchException {
-        return putComponentTemplate(fn, ApiType.OSS);
-    }
-
-    /**
-     * Creates or updates a component template.
-     *
-     * @param fn   a function that initializes a builder to create the {@link PutComponentTemplateRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<PutComponentTemplateResponse> putComponentTemplate(
-        Function<PutComponentTemplateRequest.Builder, ObjectBuilder<PutComponentTemplateRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return putComponentTemplate(fn.apply(new PutComponentTemplateRequest.Builder()).build(), type);
+        return putComponentTemplate(fn.apply(new PutComponentTemplateRequest.Builder()).build());
     }
 
     // ----- Endpoint: cluster.put_decommission_awareness
@@ -857,20 +432,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<PutDecommissionAwarenessResponse> putDecommissionAwareness(PutDecommissionAwarenessRequest request)
         throws IOException, OpenSearchException {
-        return putDecommissionAwareness(request, ApiType.OSS);
-    }
-
-    /**
-     * Decommissions a cluster zone based on awareness. This can greatly benefit multi-zone deployments, where awareness attributes can aid
-     * in applying new upgrades to a cluster in a controlled fashion.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<PutDecommissionAwarenessResponse> putDecommissionAwareness(
-        PutDecommissionAwarenessRequest request,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.put_decommission_awareness", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, PutDecommissionAwarenessRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -883,21 +444,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<PutDecommissionAwarenessResponse> putDecommissionAwareness(
         Function<PutDecommissionAwarenessRequest.Builder, ObjectBuilder<PutDecommissionAwarenessRequest>> fn
     ) throws IOException, OpenSearchException {
-        return putDecommissionAwareness(fn, ApiType.OSS);
-    }
-
-    /**
-     * Decommissions a cluster zone based on awareness. This can greatly benefit multi-zone deployments, where awareness attributes can aid
-     * in applying new upgrades to a cluster in a controlled fashion.
-     *
-     * @param fn   a function that initializes a builder to create the {@link PutDecommissionAwarenessRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<PutDecommissionAwarenessResponse> putDecommissionAwareness(
-        Function<PutDecommissionAwarenessRequest.Builder, ObjectBuilder<PutDecommissionAwarenessRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return putDecommissionAwareness(fn.apply(new PutDecommissionAwarenessRequest.Builder()).build(), type);
+        return putDecommissionAwareness(fn.apply(new PutDecommissionAwarenessRequest.Builder()).build());
     }
 
     // ----- Endpoint: cluster.put_settings
@@ -907,17 +454,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<PutClusterSettingsResponse> putSettings(PutClusterSettingsRequest request) throws IOException,
         OpenSearchException {
-        return putSettings(request, ApiType.OSS);
-    }
-
-    /**
-     * Updates the cluster settings.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<PutClusterSettingsResponse> putSettings(PutClusterSettingsRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "cluster.put_settings", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, PutClusterSettingsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -929,36 +465,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<PutClusterSettingsResponse> putSettings(
         Function<PutClusterSettingsRequest.Builder, ObjectBuilder<PutClusterSettingsRequest>> fn
     ) throws IOException, OpenSearchException {
-        return putSettings(fn, ApiType.OSS);
-    }
-
-    /**
-     * Updates the cluster settings.
-     *
-     * @param fn   a function that initializes a builder to create the {@link PutClusterSettingsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<PutClusterSettingsResponse> putSettings(
-        Function<PutClusterSettingsRequest.Builder, ObjectBuilder<PutClusterSettingsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return putSettings(fn.apply(new PutClusterSettingsRequest.Builder()).build(), type);
+        return putSettings(fn.apply(new PutClusterSettingsRequest.Builder()).build());
     }
 
     /**
      * Updates the cluster settings.
      */
     public final CompletableFuture<PutClusterSettingsResponse> putSettings() throws IOException, OpenSearchException {
-        return putSettings(ApiType.OSS);
-    }
-
-    /**
-     * Updates the cluster settings.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<PutClusterSettingsResponse> putSettings(ApiType type) throws IOException, OpenSearchException {
-        return putSettings(new PutClusterSettingsRequest.Builder().build(), type);
+        return putSettings(new PutClusterSettingsRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.put_weighted_routing
@@ -968,17 +482,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public CompletableFuture<PutWeightedRoutingResponse> putWeightedRouting(PutWeightedRoutingRequest request) throws IOException,
         OpenSearchException {
-        return putWeightedRouting(request, ApiType.OSS);
-    }
-
-    /**
-     * Updates weighted shard routing weights.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<PutWeightedRoutingResponse> putWeightedRouting(PutWeightedRoutingRequest request, ApiType type)
-        throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.put_weighted_routing", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, PutWeightedRoutingRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -990,20 +493,7 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
     public final CompletableFuture<PutWeightedRoutingResponse> putWeightedRouting(
         Function<PutWeightedRoutingRequest.Builder, ObjectBuilder<PutWeightedRoutingRequest>> fn
     ) throws IOException, OpenSearchException {
-        return putWeightedRouting(fn, ApiType.OSS);
-    }
-
-    /**
-     * Updates weighted shard routing weights.
-     *
-     * @param fn   a function that initializes a builder to create the {@link PutWeightedRoutingRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<PutWeightedRoutingResponse> putWeightedRouting(
-        Function<PutWeightedRoutingRequest.Builder, ObjectBuilder<PutWeightedRoutingRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return putWeightedRouting(fn.apply(new PutWeightedRoutingRequest.Builder()).build(), type);
+        return putWeightedRouting(fn.apply(new PutWeightedRoutingRequest.Builder()).build());
     }
 
     // ----- Endpoint: cluster.remote_info
@@ -1012,17 +502,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      * Returns the information about configured remote clusters.
      */
     public CompletableFuture<RemoteInfoResponse> remoteInfo(RemoteInfoRequest request) throws IOException, OpenSearchException {
-        return remoteInfo(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns the information about configured remote clusters.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<RemoteInfoResponse> remoteInfo(RemoteInfoRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "cluster.remote_info", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, RemoteInfoRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1033,36 +512,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public final CompletableFuture<RemoteInfoResponse> remoteInfo(Function<RemoteInfoRequest.Builder, ObjectBuilder<RemoteInfoRequest>> fn)
         throws IOException, OpenSearchException {
-        return remoteInfo(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns the information about configured remote clusters.
-     *
-     * @param fn   a function that initializes a builder to create the {@link RemoteInfoRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<RemoteInfoResponse> remoteInfo(
-        Function<RemoteInfoRequest.Builder, ObjectBuilder<RemoteInfoRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return remoteInfo(fn.apply(new RemoteInfoRequest.Builder()).build(), type);
+        return remoteInfo(fn.apply(new RemoteInfoRequest.Builder()).build());
     }
 
     /**
      * Returns the information about configured remote clusters.
      */
     public final CompletableFuture<RemoteInfoResponse> remoteInfo() throws IOException, OpenSearchException {
-        return remoteInfo(ApiType.OSS);
-    }
-
-    /**
-     * Returns the information about configured remote clusters.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<RemoteInfoResponse> remoteInfo(ApiType type) throws IOException, OpenSearchException {
-        return remoteInfo(new RemoteInfoRequest.Builder().build(), type);
+        return remoteInfo(new RemoteInfoRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.reroute
@@ -1071,16 +528,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      * Allows to manually change the allocation of individual shards in the cluster.
      */
     public CompletableFuture<RerouteResponse> reroute(RerouteRequest request) throws IOException, OpenSearchException {
-        return reroute(request, ApiType.OSS);
-    }
-
-    /**
-     * Allows to manually change the allocation of individual shards in the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<RerouteResponse> reroute(RerouteRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.reroute", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, RerouteRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1091,36 +538,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public final CompletableFuture<RerouteResponse> reroute(Function<RerouteRequest.Builder, ObjectBuilder<RerouteRequest>> fn)
         throws IOException, OpenSearchException {
-        return reroute(fn, ApiType.OSS);
-    }
-
-    /**
-     * Allows to manually change the allocation of individual shards in the cluster.
-     *
-     * @param fn   a function that initializes a builder to create the {@link RerouteRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<RerouteResponse> reroute(
-        Function<RerouteRequest.Builder, ObjectBuilder<RerouteRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return reroute(fn.apply(new RerouteRequest.Builder()).build(), type);
+        return reroute(fn.apply(new RerouteRequest.Builder()).build());
     }
 
     /**
      * Allows to manually change the allocation of individual shards in the cluster.
      */
     public final CompletableFuture<RerouteResponse> reroute() throws IOException, OpenSearchException {
-        return reroute(ApiType.OSS);
-    }
-
-    /**
-     * Allows to manually change the allocation of individual shards in the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<RerouteResponse> reroute(ApiType type) throws IOException, OpenSearchException {
-        return reroute(new RerouteRequest.Builder().build(), type);
+        return reroute(new RerouteRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.state
@@ -1129,16 +554,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      * Returns comprehensive information about the state of the cluster.
      */
     public CompletableFuture<StateResponse> state(StateRequest request) throws IOException, OpenSearchException {
-        return state(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns comprehensive information about the state of the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<StateResponse> state(StateRequest request, ApiType type) throws IOException, OpenSearchException {
-        ApiType.requireSupported(type, "cluster.state", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, StateRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1149,34 +564,14 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public final CompletableFuture<StateResponse> state(Function<StateRequest.Builder, ObjectBuilder<StateRequest>> fn) throws IOException,
         OpenSearchException {
-        return state(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns comprehensive information about the state of the cluster.
-     *
-     * @param fn   a function that initializes a builder to create the {@link StateRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<StateResponse> state(Function<StateRequest.Builder, ObjectBuilder<StateRequest>> fn, ApiType type)
-        throws IOException, OpenSearchException {
-        return state(fn.apply(new StateRequest.Builder()).build(), type);
+        return state(fn.apply(new StateRequest.Builder()).build());
     }
 
     /**
      * Returns comprehensive information about the state of the cluster.
      */
     public final CompletableFuture<StateResponse> state() throws IOException, OpenSearchException {
-        return state(ApiType.OSS);
-    }
-
-    /**
-     * Returns comprehensive information about the state of the cluster.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<StateResponse> state(ApiType type) throws IOException, OpenSearchException {
-        return state(new StateRequest.Builder().build(), type);
+        return state(new StateRequest.Builder().build());
     }
 
     // ----- Endpoint: cluster.stats
@@ -1185,17 +580,6 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      * Returns a high-level overview of cluster statistics.
      */
     public CompletableFuture<ClusterStatsResponse> stats(ClusterStatsRequest request) throws IOException, OpenSearchException {
-        return stats(request, ApiType.OSS);
-    }
-
-    /**
-     * Returns a high-level overview of cluster statistics.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public CompletableFuture<ClusterStatsResponse> stats(ClusterStatsRequest request, ApiType type) throws IOException,
-        OpenSearchException {
-        ApiType.requireSupported(type, "cluster.stats", ApiType.AOS, ApiType.OSS);
         return this.transport.performRequestAsync(request, ClusterStatsRequest._ENDPOINT, this.transportOptions);
     }
 
@@ -1206,35 +590,13 @@ public class OpenSearchClusterAsyncClient extends ApiClient<OpenSearchTransport,
      */
     public final CompletableFuture<ClusterStatsResponse> stats(Function<ClusterStatsRequest.Builder, ObjectBuilder<ClusterStatsRequest>> fn)
         throws IOException, OpenSearchException {
-        return stats(fn, ApiType.OSS);
-    }
-
-    /**
-     * Returns a high-level overview of cluster statistics.
-     *
-     * @param fn   a function that initializes a builder to create the {@link ClusterStatsRequest}
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<ClusterStatsResponse> stats(
-        Function<ClusterStatsRequest.Builder, ObjectBuilder<ClusterStatsRequest>> fn,
-        ApiType type
-    ) throws IOException, OpenSearchException {
-        return stats(fn.apply(new ClusterStatsRequest.Builder()).build(), type);
+        return stats(fn.apply(new ClusterStatsRequest.Builder()).build());
     }
 
     /**
      * Returns a high-level overview of cluster statistics.
      */
     public final CompletableFuture<ClusterStatsResponse> stats() throws IOException, OpenSearchException {
-        return stats(ApiType.OSS);
-    }
-
-    /**
-     * Returns a high-level overview of cluster statistics.
-     *
-     * @param type target OpenSearch API distribution
-     */
-    public final CompletableFuture<ClusterStatsResponse> stats(ApiType type) throws IOException, OpenSearchException {
-        return stats(new ClusterStatsRequest.Builder().build(), type);
+        return stats(new ClusterStatsRequest.Builder().build());
     }
 }
