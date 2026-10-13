@@ -772,7 +772,7 @@ public class ApacheHttpClient5Transport implements OpenSearchStreamingTransport 
 
         final URI uri = buildUri(pathPrefix, path, params);
         final HttpUriRequestBase clientReq = new HttpUriRequestBase(method, uri);
-        if (endpoint.hasRequestBody()) {
+        if (endpoint.hasRequestBody(request)) {
             // Request has a body and must implement JsonpSerializable or NdJsonpSerializable
             NoCopyByteArrayOutputStream baos = new NoCopyByteArrayOutputStream();
 
@@ -811,7 +811,7 @@ public class ApacheHttpClient5Transport implements OpenSearchStreamingTransport 
         Map<String, String> params = endpoint.queryParameters(request);
 
         Publisher<ByteBuffer> body = null;
-        if (endpoint.hasRequestBody()) {
+        if (endpoint.hasRequestBody(request)) {
             body = Flux.from(request).map(t -> {
                 final NoCopyByteArrayOutputStream baos = new NoCopyByteArrayOutputStream();
                 if (t instanceof NdJsonpSerializable) {

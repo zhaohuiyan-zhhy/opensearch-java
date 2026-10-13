@@ -34,7 +34,9 @@ package org.opensearch.client.transport.endpoints;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import org.opensearch.client.json.JsonpDeserializer;
 import org.opensearch.client.opensearch._types.ErrorResponse;
 import org.opensearch.client.transport.JsonEndpoint;
@@ -58,6 +60,7 @@ public class SimpleEndpoint<RequestT, ResponseT> implements JsonEndpoint<Request
     private final Function<RequestT, Map<String, String>> queryParameters;
     private final Function<RequestT, Map<String, String>> headers;
     private final boolean hasRequestBody;
+    private final Predicate<RequestT> requestBodyPredicate;
     private final JsonpDeserializer<ResponseT> responseParser;
 
     public SimpleEndpoint(
@@ -68,11 +71,39 @@ public class SimpleEndpoint<RequestT, ResponseT> implements JsonEndpoint<Request
         boolean hasRequestBody,
         JsonpDeserializer<ResponseT> responseParser
     ) {
+        this(method, requestUrl, queryParameters, headers, hasRequestBody, null, responseParser);
+    }
+
+    /**
+     * Creates an endpoint whose optional request body is present only when the predicate returns true.
+     * The predicate must preserve explicitly supplied body fields, including empty collections and false values.
+     */
+    public SimpleEndpoint(
+        Function<RequestT, String> method,
+        Function<RequestT, String> requestUrl,
+        Function<RequestT, Map<String, String>> queryParameters,
+        Function<RequestT, Map<String, String>> headers,
+        Predicate<RequestT> requestBodyPredicate,
+        JsonpDeserializer<ResponseT> responseParser
+    ) {
+        this(method, requestUrl, queryParameters, headers, true, Objects.requireNonNull(requestBodyPredicate), responseParser);
+    }
+
+    private SimpleEndpoint(
+        Function<RequestT, String> method,
+        Function<RequestT, String> requestUrl,
+        Function<RequestT, Map<String, String>> queryParameters,
+        Function<RequestT, Map<String, String>> headers,
+        boolean hasRequestBody,
+        Predicate<RequestT> requestBodyPredicate,
+        JsonpDeserializer<ResponseT> responseParser
+    ) {
         this.method = method;
         this.requestUrl = requestUrl;
         this.queryParameters = queryParameters;
         this.headers = headers;
         this.hasRequestBody = hasRequestBody;
+        this.requestBodyPredicate = requestBodyPredicate;
         this.responseParser = responseParser;
     }
 
@@ -102,6 +133,11 @@ public class SimpleEndpoint<RequestT, ResponseT> implements JsonEndpoint<Request
     }
 
     @Override
+    public boolean hasRequestBody(RequestT request) {
+        return requestBodyPredicate == null ? hasRequestBody() : requestBodyPredicate.test(request);
+    }
+
+    @Override
     public JsonpDeserializer<ResponseT> responseDeserializer() {
         return this.responseParser;
     }
@@ -120,7 +156,7 @@ public class SimpleEndpoint<RequestT, ResponseT> implements JsonEndpoint<Request
     public <NewResponseT> SimpleEndpoint<RequestT, NewResponseT> withResponseDeserializer(
         JsonpDeserializer<NewResponseT> newResponseParser
     ) {
-        return new SimpleEndpoint<>(method, requestUrl, queryParameters, headers, hasRequestBody, newResponseParser);
+        return new SimpleEndpoint<>(method, requestUrl, queryParameters, headers, hasRequestBody, requestBodyPredicate, newResponseParser);
     }
 
     public static RuntimeException noPathTemplateFound(String what) {

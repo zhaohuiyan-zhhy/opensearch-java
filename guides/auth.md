@@ -12,6 +12,19 @@ Requests to [OpenSearch Service and OpenSearch Serverless](https://docs.aws.amaz
 > This leads to incorrect handling of requests such as `OpenSearchClient.clearScroll()` and `OpenSearchClient.deletePit()`.  
 > As such `AwsSdk2Transport` will throw a `TransportException` if an unsupported request is encountered while using `ApacheHttpClient`.
 
+Optional GET bodies are omitted when none of their body fields are set. For example,
+`client.ml().getProfile(r -> r)` sends a GET without a body and works with AWS SDK
+`UrlConnectionHttpClient`.
+
+If a GET request has a body, `UrlConnectionHttpClient` would rewrite the signed
+request to POST. `AwsSdk2Transport` rejects these requests before sending them;
+use a compatible client such as `AwsCrtHttpClient` instead. This includes explicitly
+supplied generic bodies such as `{}` or an empty string. Explicit `false` values,
+empty collections, and required PIT request bodies are preserved.
+
+ML profile calls without body fields use the server's URL-based defaults and
+model/task IDs. This can produce different results from the previous `{}` body.
+
 ```java
 SdkHttpClient httpClient = AwsCrtHttpClient.builder().build();
 
