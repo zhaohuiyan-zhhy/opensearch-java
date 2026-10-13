@@ -4,6 +4,8 @@ Inspired from [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Unreleased 4.x]
 
 ### BREAKING CHANGES
+- Reject GET request bodies with AWS SDK `UrlConnectionHttpClient` before they are rewritten to POST, including explicitly supplied zero-length bodies.
+- Omit unset optional GET bodies for ML profile requests, allowing the server to apply URL-based defaults and model/task IDs instead of parsing `{}`.
 - Set the Java 21 as a minimum supported version ([#2175](https://github.com/opensearch-project/opensearch-java/pull/2175))
 
 ### Added
@@ -37,6 +39,8 @@ Inspired from [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ### Removed
 
 ### Fixed
+
+- Preserve optional GET body presence through code generation and all HTTP transports, while retaining explicitly supplied body fields.
 
 ### Security
 

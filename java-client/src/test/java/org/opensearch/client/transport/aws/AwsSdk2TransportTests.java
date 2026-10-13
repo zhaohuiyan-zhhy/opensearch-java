@@ -13,7 +13,9 @@ import static org.apache.hc.core5.http.HttpHeaders.CONTENT_LENGTH;
 import static org.apache.hc.core5.http.HttpHeaders.CONTENT_TYPE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,6 +31,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
@@ -55,6 +58,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.opensearch.client.opensearch.OpenSearchAsyncClient;
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.generic.Requests;
 import org.opensearch.client.transport.TransportException;
@@ -154,6 +158,9 @@ public class AwsSdk2TransportTests {
             .setRequestRouter(
                 RequestRouter.<HttpRequestHandler>builder()
                     .addRoute(RequestRouter.LOCAL_AUTHORITY, "/", hardcodedJsonHandler("{}"))
+                    .addRoute(RequestRouter.LOCAL_AUTHORITY, "/_plugins/_ml/profile", hardcodedJsonHandler("{}"))
+                    .addRoute(RequestRouter.LOCAL_AUTHORITY, "/_plugins/_ml/profile/models", hardcodedJsonHandler("{}"))
+                    .addRoute(RequestRouter.LOCAL_AUTHORITY, "/_plugins/_ml/profile/tasks", hardcodedJsonHandler("{}"))
                     .addRoute(
                         RequestRouter.LOCAL_AUTHORITY,
                         "/" + TEST_INDEX,
@@ -300,6 +307,92 @@ public class AwsSdk2TransportTests {
     }
 
     @Test
+    public void testOptionalGetProfileBody() throws Exception {
+        String signature = selectExpectedSignature(
+            "b1cdbabc2afa3a35b62d093630dcb8a7e8d279098ea297e140806e1fc9dd270b",
+            "31f2095d5c578b1464bab110a511c7f93ca43daa2d0d82bfe6a8c08d739558d3",
+            "1fc5842d64217208e7284616b2e5d26798ef55c87b79445fc198d9cee32d869a"
+        );
+        assertSigV4Request(c -> c.ml().getProfile(r -> r), "GET", "/_plugins/_ml/profile", 0, EMPTY_SHA256, signature);
+        assertSigV4Request(
+            c -> new OpenSearchAsyncClient(c._transport()).ml().getProfile(r -> r).get(),
+            "GET",
+            "/_plugins/_ml/profile",
+            0,
+            EMPTY_SHA256,
+            signature
+        );
+    }
+
+    @Test
+    public void testOptionalGetProfileModelsBody() throws Exception {
+        String signature = selectExpectedSignature(
+            "24e33c0123f87d29c55df90fe555463b0c6afb4a048641477466bc6d905abe4a",
+            "cc3887c2673faa000e271c466f28cb43c8a862db9b9582768349eae2d58eb322",
+            "430ff5f0c2085520950823d0297f1fa7dbedeb425c716959e021eaf786d894e0"
+        );
+        assertSigV4Request(c -> c.ml().getProfileModels(r -> r), "GET", "/_plugins/_ml/profile/models", 0, EMPTY_SHA256, signature);
+        assertSigV4Request(
+            c -> new OpenSearchAsyncClient(c._transport()).ml().getProfileModels(r -> r).get(),
+            "GET",
+            "/_plugins/_ml/profile/models",
+            0,
+            EMPTY_SHA256,
+            signature
+        );
+    }
+
+    @Test
+    public void testOptionalGetProfileTasksBody() throws Exception {
+        String signature = selectExpectedSignature(
+            "89a12b9cfab110674233f8289bbfac8c6a4712f56dcb5af16b6ae7dddf01aa42",
+            "2f8cf230e5b7a8b8d3bb1874bab4f870dcea2c0fdbfb7634f2914d3bf82fbd8a",
+            "927c57e95a8e80a3ccc3af60d065897e2e1ee9f47a156c83ad363a2b9d7ea935"
+        );
+        assertSigV4Request(c -> c.ml().getProfileTasks(r -> r), "GET", "/_plugins/_ml/profile/tasks", 0, EMPTY_SHA256, signature);
+        assertSigV4Request(
+            c -> new OpenSearchAsyncClient(c._transport()).ml().getProfileTasks(r -> r).get(),
+            "GET",
+            "/_plugins/_ml/profile/tasks",
+            0,
+            EMPTY_SHA256,
+            signature
+        );
+    }
+
+    @Test
+    public void testExplicitGetProfileBody() throws Exception {
+        assertSigV4Request(
+            c -> c.ml().getProfile(r -> r.modelIds(Collections.emptyList()).returnAllModels(false)),
+            "GET",
+            "/_plugins/_ml/profile",
+            42,
+            "f4615f0799c218c11170a17bf1c9d880820ab4ddf00f29fedf9ee927fd044bf1",
+            selectExpectedSignature(
+                "9c9fca4d39dd04fdc85254232305601a702835d2f86629e16947e1d5f7c22738",
+                "1bed4a807afcf559910dd67f1a6fdfa4fa1dee18cf05b66abac6fd2fe0e25981",
+                "0b0317c4bdec365c737a3b0c5610e66cc988c1529815682e50e8ee68f0adb54d"
+            )
+        );
+    }
+
+    @Test
+    public void testGetWithExplicitEmptyJsonBody() throws Exception {
+        assertSigV4Request(
+            c -> c.generic().execute(Requests.builder().method("GET").endpoint("/").json("{}").build()).close(),
+            "GET",
+            "/",
+            2,
+            "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+            selectExpectedSignature(
+                "cb2c5a94f09c30d94ea95971a629193a69b45f6c9fc7c4a8a57259fe9bf7dc85",
+                "9ccda7b5c335599299497472799666a32c68a17a198dce3a4eec17d640b5b92d",
+                "89f290f21bc9063791f3b26f2b8955eb7978a77cfafb2f15b9ce363868c2c555"
+            )
+        );
+    }
+
+    @Test
     public void testSigV4PutIndex() throws Exception {
         assertSigV4Request(
             c -> c.indices()
@@ -412,6 +505,13 @@ public class AwsSdk2TransportTests {
     ) throws Exception {
         OpenSearchClient client = getTestClient();
 
+        if (sdkHttpClientType == SdkHttpClientType.URL_CONNECTION && "GET".equals(method) && contentLength > 0) {
+            TransportException error = assertThrows(TransportException.class, () -> request.invoke(client));
+            assertTrue(error.getMessage().contains("UrlConnectionHttpClient"));
+            assertEquals(0, receivedRequests.size());
+            return;
+        }
+
         if (sdkHttpClientType != SdkHttpClientType.APACHE
             || contentLength == 0
             || "PATCH".equals(method)
@@ -436,10 +536,16 @@ public class AwsSdk2TransportTests {
         ReceivedRequest req = receivedRequests.poll();
         assertNotNull(req);
 
-        assertEquals(method, req.getMethod());
+        String received = "Received "
+            + req.getMethod()
+            + " "
+            + req.getRequestUri()
+            + " with body: "
+            + new String(req.body, StandardCharsets.UTF_8);
+        assertEquals(received, method, req.getMethod());
         assertEquals(requestUri, req.getRequestUri());
 
-        assertEquals(contentLength, req.body.length);
+        assertEquals(received, contentLength, req.body.length);
         assertEquals(contentSha256, sha256Hex(req.body));
 
         String signedHeaders = "host;x-amz-content-sha256;x-amz-date";
@@ -447,14 +553,18 @@ public class AwsSdk2TransportTests {
         if (contentLength > 0) {
             assertEquals(APPLICATION_JSON.getMimeType(), req.getHeader(CONTENT_TYPE));
             signedHeaders = "content-type;" + signedHeaders;
+        } else {
+            assertNull(req.getHeader(CONTENT_TYPE));
         }
 
         String expectedContentLength = String.valueOf(contentLength);
         if (contentLength == 0
             && (sdkHttpClientType == SdkHttpClientType.AWS_CRT
                 || sdkHttpClientType == SdkHttpClientType.NETTY_NIO_ASYNC
-                || sdkHttpClientType == SdkHttpClientType.URL_CONNECTION)) {
-            // AWS CRT, Netty NIO and URLConnection clients do not set content-length for empty bodies
+                || sdkHttpClientType == SdkHttpClientType.URL_CONNECTION
+                || (sdkHttpClientType == SdkHttpClientType.APACHE && "GET".equals(method)))) {
+            // AWS CRT, Netty NIO and URLConnection omit content-length for empty bodies.
+            // AWS Apache also omits it for a GET without an entity.
             expectedContentLength = null;
         }
 

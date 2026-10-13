@@ -49,6 +49,7 @@ public class RequestShape extends ObjectShape {
     @Nullable
     private Field delegatedBodyField;
     private boolean supportsTypedKeys = false;
+    private boolean requestBodyRequired = false;
 
     public RequestShape(
         @Nonnull Namespace parent,
@@ -120,6 +121,18 @@ public class RequestShape extends ObjectShape {
 
     public boolean hasRequestBody() {
         return hasDelegatedBodyField() || !getBodyFields().isEmpty();
+    }
+
+    public void setRequestBodyRequired(boolean requestBodyRequired) {
+        this.requestBodyRequired = requestBodyRequired;
+    }
+
+    public boolean hasOptionalGetBody() {
+        return "GET".equals(getHttpMethod())
+            && hasRequestBody()
+            && !requestBodyRequired
+            && !hasDelegatedBodyField()
+            && getBodyFields().stream().noneMatch(Field::isRequired);
     }
 
     public void addQueryParam(Field field) {

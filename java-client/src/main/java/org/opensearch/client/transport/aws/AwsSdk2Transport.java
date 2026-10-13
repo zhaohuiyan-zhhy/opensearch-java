@@ -106,8 +106,17 @@ public class AwsSdk2Transport implements OpenSearchTransport {
         return httpClient instanceof SdkHttpClient && APACHE_HTTP_CLIENT_CLASS_NAMES.contains(httpClient.getClass().getName());
     }
 
+    /**
+     * Package-private to allow assertions in unit tests. Detects the concrete SDK implementation, not wrappers.
+     */
+    static boolean isAwsSdkUrlConnectionHttpClient(SdkAutoCloseable httpClient) {
+        return httpClient instanceof SdkHttpClient
+            && "software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient".equals(httpClient.getClass().getName());
+    }
+
     private final SdkAutoCloseable httpClient;
     private final boolean isApacheHttpClient;
+    private final boolean isUrlConnectionHttpClient;
     private final String host;
     private final String signingServiceName;
     private final Region signingRegion;
@@ -149,6 +158,8 @@ public class AwsSdk2Transport implements OpenSearchTransport {
      * @implNote Using {@code software.amazon.awssdk.http.apache.ApacheHttpClient} is discouraged as it does not support request bodies on GET or DELETE requests.
      *           This leads to incorrect handling of requests such as {@link OpenSearchClient#clearScroll(org.opensearch.client.opensearch.core.ClearScrollRequest)} and {@link OpenSearchClient#deletePit(org.opensearch.client.opensearch.core.pit.DeletePitRequest)}.
      *           As such {@link #performRequest(Object, Endpoint, TransportOptions)} &amp; {@link #performRequestAsync(Object, Endpoint, TransportOptions)} will throw a {@link TransportException} if an unsupported request is encountered while using {@code ApacheHttpClient}.
+     *           GET requests with a body are also rejected with {@code software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient},
+     *           which would rewrite the signed request to POST. Use a compatible client such as {@code AwsCrtHttpClient} for these requests.
      */
     public AwsSdk2Transport(
         @CheckForNull SdkHttpClient syncHttpClient,
@@ -197,6 +208,8 @@ public class AwsSdk2Transport implements OpenSearchTransport {
      * @implNote Using {@code software.amazon.awssdk.http.apache.ApacheHttpClient} is discouraged as it does not support request bodies on GET or DELETE requests.
      *           This leads to incorrect handling of requests such as {@link OpenSearchClient#clearScroll(org.opensearch.client.opensearch.core.ClearScrollRequest)} and {@link OpenSearchClient#deletePit(org.opensearch.client.opensearch.core.pit.DeletePitRequest)}.
      *           As such {@link #performRequest(Object, Endpoint, TransportOptions)} &amp; {@link #performRequestAsync(Object, Endpoint, TransportOptions)} will throw a {@link TransportException} if an unsupported request is encountered while using {@code ApacheHttpClient}.
+     *           GET requests with a body are also rejected with {@code software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient},
+     *           which would rewrite the signed request to POST. Use a compatible client such as {@code AwsCrtHttpClient} for these requests.
      */
     public AwsSdk2Transport(
         @CheckForNull SdkHttpClient syncHttpClient,
@@ -218,6 +231,7 @@ public class AwsSdk2Transport implements OpenSearchTransport {
         Objects.requireNonNull(host, "Target OpenSearch service host must not be null");
         this.httpClient = httpClient;
         this.isApacheHttpClient = isAwsSdkApacheHttpClient(httpClient);
+        this.isUrlConnectionHttpClient = isAwsSdkUrlConnectionHttpClient(httpClient);
         this.host = host;
         this.signingServiceName = signingServiceName;
         this.signingRegion = signingRegion;
@@ -299,7 +313,7 @@ public class AwsSdk2Transport implements OpenSearchTransport {
         Endpoint<RequestT, ?, ?> endpoint,
         TransportOptions options
     ) throws IOException {
-        if (endpoint.hasRequestBody()) {
+        if (endpoint.hasRequestBody(request)) {
             final JsonpMapper mapper = Optional.ofNullable(
                 options instanceof AwsSdk2TransportOptions ? ((AwsSdk2TransportOptions) options) : null
             ).map(AwsSdk2TransportOptions::mapper).orElse(defaultMapper);
@@ -322,6 +336,15 @@ public class AwsSdk2Transport implements OpenSearchTransport {
         @CheckForNull OpenSearchRequestBodyBuffer body
     ) throws UnsupportedEncodingException, TransportException {
         SdkHttpMethod method = SdkHttpMethod.fromValue(endpoint.method(request));
+
+        // URLConnection enables output for any body provider, even zero bytes, causing the JDK to rewrite GET to POST.
+        // Unlike the Apache check below, this must not depend on content length.
+        if (isUrlConnectionHttpClient && method == SdkHttpMethod.GET && body != null) {
+            throw new TransportException(
+                "AWS SDK's UrlConnectionHttpClient changes GET requests with a body to POST. "
+                    + "Please use an SdkHttpClient implementation that supports GET request bodies, such as AwsCrtHttpClient."
+            );
+        }
 
         // AWS Apache Http Client only supports request bodies on PATCH, POST & PUT requests.
         // See:
