@@ -4,6 +4,7 @@ Inspired from [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [Unreleased 4.x]
 
 ### BREAKING CHANGES
+- Change `Segment.compound()` and its builder setter from `boolean` to nullable `Boolean`; consumers should recompile and handle absent compound/version metadata.
 - Reject GET request bodies with AWS SDK `UrlConnectionHttpClient` before they are rewritten to POST, including explicitly supplied zero-length bodies.
 - Omit unset optional GET bodies for ML profile requests, allowing the server to apply URL-based defaults and model/task IDs instead of parsing `{}`.
 - Set the Java 21 as a minimum supported version ([#2175](https://github.com/opensearch-project/opensearch-java/pull/2175))
@@ -42,6 +43,7 @@ Inspired from [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ### Fixed
 - Add missing `analyzer`, `search_analyzer` and other supported parameters to `MatchOnlyTextProperty` ([#2217](https://github.com/opensearch-project/opensearch-java/pull/2217))
 
+- Accept `indices.segments` responses that omit optional `attributes`, `compound`, or `version` metadata.
 - Preserve optional GET body presence through code generation and all HTTP transports, while retaining explicitly supplied body fields.
 
 ### Security

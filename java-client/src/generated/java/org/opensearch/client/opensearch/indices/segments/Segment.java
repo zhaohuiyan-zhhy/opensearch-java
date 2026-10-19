@@ -69,7 +69,8 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
 
     private final boolean committed;
 
-    private final boolean compound;
+    @Nullable
+    private final Boolean compound;
 
     private final int deletedDocs;
 
@@ -90,15 +91,15 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
 
     private final long sizeInBytes;
 
-    @Nonnull
+    @Nullable
     private final String version;
 
     // ---------------------------------------------------------------------------------------------
 
     private Segment(Builder builder) {
-        this.attributes = ApiTypeHelper.unmodifiableRequired(builder.attributes, this, "attributes");
+        this.attributes = ApiTypeHelper.unmodifiable(builder.attributes);
         this.committed = ApiTypeHelper.requireNonNull(builder.committed, this, "committed");
-        this.compound = ApiTypeHelper.requireNonNull(builder.compound, this, "compound");
+        this.compound = builder.compound;
         this.deletedDocs = ApiTypeHelper.requireNonNull(builder.deletedDocs, this, "deletedDocs");
         this.generation = ApiTypeHelper.requireNonNull(builder.generation, this, "generation");
         this.memory = builder.memory;
@@ -107,7 +108,7 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
         this.search = ApiTypeHelper.requireNonNull(builder.search, this, "search");
         this.size = builder.size;
         this.sizeInBytes = ApiTypeHelper.requireNonNull(builder.sizeInBytes, this, "sizeInBytes");
-        this.version = ApiTypeHelper.requireNonNull(builder.version, this, "version");
+        this.version = builder.version;
     }
 
     public static Segment of(Function<Segment.Builder, ObjectBuilder<Segment>> fn) {
@@ -115,7 +116,7 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
     }
 
     /**
-     * Required - The attributes of the segment.
+     * The attributes of the segment.
      * <p>
      * API name: {@code attributes}
      * </p>
@@ -136,12 +137,13 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
     }
 
     /**
-     * Required - Whether the segment is compound.
+     * Whether the segment is compound.
      * <p>
      * API name: {@code compound}
      * </p>
      */
-    public final boolean compound() {
+    @Nullable
+    public final Boolean compound() {
         return this.compound;
     }
 
@@ -217,9 +219,9 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
     }
 
     /**
-     * Required - API name: {@code version}
+     * API name: {@code version}
      */
-    @Nonnull
+    @Nullable
     public final String version() {
         return this.version;
     }
@@ -235,19 +237,23 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
     }
 
     protected void serializeInternal(JsonGenerator generator, JsonpMapper mapper) {
-        generator.writeKey("attributes");
-        generator.writeStartObject();
-        for (Map.Entry<String, String> item0 : this.attributes.entrySet()) {
-            generator.writeKey(item0.getKey());
-            generator.write(item0.getValue());
+        if (ApiTypeHelper.isDefined(this.attributes)) {
+            generator.writeKey("attributes");
+            generator.writeStartObject();
+            for (Map.Entry<String, String> item0 : this.attributes.entrySet()) {
+                generator.writeKey(item0.getKey());
+                generator.write(item0.getValue());
+            }
+            generator.writeEnd();
         }
-        generator.writeEnd();
 
         generator.writeKey("committed");
         generator.write(this.committed);
 
-        generator.writeKey("compound");
-        generator.write(this.compound);
+        if (this.compound != null) {
+            generator.writeKey("compound");
+            generator.write(this.compound);
+        }
 
         generator.writeKey("deleted_docs");
         generator.write(this.deletedDocs);
@@ -279,8 +285,10 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
         generator.writeKey("size_in_bytes");
         generator.write(this.sizeInBytes);
 
-        generator.writeKey("version");
-        generator.write(this.version);
+        if (this.version != null) {
+            generator.writeKey("version");
+            generator.write(this.version);
+        }
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -300,8 +308,10 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
      * Builder for {@link Segment}.
      */
     public static class Builder extends ObjectBuilderBase implements CopyableBuilder<Builder, Segment> {
+        @Nullable
         private Map<String, String> attributes;
         private Boolean committed;
+        @Nullable
         private Boolean compound;
         private Integer deletedDocs;
         private Integer generation;
@@ -314,6 +324,7 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
         @Nullable
         private String size;
         private Long sizeInBytes;
+        @Nullable
         private String version;
 
         public Builder() {}
@@ -355,7 +366,7 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
         }
 
         /**
-         * Required - The attributes of the segment.
+         * The attributes of the segment.
          * <p>
          * API name: {@code attributes}
          * </p>
@@ -371,7 +382,7 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
         }
 
         /**
-         * Required - The attributes of the segment.
+         * The attributes of the segment.
          * <p>
          * API name: {@code attributes}
          * </p>
@@ -399,13 +410,13 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
         }
 
         /**
-         * Required - Whether the segment is compound.
+         * Whether the segment is compound.
          * <p>
          * API name: {@code compound}
          * </p>
          */
         @Nonnull
-        public final Builder compound(boolean value) {
+        public final Builder compound(@Nullable Boolean value) {
             this.compound = value;
             return this;
         }
@@ -495,10 +506,10 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
         }
 
         /**
-         * Required - API name: {@code version}
+         * API name: {@code version}
          */
         @Nonnull
-        public final Builder version(String value) {
+        public final Builder version(@Nullable String value) {
             this.version = value;
             return this;
         }
@@ -545,9 +556,9 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + this.attributes.hashCode();
+        result = 31 * result + Objects.hashCode(this.attributes);
         result = 31 * result + Boolean.hashCode(this.committed);
-        result = 31 * result + Boolean.hashCode(this.compound);
+        result = 31 * result + Objects.hashCode(this.compound);
         result = 31 * result + Integer.hashCode(this.deletedDocs);
         result = 31 * result + Integer.hashCode(this.generation);
         result = 31 * result + Objects.hashCode(this.memory);
@@ -556,7 +567,7 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
         result = 31 * result + Boolean.hashCode(this.search);
         result = 31 * result + Objects.hashCode(this.size);
         result = 31 * result + Long.hashCode(this.sizeInBytes);
-        result = 31 * result + this.version.hashCode();
+        result = 31 * result + Objects.hashCode(this.version);
         return result;
     }
 
@@ -565,9 +576,9 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         Segment other = (Segment) o;
-        return this.attributes.equals(other.attributes)
+        return Objects.equals(this.attributes, other.attributes)
             && this.committed == other.committed
-            && this.compound == other.compound
+            && Objects.equals(this.compound, other.compound)
             && this.deletedDocs == other.deletedDocs
             && this.generation == other.generation
             && Objects.equals(this.memory, other.memory)
@@ -576,6 +587,6 @@ public class Segment implements PlainJsonSerializable, ToCopyableBuilder<Segment
             && this.search == other.search
             && Objects.equals(this.size, other.size)
             && this.sizeInBytes == other.sizeInBytes
-            && this.version.equals(other.version);
+            && Objects.equals(this.version, other.version);
     }
 }
